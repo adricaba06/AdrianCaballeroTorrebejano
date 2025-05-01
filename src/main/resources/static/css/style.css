@@ -1,0 +1,46 @@
+@font-face {
+  font-family: "principal";
+  src: url(../fonts/Caliste.ttf);
+}
+
+h1,
+h2,
+thead {
+  font-family: "principal";
+}
+
+aside {
+  width: 250px;
+  height: 100vh;
+}
+
+/* .scroll-sin-barra-firefox {
+  overflow: auto;
+  scrollbar-width: none; /* Firefox */
+ 
+/*/
+
+.scroll-sin-barra-chrome::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+
+
+.bg-img-1 {
+  background-image: url(../pictures/CURSOS.png);
+}
+
+.bg-img-2 {
+  background-image: url(../pictures/b1.png);
+}
+
+.bg-img-3 {
+  background-image: url(../pictures/c1.png);
+}
+
+.transitional-ease {
+  transition: transform 0.3s ease; 
+}
+
+.transitional-ease:hover {
+  transform: scale(1.03);
+}
+

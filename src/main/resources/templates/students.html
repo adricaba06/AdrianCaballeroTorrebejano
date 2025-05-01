@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Cargar Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <!-- Cargar Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <!-- Cargar Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Cargar mis estilos y tema -->
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <title>Students</title>
+  </head>
+
+  <body>
+    <section class="container-fluid bg-light border-bottom py-2">
+      <div class="d-flex justify-content-between align-items-center px-3">
+        <button
+          class="btn btn-outline-primary d-md-none"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#MyOffcanva"
+        >
+          <i class="bi bi-list fs-4"></i>
+        </button>
+        <h1 class="m-0 fs-3 text-primary">
+          <a
+            href="../html/dashboard.html"
+            class="text-primary text-decoration-none"
+            >ACADEMIX</a
+          >
+        </h1>
+        <img
+          src="../pictures/logo/2-transparent.png"
+          alt="Logo"
+          width="60"
+          class="img-fluid"
+        />
+      </div>
+    </section>
+
+    <div class="container-fluid">
+      <div class="row">
+        <!-- aaside-->
+        <aside
+          class="col-md-2 d-none d-md-block bg-light border-end p-3 vh-100 align-items-center"
+        >
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                href="#"
+                class="nav-link text-primary d-flex align-items-center gap-2"
+              >
+                <i class="bi bi-pencil-square"></i> Inscripciones
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="#"
+                class="nav-link text-primary d-flex align-items-center gap-2"
+              >
+                <i class="bi bi-bar-chart"></i> Reportes
+              </a>
+            </li>
+          </ul>
+          <button
+            type="button"
+            class="btn btn-outline-primary mt-3"
+            data-bs-toggle="modal"
+            data-bs-target="#NewStudent"
+          >
+            Añadir Alumno
+          </button>
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              id="search"
+              class="form-control border-start-0"
+              placeholder="Buscar alumno..."
+            />
+            <label class="input-group-text">
+              <i class="bi bi-search ms-2"></i>
+            </label>
+          </div>
+        </aside>
+
+        <!-- Contenedor de l tabla -->
+        <main class="col-md-10 p-4 overflow-auto vh-100" >
+          <section>
+            <div class="d-flex">
+              <h2 class="text-primary">Alumnos</h2>
+              <i class="bi bi-person fs-4 mt-1 text-primary"></i>
+            </div>
+          </section>
+
+          <ul class="nav nav-tabs" id="pestaniaVistas" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link active"
+                id="pestaniaVistas"
+                data-bs-toggle="tab"
+                href="#vistaTabla"
+                role="tab"
+                aria-controls="info"
+                aria-selected="true"
+              >
+                Vista de tabla
+              </a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link"
+                id="pestaniaVistas"
+                data-bs-toggle="tab"
+                href="#vistaTarjeta"
+                role="tab"
+                aria-controls="tarjeta"
+                aria-selected="false"
+              >
+                Vista de tarjetas
+              </a>
+            </li>
+          </ul>
+
+          <div class="tab-content" id="myTabContent">
+            <!-- Tabla de alumnos -->
+            <div
+              class="tab-pane fade show active p-3"
+              id="vistaTabla"
+              role="tabpanel"
+              aria-labelledby="vistaTabla"
+            >
+              <div class="d-flex">
+                <div class="dropdown mb-3">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                  >
+                    Ordenar Por
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="#">Orden Alfabetico</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        >Nota más alta a más baja<i class="bi bi-arrow-up"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        >Nota más baja a más alta<i class="bi bi-arrow-down"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="input-group mb-3 ms-3 d-md-none">
+                  <input
+                    type="text"
+                    id="search"
+                    class="form-control border-start-0"
+                    placeholder="Buscar alumno..."
+                  />
+                  <label class="input-group-text">
+                    <i class="bi bi-search ms-2"></i>
+                  </label>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Apellidos</th>
+                      <th>Email</th>
+                      <th>Curso</th>
+                      <th>Fecha de registro</th>
+                      <th>Nota media</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>John</td>
+                      <td>Doe</td>
+                      <td>john@example.com</td>
+                      <td>Clase Ket</td>
+                      <td>2025-04-25</td>
+                      <td>5</td>
+                      <td>
+                        <div class="d-flex gap-2">
+                          <button
+                            class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editStudent"
+                          >
+                            <i class="bi bi-pencil-square"></i> Editar
+                          </button>
+                          <button
+                            class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
+                          >
+                            <i
+                              class="bi bi-trash-fill fs-5 text-white cursor-pointer"
+                            ></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Mary</td>
+                      <td>Moe</td>
+                      <td>mary@example.com</td>
+                      <td>Clase PET</td>
+                      <td>2025-04-20</td>
+                      <td>9</td>
+                      <td>
+                        <div class="d-flex gap-2">
+                          <button
+                            class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editStudent"
+                          >
+                            <i class="bi bi-pencil-square"></i> Editar
+                          </button>
+                          <button
+                            class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
+                          >
+                            <i
+                              class="bi bi-trash-fill fs-5 text-white cursor-pointer"
+                            ></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>July</td>
+                      <td>Dooley</td>
+                      <td>july@example.com</td>
+                      <td>Inglés C1</td>
+                      <td>2025-04-22</td>
+                      <td>6</td>
+                      <td>
+                        <div class="d-flex gap-2">
+                          <button
+                            class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editStudent"
+                          >
+                            <i class="bi bi-pencil-square"></i> Editar
+                          </button>
+                          <button
+                            class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
+                          >
+                            <i
+                              class="bi bi-trash-fill fs-5 text-white cursor-pointer"
+                            ></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- Vista de tarjetas -->
+            <div
+              class="tab-pane fade show p-3"
+              id="vistaTarjeta"
+              role="tabpanel"
+              aria-labelledby="tarjeta"
+            >
+              <button
+                type="button"
+                class="btn btn-outline-primary dropdown-toggle"
+                data-bs-toggle="dropdown"
+              >
+                Ordenar Por
+              </button>
+              <section class="d-flex flex-wrap">
+                <!-- tajeta 1 -->
+                <div class="card m-4" style="width: 400px">
+                  <img
+                    class="card-img-top"
+                    src="https://img.freepik.com/free-photo/portrait-wise-person_52683-100916.jpg?semt=ais_hybrid&w=740"
+                    alt="Card image"
+                    style="width: 100%"
+                  />
+                  <div class="card-body">
+                    <h4 class="card-title">John Doe</h4>
+                    <p><span class="fw-bold">Email: </span>mary@example.com</p>
+                    <p><span class="fw-bold">Curso </span>Clase KET</p>
+                    <p>
+                      <span class="fw-bold">Fecha de inscripción: </span
+                      >2025-04-25
+                    </p>
+                    <p><span class="fw-bold">Nota media: </span>5</p>
+
+                    <div class="d-flex gap-2">
+                      <button
+                        class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editStudent"
+                      >
+                        <i class="bi bi-pencil-square"></i> Editar
+                      </button>
+                      <button
+                        class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
+                      >
+                        <i
+                          class="bi bi-trash-fill fs-5 text-white cursor-pointer"
+                        ></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- tajeta 1 -->
+                <!-- tajeta 2 -->
+                <div class="card m-4" style="width: 400px">
+                  <img
+                    class="card-img-top"
+                    src="https://centrointegraldepsicologia.com/wp-content/uploads/2023/06/El-Sindrome-de-la-Buena-Persona-Los-Limites-Olvidados.png"
+                    alt="Card image"
+                    style="width: 100%"
+                  />
+                  <div class="card-body">
+                    <h4 class="card-title">Mary Moe</h4>
+                    <p><span class="fw-bold">Email: </span>john@example.com</p>
+                    <p><span class="fw-bold">Curso </span>Clase PET</p>
+                    <p>
+                      <span class="fw-bold">Fecha de inscripción: </span
+                      >2025-04-23
+                    </p>
+                    <p><span class="fw-bold">Nota media: </span>9</p>
+
+                    <div class="d-flex gap-2">
+                      <button
+                        class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editStudent"
+                      >
+                        <i class="bi bi-pencil-square"></i> Editar
+                      </button>
+                      <button
+                        class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
+                      >
+                        <i
+                          class="bi bi-trash-fill fs-5 text-white cursor-pointer"
+                        ></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- tajeta 2 -->
+                <!-- tajeta 3 -->
+                <div class="card m-4" style="width: 400px">
+                  <img
+                    class="card-img-top"
+                    src="https://static.wixstatic.com/media/fb5636_8b1412ac176547298d75b6620dda0945~mv2.jpg/v1/fill/w_528,h_352,al_c,lg_1,q_80,enc_avif,quality_auto/fb5636_8b1412ac176547298d75b6620dda0945~mv2.jpg"
+                    alt="Card image"
+                    style="width: 100%"
+                  />
+                  <div class="card-body">
+                    <h4 class="card-title">Mary Moe</h4>
+                    <p><span class="fw-bold">Email: </span>john@example.com</p>
+                    <p><span class="fw-bold">Curso </span>Clase PET</p>
+                    <p>
+                      <span class="fw-bold">Fecha de inscripción: </span
+                      >2025-04-23
+                    </p>
+                    <p><span class="fw-bold">Nota media: </span>9</p>
+
+                    <div class="d-flex gap-2">
+                      <button
+                        class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editStudent"
+                      >
+                        <i class="bi bi-pencil-square"></i> Editar
+                      </button>
+                      <button
+                        class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
+                      >
+                        <i
+                          class="bi bi-trash-fill fs-5 text-white cursor-pointer"
+                        ></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- tajeta 3 -->
+              </section>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Offcanvas solo visible en móvil -->
+    <section>
+      <div class="offcanvas offcanvas-start d-md-none" id="MyOffcanva">
+        <div class="offcanvas-header">
+          <h1 class="offcanvas-title fs-4">Menú</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a
+                href="#"
+                class="nav-link text-primary d-flex align-items-center gap-2"
+              >
+                <i class="bi bi-pencil-square"></i> Inscripciones
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="#"
+                class="nav-link text-primary d-flex align-items-center gap-2"
+              >
+                <i class="bi bi-bar-chart"></i> Reportes
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal nuevo alumno -->
+    <section>
+      <div
+        class="modal fade"
+        id="NewStudent"
+        tabindex="-1"
+        aria-labelledby="NewStudentLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h2 class="modal-title" id="NewStudentLabel">Nuevo Alumno</h2>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+              <!-- Nombre y Apellido del alumno -->
+              <div class="mb-3">
+                <label class="form-label"
+                  ><strong>Nombre del Alumno</strong></label
+                >
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    required
+                    placeholder="Nombre"
+                    aria-label="Nombre"
+                    maxlength="50"
+                  />
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Apellido"
+                    aria-label="Apellido"
+                    maxlength="50"
+                  />
+                </div>
+              </div>
+
+              <!-- Correo del alumno -->
+              <div class="mb-3">
+                <label for="correoAlumno" class="form-label"
+                  ><strong>Correo</strong></label
+                >
+                <input
+                  type="email"
+                  id="correoAlumno"
+                  name="correoAlumno"
+                  class="form-control"
+                  required
+                  placeholder="Correo del alumno"
+                />
+              </div>
+
+              <!-- Cursos -->
+              <div class="mb-3">
+                <label for="curso" class="form-label"
+                  ><strong>Curso de Inscripción</strong></label
+                >
+                <select id="curso" name="curso" class="form-select" required>
+                  <option value="" disabled selected>
+                    Seleccione un curso
+                  </option>
+                  <option value="Inglés A2">Clase KET</option>
+                  <option value="Inglés B1">Clase PET</option>
+                  <option value="Inglés C1">Clase CAE</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="curso" class="form-label"
+                  ><strong>Tipo de Matricula</strong></label
+                ><!--EL PRECIO DE LA MATRICULA DEPENDERA DE LA EDAD DEL ALUMNO-->
+                <select
+                  id="MatriculaEdad"
+                  name="matric"
+                  class="form-select"
+                  required
+                >
+                  <option value="" disabled selected>
+                    Seleccione un curso
+                  </option>
+                  <option value="Tipo1">60 €/mes (2-11) años</option>
+                  <option value="Tipo2">80 €/mes (+12) añons</option>
+                </select>
+              </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+              <button
+                type="submit"
+                class="btn btn-outline-primary"
+                data-bs-dismiss="modal"
+              >
+                Crear
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal modificar alumno -->
+    <section>
+      <div
+        class="modal fade"
+        id="editStudent"
+        tabindex="-1"
+        aria-labelledby="editStudentLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h2 class="modal-title" id="editStudentLabel">Editar Alumno</h2>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+              <!-- Nombre y Apellido del alumno -->
+              <div class="mb-3">
+                <label class="form-label"
+                  ><strong>Nombre del Alumno</strong></label
+                >
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    required
+                    placeholder="Nombre"
+                    aria-label="Nombre"
+                    maxlength="50"
+                  />
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Apellido"
+                    aria-label="Apellido"
+                    maxlength="50"
+                  />
+                </div>
+              </div>
+
+              <!-- Correo del alumno -->
+              <div class="mb-3">
+                <label for="correoAlumno" class="form-label"
+                  ><strong>Correo</strong></label
+                >
+                <input
+                  type="email"
+                  id="correoAlumno"
+                  name="correoAlumno"
+                  class="form-control"
+                  required
+                  placeholder="Correo del alumno"
+                />
+              </div>
+
+              <!-- Cursos -->
+              <div class="mb-3">
+                <label for="curso" class="form-label"
+                  ><strong>Curso de Inscripción</strong></label
+                >
+                <select id="curso" name="curso" class="form-select" required>
+                  <option value="" disabled selected>
+                    ¿A que curso va a cambiar?
+                  </option>
+                  <option value="Inglés A2">Clase KET</option>
+                  <option value="Inglés B1">Clase PET</option>
+                  <option value="Inglés C1">Clase CAE</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+              <button
+                type="submit"
+                class="btn btn-outline-primary"
+                data-bs-dismiss="modal"
+              >
+                Cambiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Botón flotante para agregar alumno -->
+    <button
+      type="button"
+      class="btn btn-primary btn-lg rounded-circle border-0 position-fixed d-md-none bottom-0 end-0 mb-5 me-3"
+      data-bs-toggle="modal"
+      data-bs-target="#NewStudent"
+    >
+      +
+    </button>
+  </body>
+</html>

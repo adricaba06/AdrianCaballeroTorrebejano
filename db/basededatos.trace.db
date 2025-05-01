@@ -1,0 +1,12 @@
+2025-05-01 16:21:03.642995+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COURSE" not found (this database is empty); SQL statement:
+SELECT * FROM course [42104-232]
+2025-05-01 16:21:32.167805+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COURSE" not found (this database is empty); SQL statement:
+SELECT * FROM Course [42104-232]
+2025-05-01 16:21:38.107117+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COURSE" not found (this database is empty); SQL statement:
+SELECT * FROM COURSE [42104-232]
+2025-05-01 16:26:22.847421+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COURSE" not found (this database is empty); SQL statement:
+SELECT * FROM COURSE [42104-232]
