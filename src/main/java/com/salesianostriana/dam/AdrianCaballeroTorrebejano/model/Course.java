@@ -1,4 +1,4 @@
-package com.salesianostriana.dam.model;
+package com.salesianostriana.dam.AdrianCaballeroTorrebejano.model;
 
 import java.time.LocalDate;
 
@@ -46,7 +46,3 @@ public class Course {
 
 	
 }
-
-
-
-

@@ -1,18 +1,18 @@
-package com.salesianostriana.dam.controller;
+package com.salesianostriana.dam.AdrianCaballeroTorrebejano.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.salesianostriana.dam.model.Course;
-import com.salesianostriana.dam.service.CourseService;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Course;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.CourseService;
 
 @Controller
 public class CourseController {
 	
 	@Autowired
-	private CourseService courseService;
+    private CourseService courseService;
 	
 	//Controller para mostrar una lista 
 	
@@ -21,10 +21,5 @@ public class CourseController {
 		model.addAttribute("courses", courseService.listAll());
 		return "dashboard";
 	}
-
-	
-
-	
-
 
 }
