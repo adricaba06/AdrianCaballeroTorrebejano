@@ -14,6 +14,15 @@ aside {
   height: 100vh;
 }
 
+.pic-with-filter {
+  object-fit: cover;
+  height: 180px;
+}
+
+.bg-primary-opacity {
+  background: rgba(3, 56, 113, 0.5); 
+}
+
 /* .scroll-sin-barra-firefox {
   overflow: auto;
   scrollbar-width: none; /* Firefox */
@@ -23,18 +32,6 @@ aside {
 .scroll-sin-barra-chrome::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
 
-
-.bg-img-1 {
-  background-image: url(../pictures/CURSOS.png);
-}
-
-.bg-img-2 {
-  background-image: url(../pictures/b1.png);
-}
-
-.bg-img-3 {
-  background-image: url(../pictures/c1.png);
-}
 
 .transitional-ease {
   transition: transform 0.3s ease; 
