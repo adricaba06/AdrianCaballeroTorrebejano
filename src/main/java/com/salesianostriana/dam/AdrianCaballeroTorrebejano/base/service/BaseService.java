@@ -35,6 +35,7 @@ public abstract class BaseService<T, ID, R extends JpaRepository<T, ID>> {
     public void deleteById(ID id) {
         repository.deleteById(id);
     }
+    
 
     // Métodos adicionales personalizados pueden ir aquí si es necesario
     // Por ejemplo, un método para buscar por un campo específico

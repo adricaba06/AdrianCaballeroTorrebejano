@@ -155,7 +155,7 @@
                 th:object="${course}"
                 id="nuevoCursoForm"
               >
-                <!-- Información del curso -->
+                <!-- info del curso -->
                 <div class="mb-3">
                   <label class="form-label"><strong>Info</strong></label>
                   <div class="input-group">
@@ -174,7 +174,7 @@
                       class="form-control"
                       placeholder="Descripción del curso"
                       aria-label="Descripción del curso"
-                      maxlength="50"
+                      maxlength="17"
                     />
                   </div>
                 </div>
@@ -308,6 +308,23 @@
                     maxlength="50"
                   />
                 </div>
+
+                <div class="mb-3">
+                  <label for="capacidadClase" class="form-label fw-bold">
+                    Indique la capacidad de la clase
+                  </label>
+                  <input
+                    type="number"
+                    th:field="*{maxCapacity}"
+                    id="capacidadClase"
+                    class="form-control"
+                    placeholder="Ingrese la capacidad de la clase"
+                    min="1" 
+                    required 
+                    aria-label="Capacidad de la clase"
+                  />
+                </div>
+                
 
                 <!-- Imagenes portada -->
                 <div class="mb-3">
@@ -462,7 +479,7 @@
       <section class="container my-4 overflow-auto vh-100">
         <div class="row g-4">
           <div class="col-12 col-md-6 col-lg-4" th:each="course : ${courses}">
-            <a href="../html/curso.html" class="text-decoration-none">
+            <a th:href="@{/course/{id}(id = ${course.id})}" class="text-decoration-none">
               <div class="card rounded-4 text-white h-100 transitional-ease">
                 <img
                   th:src="@{${course.imageUrl}}"

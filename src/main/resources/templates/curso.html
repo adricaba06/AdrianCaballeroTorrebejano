@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -91,8 +91,8 @@
       </div>
     </section>
 
-     <!-- Modal editar curso -->
-     <div class="modal" id="EditCourse">
+    <!-- Modal editar curso -->
+    <div class="modal" id="EditCourse">
       <div class="modal-dialog">
         <div class="modal-content">
           <!-- Modal Header -->
@@ -315,36 +315,55 @@
 
       <div class="flex flex-column container-fluid p-4">
         <div class="w-100">
-            <div class="bg-img-3 text-white rounded-3 p-4">
-              <div class="card-body d-flex flex-column">
-                <div class="mb-4">
-                  <h2 class="card-title fs-4 mb-1">Clase CAE</h2>
-                  <h6 class="mb-2 text-white-50">Grupo de Bachillerato</h6>
-                  <h3 class="fs-5">C1</h3>
+          <div
+            class="position-relative text-white rounded-3 overflow-hidden"
+            style="height: 250px"
+          >
+            <!-- Imagen de fondo -->
+            <img
+              th:src="@{${course.imageUrl}}"
+              alt="Imagen del curso"
+              class="w-100 h-100 position-absolute top-0 start-0"
+              style="object-fit: cover; z-index: 1"
+            />
+
+            <!-- Capa-->
+            <!-- Capa oscura -->
+            <div
+              class="position-absolute top-0 start-0 w-100 h-100 bg-primary-opacity"
+              style="z-index: 1"
+            ></div>
+
+            <!-- Contenido sobre la imagen -->
+            <div
+              class="position-relative z-3 p-4 h-100 d-flex flex-column justify-content-between"
+            >
+              <div>
+                <h2 class="card-title fs-4 mb-1">Clase CAE</h2>
+                <h6 class="mb-2 text-white-50">Grupo de Bachillerato</h6>
+                <h3 class="fs-5">C1</h3>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-people-fill me-2 fs-4"></i>
+                  <h4 class="mb-0 fs-5">15</h4>
                 </div>
-                <div
-                  class="mt-auto d-flex justify-content-between align-items-center"
-                >
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-people-fill me-2 fs-4"></i>
-                    <h4 class="mb-0 fs-5">15</h4>
-                  </div>
-                  <div class="d-flex gap-3">
-                    <!-- Ícono de editar que abre el modal al pulsarlo -->
-                    <i
-                      class="bi bi-pencil-square fs-5 cursor-pointer"
-                      data-bs-toggle="modal"
-                      data-bs-target="#EditCourse"
-                      id="editarCurso1"
-                    ></i>
-                  
-                    <!-- Ícono de eliminar -->
-                    <i class="bi bi-trash-fill fs-5 text-secondary cursor-pointer"></i>
-                  </div>
+                <div class="d-flex gap-3">
+                  <!-- Ícono de editar que abre el modal -->
+                  <i
+                    class="bi bi-pencil-square fs-5 cursor-pointer"
+                    data-bs-toggle="modal"
+                    data-bs-target="#EditCourse"
+                    id="editarCurso1"
+                  ></i>
+                  <!-- Ícono de eliminar -->
+                  <i
+                    class="bi bi-trash-fill fs-5 text-secondary cursor-pointer"
+                  ></i>
                 </div>
               </div>
             </div>
-          </a>
+          </div>
         </div>
 
         <ul class="nav nav-tabs bg-light" id="myTab" role="tablist">
