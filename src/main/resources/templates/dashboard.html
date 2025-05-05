@@ -264,11 +264,11 @@
                   </div>
                 </div>
 
-                <!-- Fechas -->
+                <!-- fechas -->
                 <div class="mb-3">
-                  <label for="fechaInicio" class="form-label fw-bold"
-                    >Fecha inicial del curso:</label
-                  >
+                  <label for="fechaInicio" class="form-label fw-bold">
+                    Fecha inicial del curso:
+                  </label>
                   <input
                     type="date"
                     th:field="*{startDate}"
@@ -280,9 +280,9 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="fechaFin" class="form-label fw-bold"
-                    >Fecha de finalización del curso:</label
-                  >
+                  <label for="fechaFin" class="form-label fw-bold">
+                    Fecha de finalización del curso:
+                  </label>
                   <input
                     type="date"
                     th:field="*{endDate}"
@@ -319,12 +319,11 @@
                     id="capacidadClase"
                     class="form-control"
                     placeholder="Ingrese la capacidad de la clase"
-                    min="1" 
-                    required 
+                    min="1"
+                    required
                     aria-label="Capacidad de la clase"
                   />
                 </div>
-                
 
                 <!-- Imagenes portada -->
                 <div class="mb-3">
@@ -462,10 +461,7 @@
 
                 <!-- Modal Footer -->
                 <div class="modal-footer">
-                  <button
-                    type="submit"
-                    class="btn btn-outline-primary"
-                  >
+                  <button type="submit" class="btn btn-outline-primary">
                     Crear
                   </button>
                 </div>
@@ -479,7 +475,10 @@
       <section class="container my-4 overflow-auto vh-100">
         <div class="row g-4">
           <div class="col-12 col-md-6 col-lg-4" th:each="course : ${courses}">
-            <a th:href="@{/course/{id}(id = ${course.id})}" class="text-decoration-none">
+            <a
+              th:href="@{/course/{id}(id = ${course.id})}"
+              class="text-decoration-none"
+            >
               <div class="card rounded-4 text-white h-100 transitional-ease">
                 <img
                   th:src="@{${course.imageUrl}}"
@@ -528,4 +527,22 @@
       +
     </button>
   </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const fechaInicio = document.getElementById("fechaInicio");
+      const fechaFin = document.getElementById("fechaFin");
+
+      
+      if (fechaInicio.value) {
+        fechaFin.min = fechaInicio.value;
+      }
+      
+      fechaInicio.addEventListener("change", function () {
+        fechaFin.min = this.value;
+        if (fechaFin.value < this.value) {
+          fechaFin.value = "";
+        }
+      });
+    });
+  </script>
 </html>

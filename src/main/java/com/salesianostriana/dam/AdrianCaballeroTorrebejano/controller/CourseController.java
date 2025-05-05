@@ -20,6 +20,8 @@ public class CourseController {
 	@Autowired
     private CourseService courseService;
 	
+	private double percent;
+	
 	//Controller para mostrar una lista 
 	
 	@GetMapping("/dashboard")
@@ -41,8 +43,31 @@ public class CourseController {
 	@GetMapping("/course/{id}")
 	public String viewCourse(@PathVariable Long id, Model model) {
 		Course course = courseService.findById(id).get();
+		percent = courseService.compareFinalDateToToday(course.getStartDate(), course.getEndDate());
+		model.addAttribute("percent", percent);
 		model.addAttribute("course", course);
+		
 		return "curso";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

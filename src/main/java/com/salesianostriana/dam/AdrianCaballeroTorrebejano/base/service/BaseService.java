@@ -36,6 +36,11 @@ public abstract class BaseService<T, ID, R extends JpaRepository<T, ID>> {
         repository.deleteById(id);
     }
     
+    public double calculatePercent(double num1, double num2) {
+    	return (num1/num2)*100;
+    	
+    }
+    
 
     // Métodos adicionales personalizados pueden ir aquí si es necesario
     // Por ejemplo, un método para buscar por un campo específico
