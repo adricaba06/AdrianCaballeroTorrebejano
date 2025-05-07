@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Course;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
+	
 }
