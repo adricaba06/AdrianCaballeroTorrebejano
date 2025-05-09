@@ -52,11 +52,19 @@ public class CourseController {
 		return "curso";
 	}
 	
-	@PostMapping("/archiveCourse")
+	@PostMapping("/archiveCourse/{id}")
 	public String archiveCourse(@PathVariable Long id, Model mode) {
-		Course course = courseService.findById(id).get();
-		course.setActive(false);
-		return "redirect:/dashboard" ;
+		Optional<Course> course = courseService.findById(id);
+		if(course.isPresent()) {
+			course.get().setActive(false);
+			courseService.save(course.get());
+			return "redirect:/dashboard" ;
+		}else {
+			 return "redirect:/dashboard";
+		}
+		
+		
+		
 		
 	}
 

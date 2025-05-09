@@ -487,15 +487,74 @@
                     id="editarCurso1"
                   ></i>
                   <!-- Ícono de eliminar -->
-                  <form th:action="@{/archiveCourse}" method="post">
-                    <input type="hidden" name="id" th:value="${course.id}" />
-                    <button type="submit">
-                      <i
-                        class="bi bi-trash-fill fs-5 text-secondary cursor-pointer"
-                      ></i>
-                    </button>
-                  </form>
+                  <button
+                    type="button"
+                    class="bg-transparent border-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#archiveModal"
+                  >
+                    <i
+                      class="bi bi-trash-fill fs-5 text-secondary cursor-pointer"
+                    ></i>
+                  </button>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal de archivado -->
+        <div
+          class="modal fade"
+          id="archiveModal"
+          tabindex="-1"
+          aria-labelledby="archiveModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+              <!--modal header -->
+              <div class="modal-header bg-secondary text-white rounded-top-4">
+                <h5 class="modal-title" id="archiveModalLabel">
+                  Confirmar archivado
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+
+              <!-- body -->
+              <div class="modal-body">
+                <p class="mb-3">
+                  ¿Estás seguro/a de que quieres archivar este curso?
+                </p>
+
+                <div class="alert alert-warning" role="alert">
+                  <span class="fw-bold">Nota:</span> Este curso se moverá al apartado de
+                  archivados y dejará de ser visible para los alumnos.
+                </div>
+              </div>
+
+              <!-- Pie del modal -->
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <form
+                  th:action="@{/archiveCourse/{id}(id=${course.id})}"
+                  method="post"
+                  class="d-inline"
+                >
+                  <input type="hidden" name="id" th:value="${course.id}" />
+                  <button type="submit" class="btn btn-secondary">
+                    Sí, archivar
+                  </button>
+                </form>
               </div>
             </div>
           </div>

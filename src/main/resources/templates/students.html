@@ -91,7 +91,7 @@
         </aside>
 
         <!-- Contenedor de l tabla -->
-        <main class="col-md-10 p-4 overflow-auto vh-100" >
+        <main class="col-md-10 p-4 overflow-auto vh-100">
           <section>
             <div class="d-flex">
               <h2 class="text-primary">Alumnos</h2>
@@ -134,7 +134,6 @@
               class="tab-pane fade show active p-3"
               id="vistaTabla"
               role="tabpanel"
-              aria-labelledby="vistaTabla"
             >
               <div class="d-flex">
                 <div class="dropdown mb-3">
@@ -187,65 +186,18 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>John</td>
-                      <td>Doe</td>
-                      <td>john@example.com</td>
-                      <td>Clase Ket</td>
-                      <td>2025-04-25</td>
+                    <tr th:each="student : ${students}">
+                      <td th:text="${student.name}">John</td>
+                      <td th:text="${student.surname}">Doe</td>
+                      <td th:text="${student.email}">john@example.com</td>
+                      <td
+                        th:text="${student.course != null ? student.course.name : 'Sin Asignar'}"
+                      >
+                        Curso no asignado
+                      </td>
+
+                      <td th:text="${student.registrationDate}">2025-04-25</td>
                       <td>5</td>
-                      <td>
-                        <div class="d-flex gap-2">
-                          <button
-                            class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editStudent"
-                          >
-                            <i class="bi bi-pencil-square"></i> Editar
-                          </button>
-                          <button
-                            class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
-                          >
-                            <i
-                              class="bi bi-trash-fill fs-5 text-white cursor-pointer"
-                            ></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Mary</td>
-                      <td>Moe</td>
-                      <td>mary@example.com</td>
-                      <td>Clase PET</td>
-                      <td>2025-04-20</td>
-                      <td>9</td>
-                      <td>
-                        <div class="d-flex gap-2">
-                          <button
-                            class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editStudent"
-                          >
-                            <i class="bi bi-pencil-square"></i> Editar
-                          </button>
-                          <button
-                            class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
-                          >
-                            <i
-                              class="bi bi-trash-fill fs-5 text-white cursor-pointer"
-                            ></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>July</td>
-                      <td>Dooley</td>
-                      <td>july@example.com</td>
-                      <td>Inglés C1</td>
-                      <td>2025-04-22</td>
-                      <td>6</td>
                       <td>
                         <div class="d-flex gap-2">
                           <button
@@ -283,23 +235,37 @@
               >
                 Ordenar Por
               </button>
-              <section class="d-flex flex-wrap">
+              <section class="d-flex flex-wrap" >
                 <!-- tajeta 1 -->
-                <div class="card m-4" style="width: 400px">
+                <div class="card m-4" style="width: 400px" th:each="student : ${students}">
                   <img
-                    class="card-img-top"
-                    src="https://img.freepik.com/free-photo/portrait-wise-person_52683-100916.jpg?semt=ais_hybrid&w=740"
-                    alt="Card image"
-                    style="width: 100%"
+                    th:src="@{'/pictures//' + ${student.photoPath}}"
+                    alt="Foto del estudiante"
+                    class="card-img-top object-fit-cover"
+                    width="500"
+                    height="300"
                   />
+
                   <div class="card-body">
-                    <h4 class="card-title">John Doe</h4>
-                    <p><span class="fw-bold">Email: </span>mary@example.com</p>
-                    <p><span class="fw-bold">Curso </span>Clase KET</p>
+                    <h4 th:text="${student.name}" class="card-title">John</h4>
+                    <h4 th:text="${student.surname}" class="card-title">
+                      Pork
+                    </h4>
                     <p>
-                      <span class="fw-bold">Fecha de inscripción: </span
-                      >2025-04-25
+                      <span class="fw-bold">Email: </span>
+                      <span th:text="${student.email}"></span>
                     </p>
+                    <p>
+                      <span class="fw-bold">Curso: </span>
+                      <span
+                        th:text="${student.course?.name} ?: 'Sin curso'"
+                      ></span>
+                    </p>
+                    <p>
+                      <span class="fw-bold">Fecha de inscripción: </span>
+                      <span th:text="${student.registrationDate}"></span>
+                    </p>
+
                     <p><span class="fw-bold">Nota media: </span>5</p>
 
                     <div class="d-flex gap-2">
@@ -321,80 +287,6 @@
                   </div>
                 </div>
                 <!-- tajeta 1 -->
-                <!-- tajeta 2 -->
-                <div class="card m-4" style="width: 400px">
-                  <img
-                    class="card-img-top"
-                    src="https://centrointegraldepsicologia.com/wp-content/uploads/2023/06/El-Sindrome-de-la-Buena-Persona-Los-Limites-Olvidados.png"
-                    alt="Card image"
-                    style="width: 100%"
-                  />
-                  <div class="card-body">
-                    <h4 class="card-title">Mary Moe</h4>
-                    <p><span class="fw-bold">Email: </span>john@example.com</p>
-                    <p><span class="fw-bold">Curso </span>Clase PET</p>
-                    <p>
-                      <span class="fw-bold">Fecha de inscripción: </span
-                      >2025-04-23
-                    </p>
-                    <p><span class="fw-bold">Nota media: </span>9</p>
-
-                    <div class="d-flex gap-2">
-                      <button
-                        class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
-                        data-bs-toggle="modal"
-                        data-bs-target="#editStudent"
-                      >
-                        <i class="bi bi-pencil-square"></i> Editar
-                      </button>
-                      <button
-                        class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
-                      >
-                        <i
-                          class="bi bi-trash-fill fs-5 text-white cursor-pointer"
-                        ></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <!-- tajeta 2 -->
-                <!-- tajeta 3 -->
-                <div class="card m-4" style="width: 400px">
-                  <img
-                    class="card-img-top"
-                    src="https://static.wixstatic.com/media/fb5636_8b1412ac176547298d75b6620dda0945~mv2.jpg/v1/fill/w_528,h_352,al_c,lg_1,q_80,enc_avif,quality_auto/fb5636_8b1412ac176547298d75b6620dda0945~mv2.jpg"
-                    alt="Card image"
-                    style="width: 100%"
-                  />
-                  <div class="card-body">
-                    <h4 class="card-title">Mary Moe</h4>
-                    <p><span class="fw-bold">Email: </span>john@example.com</p>
-                    <p><span class="fw-bold">Curso </span>Clase PET</p>
-                    <p>
-                      <span class="fw-bold">Fecha de inscripción: </span
-                      >2025-04-23
-                    </p>
-                    <p><span class="fw-bold">Nota media: </span>9</p>
-
-                    <div class="d-flex gap-2">
-                      <button
-                        class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
-                        data-bs-toggle="modal"
-                        data-bs-target="#editStudent"
-                      >
-                        <i class="bi bi-pencil-square"></i> Editar
-                      </button>
-                      <button
-                        class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
-                      >
-                        <i
-                          class="bi bi-trash-fill fs-5 text-white cursor-pointer"
-                        ></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <!-- tajeta 3 -->
               </section>
             </div>
           </div>
@@ -444,7 +336,6 @@
         id="NewStudent"
         tabindex="-1"
         aria-labelledby="NewStudentLabel"
-        aria-hidden="true"
       >
         <div class="modal-dialog">
           <div class="modal-content">
@@ -460,15 +351,20 @@
             </div>
 
             <!-- Modal Body -->
-            <div class="modal-body">
-              <!-- Nombre y Apellido del alumno -->
+            <form
+              th:action="@{/savestudent}"
+              th:object="${student}"
+              method="POST"
+              class="p-4"
+              enctype="multipart/form-data"
+            >
               <div class="mb-3">
-                <label class="form-label"
-                  ><strong>Nombre del Alumno</strong></label
-                >
+                <label class="form-label fw-bold">Nombre del Alumno</label>
                 <div class="input-group">
                   <input
                     type="text"
+                    name="nombre"
+                    th:field="*{name}"
                     class="form-control"
                     required
                     placeholder="Nombre"
@@ -477,6 +373,8 @@
                   />
                   <input
                     type="text"
+                    name="apellido"
+                    th:field="*{surname}"
                     class="form-control"
                     placeholder="Apellido"
                     aria-label="Apellido"
@@ -487,61 +385,87 @@
 
               <!-- Correo del alumno -->
               <div class="mb-3">
-                <label for="correoAlumno" class="form-label"
-                  ><strong>Correo</strong></label
+                <label for="correoAlumno" class="form-label fw-bold"
+                  >Correo</label
                 >
                 <input
                   type="email"
                   id="correoAlumno"
                   name="correoAlumno"
+                  th:field="*{email}"
                   class="form-control"
                   required
                   placeholder="Correo del alumno"
                 />
               </div>
 
-              <!-- Cursos -->
               <div class="mb-3">
-                <label for="curso" class="form-label"
-                  ><strong>Curso de Inscripción</strong></label
-                >
-                <select id="curso" name="curso" class="form-select" required>
-                  <option value="" disabled selected>
-                    Seleccione un curso
+                <label for="ageStudent" class="form-label fw-bold">Age</label>
+                <input
+                  type="number"
+                  id="ageStudent"
+                  name="ageStudent"
+                  th:field="*{age}"
+                  class="form-control"
+                  required
+                  placeholder="Student's age"
+                  min="1"
+                  max="140"
+                />
+              </div>
+
+              Cursos
+              <div class="mb-3">
+                <label for="course" class="form-label"></label>
+                <select id="course" name="courseId" class="form-select">
+                  <option value="" disabled selected>Select a course</option>
+                  <option
+                    th:each="course : ${courses}"
+                    th:value="${course.id}"
+                    th:text="${course.name}"
+                  >
+                    Class
                   </option>
-                  <option value="Inglés A2">Clase KET</option>
-                  <option value="Inglés B1">Clase PET</option>
-                  <option value="Inglés C1">Clase CAE</option>
                 </select>
               </div>
+
               <div class="mb-3">
-                <label for="curso" class="form-label"
-                  ><strong>Tipo de Matricula</strong></label
-                ><!--EL PRECIO DE LA MATRICULA DEPENDERA DE LA EDAD DEL ALUMNO-->
+                <label for="photoPath" class="form-label fw-bold"
+                  >Foto del Alumno</label
+                >
+                <input
+                  type="file"
+                  id="photoPath"
+                  name="file"
+                  class="form-control"
+                  accept="image/*"
+                />
+              </div>
+
+              <!-- Tipo de matrícula -->
+              <div class="mb-3">
+                <label for="MatriculaEdad" class="form-label"
+                  ><strong>Tipo de Matrícula</strong></label
+                >
                 <select
                   id="MatriculaEdad"
-                  name="matric"
+                  name="matricula"
                   class="form-select"
                   required
                 >
                   <option value="" disabled selected>
-                    Seleccione un curso
+                    Seleccione un tipo de matrícula
                   </option>
-                  <option value="Tipo1">60 €/mes (2-11) años</option>
-                  <option value="Tipo2">80 €/mes (+12) añons</option>
+                  <option value="Tipo1">60 €/mes (2-11 años)</option>
+                  <option value="Tipo2">80 €/mes (+12 años)</option>
                 </select>
               </div>
-            </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-              <button
-                type="submit"
-                class="btn btn-outline-primary"
-                data-bs-dismiss="modal"
-              >
+              <button type="submit" class="btn btn-outline-primary">
                 Crear
               </button>
-            </div>
+            </form>
+            <!-- Modal Footer -->
+            <div class="modal-footer"></div>
           </div>
         </div>
       </div>
@@ -554,7 +478,6 @@
         id="editStudent"
         tabindex="-1"
         aria-labelledby="editStudentLabel"
-        aria-hidden="true"
       >
         <div class="modal-dialog">
           <div class="modal-content">

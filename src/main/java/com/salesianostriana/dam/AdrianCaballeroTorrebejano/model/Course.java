@@ -33,7 +33,7 @@ public class Course {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	private String name;
 	private String description;
@@ -57,18 +57,18 @@ public class Course {
 
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
-	@OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
 	@Builder.Default
 	private List<Student> studentList;
 	
 	
 	
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -159,5 +159,11 @@ public class Course {
 	public void setStudentList(List<Student> studentList) {
 		this.studentList = studentList;
 	}
+
+	public Course() {
+		super();
+	}
+	
+	
 
 }

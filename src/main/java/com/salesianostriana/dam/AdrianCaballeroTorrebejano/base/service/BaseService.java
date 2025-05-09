@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public abstract class BaseService<T, ID, R extends JpaRepository<T, ID>> {
 
@@ -14,7 +16,6 @@ public abstract class BaseService<T, ID, R extends JpaRepository<T, ID>> {
     protected R repository;
 
     // CRUD ---------------------------------------------------------------
-    
     public T save(T t) {
         // Funciona tanto para añadir como para editar
         return repository.save(t);

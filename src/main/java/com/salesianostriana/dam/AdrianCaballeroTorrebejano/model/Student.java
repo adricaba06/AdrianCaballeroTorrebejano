@@ -23,26 +23,29 @@ public class Student {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	private String name, surname, email;
 	private int age;
 	private LocalDate registrationDate;
-	
+	private boolean active;
 	
 	@ManyToOne
 	@JoinColumn(name = "course_id") 
 	private Course course;
 	
+	private String photoPath;
+
+
 	private EnumMap<Grade, Double> grades;
 	
 
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -77,6 +80,32 @@ public class Student {
 	public void setRegistrationDate(LocalDate registrationDate) {
 		this.registrationDate = registrationDate;
 	}
+	
+	
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public EnumMap<Grade, Double> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(EnumMap<Grade, Double> grades) {
+		this.grades = grades;
+	}
 
 	public Course getCourse() {
 		return course;
@@ -86,14 +115,23 @@ public class Student {
 		this.course = course;
 	}
 	
+	public String getPhotoPath() {
+		return photoPath;
+	}
+
+	public void setPhotoPath(String photoPath) {
+		this.photoPath = photoPath;
+	}
 	//helper methods
 
-	public void addToCurso(Course course) {
+	
+
+	public void addToCourse(Course course) {
 		this.course = course;
 		course.getStudentList().add(this);
 	}
 	
-	public void removeFromCurso(Course course) {
+	public void removeFromCourse(Course course) {
 		course.getStudentList().remove(this);
 		this.course = null;		
 	}
