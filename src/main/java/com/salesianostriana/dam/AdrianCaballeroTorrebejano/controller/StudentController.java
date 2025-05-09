@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,8 +64,6 @@ public class StudentController {
 				Course course = courseO.get();
 				student.addToCourse(course);
 
-				System.out.println("Guardando estudiante: " + student);
-
 			}
 		}
 
@@ -89,4 +88,12 @@ public class StudentController {
 		return "redirect:/students";
 
 	}
+	
+	@GetMapping("/student/{id}")
+	public String viewStudent(@PathVariable Long id, Model model) {
+		Student student = studentService.findById(id).get();
+		model.addAttribute("student", student);
+		return "student_detail";
+	}
+
 }

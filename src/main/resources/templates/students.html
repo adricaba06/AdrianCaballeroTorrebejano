@@ -200,13 +200,12 @@
                       <td>5</td>
                       <td>
                         <div class="d-flex gap-2">
-                          <button
-                            class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editStudent"
-                          >
-                            <i class="bi bi-pencil-square"></i> Editar
-                          </button>
+                          <a
+                            th:href="@{/student/{id}(id = ${student.id})}"
+                            class="text-decoration-none"
+                            ><i class="bi bi-pencil-square"></i>
+                          </a>
+
                           <button
                             class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
                           >
@@ -235,9 +234,13 @@
               >
                 Ordenar Por
               </button>
-              <section class="d-flex flex-wrap" >
+              <section class="d-flex flex-wrap">
                 <!-- tajeta 1 -->
-                <div class="card m-4" style="width: 400px" th:each="student : ${students}">
+                <div
+                  class="card m-4"
+                  style="width: 400px"
+                  th:each="student : ${students}"
+                >
                   <img
                     th:src="@{'/pictures//' + ${student.photoPath}}"
                     alt="Foto del estudiante"
@@ -269,13 +272,11 @@
                     <p><span class="fw-bold">Nota media: </span>5</p>
 
                     <div class="d-flex gap-2">
-                      <button
-                        class="btn btn-primary btn-sm rounded-pill px-3 py-2 shadow-sm"
-                        data-bs-toggle="modal"
-                        data-bs-target="#editStudent"
-                      >
-                        <i class="bi bi-pencil-square"></i> Editar
-                      </button>
+                      <a
+                        th:href="@{/student/{id}(id = ${student.id})}"
+                        class="text-decoration-none"
+                        ><i class="bi bi-pencil-square"></i>
+                      </a>
                       <button
                         class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
                       >
@@ -466,99 +467,6 @@
             </form>
             <!-- Modal Footer -->
             <div class="modal-footer"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Modal modificar alumno -->
-    <section>
-      <div
-        class="modal fade"
-        id="editStudent"
-        tabindex="-1"
-        aria-labelledby="editStudentLabel"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h2 class="modal-title" id="editStudentLabel">Editar Alumno</h2>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-
-            <!-- Modal Body -->
-            <div class="modal-body">
-              <!-- Nombre y Apellido del alumno -->
-              <div class="mb-3">
-                <label class="form-label"
-                  ><strong>Nombre del Alumno</strong></label
-                >
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    required
-                    placeholder="Nombre"
-                    aria-label="Nombre"
-                    maxlength="50"
-                  />
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Apellido"
-                    aria-label="Apellido"
-                    maxlength="50"
-                  />
-                </div>
-              </div>
-
-              <!-- Correo del alumno -->
-              <div class="mb-3">
-                <label for="correoAlumno" class="form-label"
-                  ><strong>Correo</strong></label
-                >
-                <input
-                  type="email"
-                  id="correoAlumno"
-                  name="correoAlumno"
-                  class="form-control"
-                  required
-                  placeholder="Correo del alumno"
-                />
-              </div>
-
-              <!-- Cursos -->
-              <div class="mb-3">
-                <label for="curso" class="form-label"
-                  ><strong>Curso de Inscripción</strong></label
-                >
-                <select id="curso" name="curso" class="form-select" required>
-                  <option value="" disabled selected>
-                    ¿A que curso va a cambiar?
-                  </option>
-                  <option value="Inglés A2">Clase KET</option>
-                  <option value="Inglés B1">Clase PET</option>
-                  <option value="Inglés C1">Clase CAE</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-              <button
-                type="submit"
-                class="btn btn-outline-primary"
-                data-bs-dismiss="modal"
-              >
-                Cambiar
-              </button>
-            </div>
           </div>
         </div>
       </div>
