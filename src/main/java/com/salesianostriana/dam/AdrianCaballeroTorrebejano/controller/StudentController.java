@@ -5,6 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +26,7 @@ import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.CourseService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.StudentService;
 
+
 @Controller
 public class StudentController {
 
@@ -32,14 +36,28 @@ public class StudentController {
 	private CourseService courseService;
 
 	@GetMapping("/students")
-	public String showStudents(Model model) {
+	public String showStudents(Model model, @RequestParam(name = "sort", required = false) String sortBy) {
 		model.addAttribute("student", new Student());
 
 		List<Student> students = studentService.listAll();
-		model.addAttribute("students", students);
-
 		List<Course> courses = courseService.listAll();
+		
+		model.addAttribute("students", students);
 		model.addAttribute("courses", courses);
+		
+		Collections.sort(students); // alphabetic order
+
+		if (sortBy != null && sortBy.equalsIgnoreCase("date")) {
+			students.sort(Comparator.comparing(Student::getRegistrationDate));
+		}
+
+		if (sortBy != null && sortBy.equalsIgnoreCase("alfabeDes")) {
+			students.sort(Comparator.comparing(Student::getName).reversed());
+		}
+
+		if (sortBy != null && sortBy.equalsIgnoreCase("grades")) {
+			students.sort(Comparator.comparing(Student::getAverageGrade));
+		}
 
 		return "students";
 
@@ -47,16 +65,23 @@ public class StudentController {
 
 	@PostMapping("/savestudent")
 	public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(required = false) Long courseId,
-			@RequestParam("file") MultipartFile pic) {
+			@RequestParam("file") MultipartFile pic,
+			@RequestParam(value = "existingPhoto", required = false) String existingPhoto, @RequestParam(value = "resgDate", required = false) LocalDate registrationDate) {
 		LocalDate today = LocalDate.now();
 		byte[] bytesImg;
 		String absolutePath;
 		Path imageDirectory;
 		Path completePath;
-
+		
 		if (student.getId() == null) {
-			student.setRegistrationDate(today);
-		}
+	        student.setRegistrationDate(today); 
+	    } else {
+	        if (registrationDate != null) {
+	            student.setRegistrationDate(registrationDate); 
+	        } else {
+	            student.setRegistrationDate(today);
+	        }
+	    }
 
 		if (courseId != null) {
 			Optional<Course> courseO = courseService.findById(courseId);
@@ -67,7 +92,7 @@ public class StudentController {
 			}
 		}
 
-		if (!pic.isEmpty()) { //https://youtu.be/df67kmObW7M?si=d3cDkO18vU_Ni7wz
+		if (!pic.isEmpty()) { // https://youtu.be/df67kmObW7M?si=d3cDkO18vU_Ni7wz
 
 			imageDirectory = Paths.get("src//main//resources//static/pictures"); // relative path
 			absolutePath = imageDirectory.toFile().getAbsolutePath();
@@ -75,24 +100,36 @@ public class StudentController {
 			// Now i need to know the bytes of the picture
 			try {
 				bytesImg = pic.getBytes();
-				completePath = Paths.get(absolutePath + "//" + pic.getOriginalFilename()); //specific path for the field
-				Files.write(completePath, bytesImg); //this saves the files on the folder
+				completePath = Paths.get(absolutePath + "//" + pic.getOriginalFilename()); // specific path for the
+																							// field
+				Files.write(completePath, bytesImg); // this saves the files on the folder
 				student.setPhotoPath(pic.getOriginalFilename());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
+		} else {
+			if (pic.isEmpty() || pic == null) {
+				student.setPhotoPath("defaultPicture.jpg");
+			} else {
+				student.setPhotoPath("existingPhoto");
+			}
 		}
 
 		studentService.save(student);
 		return "redirect:/students";
 
 	}
-	
+
 	@GetMapping("/student/{id}")
 	public String viewStudent(@PathVariable Long id, Model model) {
 		Student student = studentService.findById(id).get();
+		List<Course> courses = courseService.listAll();
+		
 		model.addAttribute("student", student);
+		model.addAttribute("courses", courses);
+		
+		
 		return "student_detail";
 	}
 

@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "student")
-public class Student {
+public class Student  implements Comparable<Student> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,18 +29,16 @@ public class Student {
 	private String name, surname, email;
 	private int age;
 	private LocalDate registrationDate;
-	private boolean active;
+	private boolean active = true;
 	
 	@ManyToOne
 	@JoinColumn(name = "course_id") 
 	private Course course;
 	
-	private String photoPath;
+	private String photoPath ;
 
 
 	private EnumMap<Grade, Double> grades;
-	
-
 	
 	public Long getId() {
 		return id;
@@ -134,6 +133,28 @@ public class Student {
 	public void removeFromCourse(Course course) {
 		course.getStudentList().remove(this);
 		this.course = null;		
+	}
+	
+	public double getAverageGrade() {
+		double summary = 0;
+		if(grades.isEmpty()) {
+			return 0.0;
+		}
+		
+		for (double grade : grades.values()) {
+			summary += grade;
+			
+		}
+		return summary / grades.size();
+		
+	}
+	
+	
+	//order 
+	
+	public int compareTo(Student s) {
+		return this.name.compareTo(s.name);
+		
 	}
 	
 	

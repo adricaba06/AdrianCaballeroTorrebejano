@@ -19,31 +19,7 @@
   </head>
 
   <body>
-    <section class="container-fluid bg-light border-bottom py-2">
-      <div class="d-flex justify-content-between align-items-center px-3">
-        <button
-          class="btn btn-outline-primary d-md-none"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#MyOffcanva"
-        >
-          <i class="bi bi-list fs-4"></i>
-        </button>
-        <h1 class="m-0 fs-3 text-primary">
-          <a
-            href="../html/dashboard.html"
-            class="text-primary text-decoration-none"
-            >ACADEMIX</a
-          >
-        </h1>
-        <img
-          src="../pictures/logo/2-transparent.png"
-          alt="Logo"
-          width="60"
-          class="img-fluid"
-        />
-      </div>
-    </section>
+    <section th:replace="fragments/decorationNav :: decorationNav"></section>
 
     <div class="container-fluid">
       <div class="row">
@@ -146,16 +122,28 @@
                   </button>
                   <ul class="dropdown-menu">
                     <li>
-                      <a class="dropdown-item" href="#">Orden Alfabetico</a>
+                      <a
+                        class="dropdown-item"
+                        th:href="@{|/students?sort=alfabeDes|}"
+                        >(Z-A)</a
+                      >
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#"
-                        >Nota más alta a más baja<i class="bi bi-arrow-up"></i
+                      <a
+                        class="dropdown-item"
+                        th:href="@{|/students?sort=grades|}"
+                        >Ordenar por nota (mayor a menor)<i
+                          class="bi bi-arrow-up"
+                        ></i
                       ></a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#"
-                        >Nota más baja a más alta<i class="bi bi-arrow-down"></i
+                      <a
+                        class="dropdown-item"
+                        th:href="@{|/students?sort=date|}"
+                        >Ordenar por fecha de registro<i
+                          class="bi bi-arrow-down"
+                        ></i
                       ></a>
                     </li>
                   </ul>
@@ -186,7 +174,11 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr th:each="student : ${students}">
+                    <tr
+                      th:each="student : ${students}"
+                      th:block
+                      th:if="${student.active}"
+                    >
                       <td th:text="${student.name}">John</td>
                       <td th:text="${student.surname}">Doe</td>
                       <td th:text="${student.email}">john@example.com</td>
@@ -205,14 +197,6 @@
                             class="text-decoration-none"
                             ><i class="bi bi-pencil-square"></i>
                           </a>
-
-                          <button
-                            class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
-                          >
-                            <i
-                              class="bi bi-trash-fill fs-5 text-white cursor-pointer"
-                            ></i>
-                          </button>
                         </div>
                       </td>
                     </tr>
@@ -227,19 +211,48 @@
               role="tabpanel"
               aria-labelledby="tarjeta"
             >
-              <button
-                type="button"
-                class="btn btn-outline-primary dropdown-toggle"
-                data-bs-toggle="dropdown"
-              >
-                Ordenar Por
-              </button>
+              <div class="dropdown mb-3">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                >
+                  Ordenar Por
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      th:href="@{|/students?sort=alfabeDes|}"
+                      >(Z-A)</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      th:href="@{|/students?sort=grades|}"
+                      >Ordenar por nota (mayor a menor)<i
+                        class="bi bi-arrow-up"
+                      ></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" th:href="@{|/students?sort=date|}"
+                      >Ordenar por fecha de registro<i
+                        class="bi bi-arrow-down"
+                      ></i
+                    ></a>
+                  </li>
+                </ul>
+              </div>
               <section class="d-flex flex-wrap">
                 <!-- tajeta 1 -->
                 <div
                   class="card m-4"
                   style="width: 400px"
                   th:each="student : ${students}"
+                  th:block
+                  th:if="${student.active}"
                 >
                   <img
                     th:src="@{'/pictures//' + ${student.photoPath}}"
@@ -277,13 +290,6 @@
                         class="text-decoration-none"
                         ><i class="bi bi-pencil-square"></i>
                       </a>
-                      <button
-                        class="btn btn-danger btn-sm rounded-pill border-0 px-3 py-2 shadow-sm"
-                      >
-                        <i
-                          class="bi bi-trash-fill fs-5 text-white cursor-pointer"
-                        ></i>
-                      </button>
                     </div>
                   </div>
                 </div>

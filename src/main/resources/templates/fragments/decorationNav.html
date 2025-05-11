@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Cargar Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <!-- Cargar Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+    <!-- Cargar Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Cargar mis estilos y tema -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <title>ne</title>
+</head>
+<body>
+    <section th:fragment="decorationNav" class="container-fluid bg-light border-bottom py-2">
+      <div class="d-flex justify-content-between align-items-center px-3">
+        <button
+          class="btn btn-outline-primary d-md-none"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#MyOffcanva"
+        >
+          <i class="bi bi-list fs-4"></i>
+        </button>
+        <h1 class="m-0 fs-3 text-primary">ACADEMIX</h1>
+        <img
+          src="../pictures/logo/2-transparent.png"
+          alt="Logo"
+          width="60"
+          class="img-fluid"
+        />
+      </div>
+    </section>
+</body>
+</html>

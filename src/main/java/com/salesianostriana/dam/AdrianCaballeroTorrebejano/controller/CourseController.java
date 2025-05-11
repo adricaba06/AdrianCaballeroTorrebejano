@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.AdrianCaballeroTorrebejano.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Course;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.CourseService;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.StudentService;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -21,6 +24,8 @@ public class CourseController {
 
 	@Autowired
 	private CourseService courseService;
+	@Autowired
+	private StudentService studentService;
 
 	private double percent;
 
@@ -45,9 +50,13 @@ public class CourseController {
 	@GetMapping("/course/{id}")
 	public String viewCourse(@PathVariable Long id, Model model) {
 		Course course = courseService.findById(id).get();
+		List<Student> filteredStudentList = studentService.filterStudentsByCourseId(id);
+		
 		percent = courseService.compareFinalDateToToday(course.getStartDate(), course.getEndDate());
+		
 		model.addAttribute("percent", percent);
 		model.addAttribute("course", course);
+		model.addAttribute("students", filteredStudentList);
 
 		return "curso";
 	}
