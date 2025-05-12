@@ -7,12 +7,12 @@ import java.time.temporal.ChronoUnit;
 
 import org.springframework.stereotype.Service;
 
-import com.salesianostriana.dam.AdrianCaballeroTorrebejano.base.service.BaseService;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.base.service.BaseServiceImpl;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.repository.CourseRepository;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Course;
 
 @Service
-public class CourseService extends BaseService<Course, Long, CourseRepository> {
+public class CourseService extends BaseServiceImpl<Course, Long, CourseRepository> {
 
 	public double compareFinalDateToToday(LocalDate startDate, LocalDate endDate) {
 		ZoneId zone = ZoneId.systemDefault();

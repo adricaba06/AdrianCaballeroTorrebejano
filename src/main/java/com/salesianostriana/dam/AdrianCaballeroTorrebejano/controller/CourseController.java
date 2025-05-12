@@ -35,7 +35,7 @@ public class CourseController {
 	public String showDashboard(Model model) {
 		model.addAttribute("course", new Course());
 
-		List<Course> courses = courseService.listAll();
+		List<Course> courses = courseService.findAll();
 		model.addAttribute("courses", courses);
 
 		return "dashboard";
@@ -49,7 +49,12 @@ public class CourseController {
 
 	@GetMapping("/course/{id}")
 	public String viewCourse(@PathVariable Long id, Model model) {
-		Course course = courseService.findById(id).get();
+		Optional<Course> courseO = courseService.findById(id);
+		Course course = null;
+		if(courseO.isPresent()) {
+			course = courseO.get();
+		}
+		
 		List<Student> filteredStudentList = studentService.filterStudentsByCourseId(id);
 		
 		percent = courseService.compareFinalDateToToday(course.getStartDate(), course.getEndDate());
@@ -60,6 +65,7 @@ public class CourseController {
 
 		return "curso";
 	}
+	
 	
 	@PostMapping("/archiveCourse/{id}")
 	public String archiveCourse(@PathVariable Long id, Model mode) {

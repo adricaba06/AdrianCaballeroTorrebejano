@@ -39,28 +39,30 @@ public class StudentController {
 	public String showStudents(Model model, @RequestParam(name = "sort", required = false) String sortBy) {
 		model.addAttribute("student", new Student());
 
-		List<Student> students = studentService.listAll();
-		List<Course> courses = courseService.listAll();
+		List<Student> students = studentService.findAll();  
+		List<Course> courses = courseService.findAll();
 		List<Student> activeStudents = studentService.filterActiveStudents();
 		
-		model.addAttribute("students", students);
-		model.addAttribute("activeStudents", activeStudents);
-		model.addAttribute("courses", courses);
 		
-		Collections.sort(students); // alphabetic order
 
 		if (sortBy != null && sortBy.equalsIgnoreCase("date")) {
-			students.sort(Comparator.comparing(Student::getRegistrationDate));
+			activeStudents.sort(Comparator.comparing(Student::getRegistrationDate));
 		}
 
 		if (sortBy != null && sortBy.equalsIgnoreCase("alfabeDes")) {
-			students.sort(Comparator.comparing(Student::getName).reversed());
+			activeStudents.sort(Comparator.comparing(Student::getName).reversed());
 		}
 
-		//if (sortBy != null && sortBy.equalsIgnoreCase("grades")) {
-		//	students.sort(Comparator.comparing(Student::getAverageGrade));
-		//}
-
+		if (sortBy != null && sortBy.equalsIgnoreCase("grades")) {
+			activeStudents.sort(Comparator.comparing(Student::getAverageGrade));
+		}
+		
+		//Collections	.sort(activeStudents); // alphabetic order
+		
+		model.addAttribute("activeStudents", activeStudents);
+		model.addAttribute("students", students);
+		model.addAttribute("courses", courses);
+		
 		return "students";
 
 	}
@@ -106,7 +108,7 @@ public class StudentController {
 				completePath = Paths.get(absolutePath + "//" + pic.getOriginalFilename()); // specific path for the
 																							// field
 				Files.write(completePath, bytesImg); // this saves the files on the folder
-				student.setPhotoPath(pic.getOriginalFilename());
+				student.setPhotoPath(pic.getOriginalFilename().replaceAll("^/+", ""));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -132,7 +134,7 @@ public class StudentController {
 			student = studentO.get();
 		}
 		
-		List<Course> courses = courseService.listAll();
+		List<Course> courses = courseService.findAll();
 		
 		model.addAttribute("student", student);
 		model.addAttribute("courses", courses);
