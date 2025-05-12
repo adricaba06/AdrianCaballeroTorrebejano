@@ -57,7 +57,6 @@ public class StudentController {
 			activeStudents.sort(Comparator.comparing(Student::getAverageGrade));
 		}
 		
-		//Collections	.sort(activeStudents); // alphabetic order
 		
 		model.addAttribute("activeStudents", activeStudents);
 		model.addAttribute("students", students);

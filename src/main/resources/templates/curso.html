@@ -644,30 +644,6 @@
             <!--Envoltorio para overflow-->
             <div class="overflow-auto">
               <h2>Lista y Notas</h2>
-              <div class="dropdown mb-3">
-                <button
-                  type="button"
-                  class="btn btn-outline-primary dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                >
-                  Ordenar Por...
-                </button>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a class="dropdown-item" href="#">Orden Alfabetico</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#"
-                      >Nota más alta a más baja<i class="bi bi-arrow-up"></i
-                    ></a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#"
-                      >Nota más baja a más alta<i class="bi bi-arrow-down"></i
-                    ></a>
-                  </li>
-                </ul>
-              </div>
               <div class="table-responsive">
                 <table class="table table-borderless table-hover table-light">
                   <thead>
@@ -696,12 +672,14 @@
                       <td th:text="${student.grades[Subject.LISTENING]}">7</td>
                       <td th:text="${student.grades[Subject.READING]}">8</td> -->
 
+                      <td th:text="${student.name}">2</td>
+                      <td th:text="${student.surname}">2</td>
+                      <td th:text="${student.email}">2</td>
                       <td>2</td>
                       <td>2</td>
                       <td>2</td>
                       <td>2</td>
                       <td>2</td>
-
                       <td>
                         <div class="progress" style="height: 20px">
                           <div
