@@ -58,111 +58,12 @@ public class Course {
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
-	@Builder.Default
 	private List<Student> studentList;
 	
 	
 	
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getTeacher() {
-		return teacher;
-	}
-
-	public void setTeacher(String teacher) {
-		this.teacher = teacher;
-	}
-
-	public int getMaxCapacity() {
-		return maxCapacity;
-	}
-
-	public void setMaxCapacity(int maxCapacity) {
-		this.maxCapacity = maxCapacity;
-	}
-
-	public int getNumOfStudents() {
-		return numOfStudents;
-	}
-
-	public void setNumOfStudents(int numOfStudents) {
-		this.numOfStudents = numOfStudents;
-	}
-
-	public Level getLevel() {
-		return level;
-	}
-
-	public void setLevel(Level level) {
-		this.level = level;
-	}
-
-	public LocalDate getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
-
-	public LocalDate getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
-	public List<Student> getStudentList() {
-		return studentList;
-	}
-
-	public void setStudentList(List<Student> studentList) {
-		this.studentList = studentList;
-	}
-
-	public Course() {
-		super();
-	}
+	
 	
 	
 

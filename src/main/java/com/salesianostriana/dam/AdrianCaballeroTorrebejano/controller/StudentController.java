@@ -41,8 +41,10 @@ public class StudentController {
 
 		List<Student> students = studentService.listAll();
 		List<Course> courses = courseService.listAll();
+		List<Student> activeStudents = studentService.filterActiveStudents();
 		
 		model.addAttribute("students", students);
+		model.addAttribute("activeStudents", activeStudents);
 		model.addAttribute("courses", courses);
 		
 		Collections.sort(students); // alphabetic order
@@ -55,9 +57,9 @@ public class StudentController {
 			students.sort(Comparator.comparing(Student::getName).reversed());
 		}
 
-		if (sortBy != null && sortBy.equalsIgnoreCase("grades")) {
-			students.sort(Comparator.comparing(Student::getAverageGrade));
-		}
+		//if (sortBy != null && sortBy.equalsIgnoreCase("grades")) {
+		//	students.sort(Comparator.comparing(Student::getAverageGrade));
+		//}
 
 		return "students";
 
@@ -67,6 +69,7 @@ public class StudentController {
 	public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(required = false) Long courseId,
 			@RequestParam("file") MultipartFile pic,
 			@RequestParam(value = "existingPhoto", required = false) String existingPhoto, @RequestParam(value = "resgDate", required = false) LocalDate registrationDate) {
+		
 		LocalDate today = LocalDate.now();
 		byte[] bytesImg;
 		String absolutePath;
@@ -123,7 +126,12 @@ public class StudentController {
 
 	@GetMapping("/student/{id}")
 	public String viewStudent(@PathVariable Long id, Model model) {
-		Student student = studentService.findById(id).get();
+		Optional<Student> studentO = studentService.findById(id); //cambiar 
+		Student student = null;
+		if(studentO.isPresent()) {
+			student = studentO.get();
+		}
+		
 		List<Course> courses = courseService.listAll();
 		
 		model.addAttribute("student", student);

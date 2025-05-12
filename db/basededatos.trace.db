@@ -549,3 +549,327 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 47 more
+2025-05-12 10:33:25.183151+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO course (name, description, teacher, max_capacity, num_of_students, level, start_date, end_date, active, image_url)[*]"; se esperaba "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "INSERT INTO course (name, description, teacher, max_capacity, num_of_students, level, start_date, end_date, active, image_url)[*]"; expected "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO course (name, description, teacher, max_capacity, num_of_students, level, start_date, end_date, active, image_url) [42001-232]
+2025-05-12 10:33:25.190134+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "VALUES[*]"; se esperaba "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "VALUES[*]"; expected "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+VALUES [42001-232]
+2025-05-12 10:33:25.192127+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Inglés A1 Inicial', 'Curso introductorio para principiantes', 'Laura Martínez', 20, 0, 'A1', '2025-06-01', '2025-07-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Flag_of_Jamaica.svg/1200px-Flag_of_Jamaica.svg.png'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Inglés A1 Inicial', 'Curso introductorio para principiantes', 'Laura Martínez', 20, 0, 'A1', '2025-06-01', '2025-07-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Flag_of_Jamaica.svg/1200px-Flag_of_Jamaica.svg.png'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Inglés A1 Inicial', 'Curso introductorio para principiantes', 'Laura Martínez', 20, 0, 'A1', '2025-06-01', '2025-07-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Flag_of_Jamaica.svg/1200px-Flag_of_Jamaica.svg.png'), [42001-232]
+2025-05-12 10:33:25.194122+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Inglés A2 Conversación', 'Refuerza tus habilidades básicas', 'Carlos López', 25, 0, 'A2', '2025-06-10', '2025-07-10', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/960px-Flag_of_Canada_%28Pantone%29.svg.png'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Inglés A2 Conversación', 'Refuerza tus habilidades básicas', 'Carlos López', 25, 0, 'A2', '2025-06-10', '2025-07-10', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/960px-Flag_of_Canada_%28Pantone%29.svg.png'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Inglés A2 Conversación', 'Refuerza tus habilidades básicas', 'Carlos López', 25, 0, 'A2', '2025-06-10', '2025-07-10', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/960px-Flag_of_Canada_%28Pantone%29.svg.png'), [42001-232]
+2025-05-12 10:33:25.196117+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Inglés B1 Intermedio', 'Mejora tu fluidez en inglés', 'Ana Rodríguez', 30, 0, 'B1', '2025-07-01', '2025-08-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Flag_of_Ireland.svg/1200px-Flag_of_Ireland.svg.png')"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Inglés B1 Intermedio', 'Mejora tu fluidez en inglés', 'Ana Rodríguez', 30, 0, 'B1', '2025-07-01', '2025-08-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Flag_of_Ireland.svg/1200px-Flag_of_Ireland.svg.png')"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Inglés B1 Intermedio', 'Mejora tu fluidez en inglés', 'Ana Rodríguez', 30, 0, 'B1', '2025-07-01', '2025-08-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Flag_of_Ireland.svg/1200px-Flag_of_Ireland.svg.png') [42001-232]
+2025-05-12 10:33:25.197115+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path)[*]"; se esperaba "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path)[*]"; expected "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path) [42001-232]
+2025-05-12 10:33:25.198111+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "VALUES[*]"; se esperaba "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "VALUES[*]"; expected "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+VALUES [42001-232]
+2025-05-12 10:33:25.199109+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.200120+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.201110+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.203098+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Hugo', 'Silva', 'hugo.silva@example.com', 23, '2025-05-07', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Hugo', 'Silva', 'hugo.silva@example.com', 23, '2025-05-07', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Hugo', 'Silva', 'hugo.silva@example.com', 23, '2025-05-07', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.205092+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Paula', 'Mendoza', 'paula.mendoza@example.com', 19, '2025-05-06', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Paula', 'Mendoza', 'paula.mendoza@example.com', 19, '2025-05-06', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Paula', 'Mendoza', 'paula.mendoza@example.com', 19, '2025-05-06', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.206090+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Javier', 'Ortega', 'javier.ortega@example.com', 24, '2025-05-05', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Javier', 'Ortega', 'javier.ortega@example.com', 24, '2025-05-05', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Javier', 'Ortega', 'javier.ortega@example.com', 24, '2025-05-05', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.207087+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Isabel', 'Cortés', 'isabel.cortes@example.com', 22, '2025-05-04', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Isabel', 'Cortés', 'isabel.cortes@example.com', 22, '2025-05-04', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Isabel', 'Cortés', 'isabel.cortes@example.com', 22, '2025-05-04', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.209082+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Francisco', 'Reyes', 'francisco.reyes@example.com', 20, '2025-05-03', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Francisco', 'Reyes', 'francisco.reyes@example.com', 20, '2025-05-03', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Francisco', 'Reyes', 'francisco.reyes@example.com', 20, '2025-05-03', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.210080+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Camila', 'Luna', 'camila.luna@example.com', 21, '2025-05-02', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Camila', 'Luna', 'camila.luna@example.com', 21, '2025-05-02', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Camila', 'Luna', 'camila.luna@example.com', 21, '2025-05-02', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.210080+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Mateo', 'Morales', 'mateo.morales@example.com', 23, '2025-05-01', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Mateo', 'Morales', 'mateo.morales@example.com', 23, '2025-05-01', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Mateo', 'Morales', 'mateo.morales@example.com', 23, '2025-05-01', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.211081+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Daniela', 'Paredes', 'daniela.paredes@example.com', 20, '2025-04-30', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Daniela', 'Paredes', 'daniela.paredes@example.com', 20, '2025-04-30', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Daniela', 'Paredes', 'daniela.paredes@example.com', 20, '2025-04-30', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.213071+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Santiago', 'Ibáñez', 'santiago.ibanez@example.com', 22, '2025-04-29', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Santiago', 'Ibáñez', 'santiago.ibanez@example.com', 22, '2025-04-29', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Santiago', 'Ibáñez', 'santiago.ibanez@example.com', 22, '2025-04-29', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.213071+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Marina', 'Campos', 'marina.campos@example.com', 21, '2025-04-28', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Marina', 'Campos', 'marina.campos@example.com', 21, '2025-04-28', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Marina', 'Campos', 'marina.campos@example.com', 21, '2025-04-28', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.214068+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Gabriel', 'Nieves', 'gabriel.nieves@example.com', 23, '2025-04-27', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Gabriel', 'Nieves', 'gabriel.nieves@example.com', 23, '2025-04-27', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Gabriel', 'Nieves', 'gabriel.nieves@example.com', 23, '2025-04-27', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.215066+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Emma', 'Valencia', 'emma.valencia@example.com', 19, '2025-04-26', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Emma', 'Valencia', 'emma.valencia@example.com', 19, '2025-04-26', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Emma', 'Valencia', 'emma.valencia@example.com', 19, '2025-04-26', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.216063+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Iván', 'León', 'ivan.leon@example.com', 24, '2025-04-25', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Iván', 'León', 'ivan.leon@example.com', 24, '2025-04-25', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Iván', 'León', 'ivan.leon@example.com', 24, '2025-04-25', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.217060+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Clara', 'Salas', 'clara.salas@example.com', 22, '2025-04-24', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Clara', 'Salas', 'clara.salas@example.com', 22, '2025-04-24', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Clara', 'Salas', 'clara.salas@example.com', 22, '2025-04-24', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.218058+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Martín', 'Acosta', 'martin.acosta@example.com', 20, '2025-04-23', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Martín', 'Acosta', 'martin.acosta@example.com', 20, '2025-04-23', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Martín', 'Acosta', 'martin.acosta@example.com', 20, '2025-04-23', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.219056+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Alicia', 'Peña', 'alicia.pena@example.com', 21, '2025-04-22', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Alicia', 'Peña', 'alicia.pena@example.com', 21, '2025-04-22', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Alicia', 'Peña', 'alicia.pena@example.com', 21, '2025-04-22', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:33:25.220057+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Pablo', 'Cano', 'pablo.cano@example.com', 23, '2025-04-21', true, NULL, 'defaultPicture.jpg')"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Pablo', 'Cano', 'pablo.cano@example.com', 23, '2025-04-21', true, NULL, 'defaultPicture.jpg')"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Pablo', 'Cano', 'pablo.cano@example.com', 23, '2025-04-21', true, NULL, 'defaultPicture.jpg') [42001-232]
+2025-05-12 10:34:09.032342+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path)[*]"; se esperaba "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path)[*]"; expected "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path) [42001-232]
+2025-05-12 10:34:09.039324+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "VALUES[*]"; se esperaba "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "VALUES[*]"; expected "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+VALUES [42001-232]
+2025-05-12 10:34:09.040320+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.042315+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.054283+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.055317+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Hugo', 'Silva', 'hugo.silva@example.com', 23, '2025-05-07', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Hugo', 'Silva', 'hugo.silva@example.com', 23, '2025-05-07', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Hugo', 'Silva', 'hugo.silva@example.com', 23, '2025-05-07', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.055317+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Paula', 'Mendoza', 'paula.mendoza@example.com', 19, '2025-05-06', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Paula', 'Mendoza', 'paula.mendoza@example.com', 19, '2025-05-06', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Paula', 'Mendoza', 'paula.mendoza@example.com', 19, '2025-05-06', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.056305+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Javier', 'Ortega', 'javier.ortega@example.com', 24, '2025-05-05', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Javier', 'Ortega', 'javier.ortega@example.com', 24, '2025-05-05', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Javier', 'Ortega', 'javier.ortega@example.com', 24, '2025-05-05', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.057276+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Isabel', 'Cortés', 'isabel.cortes@example.com', 22, '2025-05-04', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Isabel', 'Cortés', 'isabel.cortes@example.com', 22, '2025-05-04', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Isabel', 'Cortés', 'isabel.cortes@example.com', 22, '2025-05-04', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.058272+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Francisco', 'Reyes', 'francisco.reyes@example.com', 20, '2025-05-03', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Francisco', 'Reyes', 'francisco.reyes@example.com', 20, '2025-05-03', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Francisco', 'Reyes', 'francisco.reyes@example.com', 20, '2025-05-03', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.060267+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Camila', 'Luna', 'camila.luna@example.com', 21, '2025-05-02', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Camila', 'Luna', 'camila.luna@example.com', 21, '2025-05-02', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Camila', 'Luna', 'camila.luna@example.com', 21, '2025-05-02', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.061264+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Mateo', 'Morales', 'mateo.morales@example.com', 23, '2025-05-01', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Mateo', 'Morales', 'mateo.morales@example.com', 23, '2025-05-01', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Mateo', 'Morales', 'mateo.morales@example.com', 23, '2025-05-01', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.062262+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Daniela', 'Paredes', 'daniela.paredes@example.com', 20, '2025-04-30', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Daniela', 'Paredes', 'daniela.paredes@example.com', 20, '2025-04-30', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Daniela', 'Paredes', 'daniela.paredes@example.com', 20, '2025-04-30', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.063259+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Santiago', 'Ibáñez', 'santiago.ibanez@example.com', 22, '2025-04-29', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Santiago', 'Ibáñez', 'santiago.ibanez@example.com', 22, '2025-04-29', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Santiago', 'Ibáñez', 'santiago.ibanez@example.com', 22, '2025-04-29', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.064256+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Marina', 'Campos', 'marina.campos@example.com', 21, '2025-04-28', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Marina', 'Campos', 'marina.campos@example.com', 21, '2025-04-28', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Marina', 'Campos', 'marina.campos@example.com', 21, '2025-04-28', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.065253+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Gabriel', 'Nieves', 'gabriel.nieves@example.com', 23, '2025-04-27', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Gabriel', 'Nieves', 'gabriel.nieves@example.com', 23, '2025-04-27', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Gabriel', 'Nieves', 'gabriel.nieves@example.com', 23, '2025-04-27', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.067248+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Emma', 'Valencia', 'emma.valencia@example.com', 19, '2025-04-26', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Emma', 'Valencia', 'emma.valencia@example.com', 19, '2025-04-26', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Emma', 'Valencia', 'emma.valencia@example.com', 19, '2025-04-26', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.067248+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Iván', 'León', 'ivan.leon@example.com', 24, '2025-04-25', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Iván', 'León', 'ivan.leon@example.com', 24, '2025-04-25', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Iván', 'León', 'ivan.leon@example.com', 24, '2025-04-25', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.068258+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Clara', 'Salas', 'clara.salas@example.com', 22, '2025-04-24', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Clara', 'Salas', 'clara.salas@example.com', 22, '2025-04-24', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Clara', 'Salas', 'clara.salas@example.com', 22, '2025-04-24', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.070241+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Martín', 'Acosta', 'martin.acosta@example.com', 20, '2025-04-23', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Martín', 'Acosta', 'martin.acosta@example.com', 20, '2025-04-23', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Martín', 'Acosta', 'martin.acosta@example.com', 20, '2025-04-23', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.071238+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Alicia', 'Peña', 'alicia.pena@example.com', 21, '2025-04-22', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Alicia', 'Peña', 'alicia.pena@example.com', 21, '2025-04-22', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Alicia', 'Peña', 'alicia.pena@example.com', 21, '2025-04-22', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:34:09.072236+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Pablo', 'Cano', 'pablo.cano@example.com', 23, '2025-04-21', true, NULL, 'defaultPicture.jpg')"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Pablo', 'Cano', 'pablo.cano@example.com', 23, '2025-04-21', true, NULL, 'defaultPicture.jpg')"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Pablo', 'Cano', 'pablo.cano@example.com', 23, '2025-04-21', true, NULL, 'defaultPicture.jpg') [42001-232]
+2025-05-12 10:37:54.423935+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path)[*]"; se esperaba "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path)[*]"; expected "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path) [42001-232]
+2025-05-12 10:37:54.429919+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "VALUES[*]"; se esperaba "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "VALUES[*]"; expected "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+VALUES [42001-232]
+2025-05-12 10:37:54.432912+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.433909+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.435903+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.436909+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Hugo', 'Silva', 'hugo.silva@example.com', 23, '2025-05-07', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Hugo', 'Silva', 'hugo.silva@example.com', 23, '2025-05-07', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Hugo', 'Silva', 'hugo.silva@example.com', 23, '2025-05-07', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.444861+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Paula', 'Mendoza', 'paula.mendoza@example.com', 19, '2025-05-06', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Paula', 'Mendoza', 'paula.mendoza@example.com', 19, '2025-05-06', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Paula', 'Mendoza', 'paula.mendoza@example.com', 19, '2025-05-06', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.445872+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Javier', 'Ortega', 'javier.ortega@example.com', 24, '2025-05-05', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Javier', 'Ortega', 'javier.ortega@example.com', 24, '2025-05-05', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Javier', 'Ortega', 'javier.ortega@example.com', 24, '2025-05-05', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.447855+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Isabel', 'Cortés', 'isabel.cortes@example.com', 22, '2025-05-04', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Isabel', 'Cortés', 'isabel.cortes@example.com', 22, '2025-05-04', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Isabel', 'Cortés', 'isabel.cortes@example.com', 22, '2025-05-04', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.448864+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Francisco', 'Reyes', 'francisco.reyes@example.com', 20, '2025-05-03', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Francisco', 'Reyes', 'francisco.reyes@example.com', 20, '2025-05-03', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Francisco', 'Reyes', 'francisco.reyes@example.com', 20, '2025-05-03', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.449855+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Camila', 'Luna', 'camila.luna@example.com', 21, '2025-05-02', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Camila', 'Luna', 'camila.luna@example.com', 21, '2025-05-02', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Camila', 'Luna', 'camila.luna@example.com', 21, '2025-05-02', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.451845+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Mateo', 'Morales', 'mateo.morales@example.com', 23, '2025-05-01', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Mateo', 'Morales', 'mateo.morales@example.com', 23, '2025-05-01', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Mateo', 'Morales', 'mateo.morales@example.com', 23, '2025-05-01', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.452870+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Daniela', 'Paredes', 'daniela.paredes@example.com', 20, '2025-04-30', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Daniela', 'Paredes', 'daniela.paredes@example.com', 20, '2025-04-30', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Daniela', 'Paredes', 'daniela.paredes@example.com', 20, '2025-04-30', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.452870+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Santiago', 'Ibáñez', 'santiago.ibanez@example.com', 22, '2025-04-29', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Santiago', 'Ibáñez', 'santiago.ibanez@example.com', 22, '2025-04-29', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Santiago', 'Ibáñez', 'santiago.ibanez@example.com', 22, '2025-04-29', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.454849+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Marina', 'Campos', 'marina.campos@example.com', 21, '2025-04-28', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Marina', 'Campos', 'marina.campos@example.com', 21, '2025-04-28', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Marina', 'Campos', 'marina.campos@example.com', 21, '2025-04-28', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.455840+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Gabriel', 'Nieves', 'gabriel.nieves@example.com', 23, '2025-04-27', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Gabriel', 'Nieves', 'gabriel.nieves@example.com', 23, '2025-04-27', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Gabriel', 'Nieves', 'gabriel.nieves@example.com', 23, '2025-04-27', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.456831+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Emma', 'Valencia', 'emma.valencia@example.com', 19, '2025-04-26', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Emma', 'Valencia', 'emma.valencia@example.com', 19, '2025-04-26', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Emma', 'Valencia', 'emma.valencia@example.com', 19, '2025-04-26', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.457829+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Iván', 'León', 'ivan.leon@example.com', 24, '2025-04-25', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Iván', 'León', 'ivan.leon@example.com', 24, '2025-04-25', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Iván', 'León', 'ivan.leon@example.com', 24, '2025-04-25', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.458857+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Clara', 'Salas', 'clara.salas@example.com', 22, '2025-04-24', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Clara', 'Salas', 'clara.salas@example.com', 22, '2025-04-24', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Clara', 'Salas', 'clara.salas@example.com', 22, '2025-04-24', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.459823+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Martín', 'Acosta', 'martin.acosta@example.com', 20, '2025-04-23', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Martín', 'Acosta', 'martin.acosta@example.com', 20, '2025-04-23', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Martín', 'Acosta', 'martin.acosta@example.com', 20, '2025-04-23', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.460831+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Alicia', 'Peña', 'alicia.pena@example.com', 21, '2025-04-22', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Alicia', 'Peña', 'alicia.pena@example.com', 21, '2025-04-22', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Alicia', 'Peña', 'alicia.pena@example.com', 21, '2025-04-22', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:37:54.461822+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]'Pablo', 'Cano', 'pablo.cano@example.com', 23, '2025-04-21', true, NULL, 'defaultPicture.jpg')"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]'Pablo', 'Cano', 'pablo.cano@example.com', 23, '2025-04-21', true, NULL, 'defaultPicture.jpg')"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+('Pablo', 'Cano', 'pablo.cano@example.com', 23, '2025-04-21', true, NULL, 'defaultPicture.jpg') [42001-232]
+2025-05-12 10:40:59.624488+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO student (id, name, surname, email, age, registration_date, active, course_id, photo_path)[*]"; se esperaba "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "INSERT INTO student (id, name, surname, email, age, registration_date, active, course_id, photo_path)[*]"; expected "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO student (id, name, surname, email, age, registration_date, active, course_id, photo_path) [42001-232]
+2025-05-12 10:40:59.632281+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "VALUES[*]"; se esperaba "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "VALUES[*]"; expected "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+VALUES [42001-232]
+2025-05-12 10:40:59.642255+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]1, 'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]1, 'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+(1, 'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:40:59.643251+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]2, 'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]2, 'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+(2, 'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:40:59.645246+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]3, 'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg')"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]3, 'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg')"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+(3, 'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg') [42001-232]
+2025-05-12 10:43:19.755334+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO student (id, name, surname, email, age, registration_date, active, course_id, photo_path)[*]"; se esperaba "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "INSERT INTO student (id, name, surname, email, age, registration_date, active, course_id, photo_path)[*]"; expected "OVERRIDING USER VALUE, OVERRIDING SYSTEM VALUE, DIRECT, DEFAULT VALUES, VALUES, SET, WITH, (, SELECT, TABLE, VALUES"; SQL statement:
+INSERT INTO student (id, name, surname, email, age, registration_date, active, course_id, photo_path) [42001-232]
+2025-05-12 10:43:19.762314+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "VALUES[*]"; se esperaba "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"
+Syntax error in SQL statement "VALUES[*]"; expected "ROW (, (, INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+VALUES [42001-232]
+2025-05-12 10:43:19.764309+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]1, 'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]1, 'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+(1, 'Laura', 'Navarro', 'laura.navarro@example.com', 20, '2025-05-10', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:43:19.766304+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]2, 'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'),"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]2, 'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'),"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+(2, 'Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, NULL, 'defaultPicture.jpg'), [42001-232]
+2025-05-12 10:43:19.770294+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "([*]3, 'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg')"; se esperaba "(, SELECT, TABLE, VALUES"
+Syntax error in SQL statement "([*]3, 'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg')"; expected "(, SELECT, TABLE, VALUES"; SQL statement:
+(3, 'Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, NULL, 'defaultPicture.jpg') [42001-232]

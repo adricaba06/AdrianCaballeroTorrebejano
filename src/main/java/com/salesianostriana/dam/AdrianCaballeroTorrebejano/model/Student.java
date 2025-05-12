@@ -98,13 +98,7 @@ public class Student  implements Comparable<Student> {
 		this.active = active;
 	}
 
-	public EnumMap<Grade, Double> getGrades() {
-		return grades;
-	}
 
-	public void setGrades(EnumMap<Grade, Double> grades) {
-		this.grades = grades;
-	}
 
 	public Course getCourse() {
 		return course;

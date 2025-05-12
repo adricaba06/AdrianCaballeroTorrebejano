@@ -16,10 +16,17 @@ public class StudentService extends BaseService<Student, Long, StudentRepository
 
 	@Autowired
 	private StudentRepository sr;
+	
 
 	public List<Student> filterStudentsByCourseId(Long id) {
-		return sr.findAll().stream().filter((s) -> s.getCourse() != null && s.getCourse().getId().equals(id))
+		
+		return listAll().stream()
+				.filter((s) -> s.getCourse() != null && s.getCourse().getId().equals(id) && s.isActive())
 				.collect(Collectors.toList());
+	}
+
+	public List<Student> filterActiveStudents() {
+		return sr.findAll().stream().filter((s) -> s.isActive()).collect(Collectors.toList());
 
 	}
 }

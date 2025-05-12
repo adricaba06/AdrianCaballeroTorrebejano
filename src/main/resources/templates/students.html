@@ -175,9 +175,7 @@
                   </thead>
                   <tbody>
                     <tr
-                      th:each="student : ${students}"
-                      th:block
-                      th:if="${student.active}"
+                      th:each="student : ${activeStudents}"
                     >
                       <td th:text="${student.name}">John</td>
                       <td th:text="${student.surname}">Doe</td>
@@ -255,7 +253,7 @@
                   th:if="${student.active}"
                 >
                   <img
-                    th:src="@{'/pictures//' + ${student.photoPath}}"
+                    th:src="@{'/pictures/' + ${student.photoPath}}"
                     alt="Foto del estudiante"
                     class="card-img-top object-fit-cover"
                     width="500"
