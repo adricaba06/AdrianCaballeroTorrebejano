@@ -127,5 +127,23 @@ public class StudentController {
 		
 		return "student_detail";
 	}
+	
+	@GetMapping("editGradesOfStudent/{id}")
+	public String showEditGradesForm(@PathVariable Long id, Model model) {
+	Optional<Student> studentO = studentService.findById(id);
+	Student student = null;
+	
+	if(studentO.isPresent()) {
+		student = studentO.get();
+	}
+	
+	model.addAttribute("student", student);
+				
+	return "grades";
+		
+	}
+	
+	
+	
 
 }

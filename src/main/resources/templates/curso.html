@@ -9,7 +9,7 @@
     <section th:replace="fragments/decorationNav :: decorationNav"></section>
     <section>
       <!-- Offcanvas solo visible en móvil -->
-       <div th:replace="fragments/offcanva :: offcanva"></div>
+      <div th:replace="fragments/offcanva :: offcanva"></div>
     </section>
 
     <!-- Modal editar curso -->
@@ -28,7 +28,11 @@
 
           <!-- Modal Body -->
           <div class="modal-body">
-            <form th:action="@{/newcourse}" method="post" th:object="${course}">
+            <form
+              th:action="@{/savestudent}"
+              method="post"
+              th:object="${course}"
+            >
               <input type="hidden" th:field="*{id}" />
 
               <!-- Información del curso -->
@@ -613,6 +617,7 @@
                       <th>Listening</th>
                       <th>Reading</th>
                       <th>Nota Media</th>
+                      <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -649,6 +654,14 @@
                             7.2
                           </div>
                         </div>
+                      </td>
+                      <td>
+                        <a
+                          class="btn btn-outline-primary"
+                          th:href="@{'/editGradesOfStudent/' + ${student.id}}"
+                        >
+                          <i class="bi bi-pencil-square"></i> Editar notas
+                        </a>
                       </td>
                     </tr>
                   </tbody>
