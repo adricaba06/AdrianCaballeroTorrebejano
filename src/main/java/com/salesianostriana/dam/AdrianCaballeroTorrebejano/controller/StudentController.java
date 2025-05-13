@@ -41,21 +41,7 @@ public class StudentController {
 
 		List<Student> students = studentService.findAll();  
 		List<Course> courses = courseService.findAll();
-		List<Student> activeStudents = studentService.filterActiveStudents();
-		
-		
-
-		if (sortBy != null && sortBy.equalsIgnoreCase("date")) {
-			activeStudents.sort(Comparator.comparing(Student::getRegistrationDate));
-		}
-
-		if (sortBy != null && sortBy.equalsIgnoreCase("alfabeDes")) {
-			activeStudents.sort(Comparator.comparing(Student::getName).reversed());
-		}
-
-		if (sortBy != null && sortBy.equalsIgnoreCase("grades")) {
-			activeStudents.sort(Comparator.comparing(Student::getAverageGrade));
-		}
+		List<Student> activeStudents = studentService.filterActiveStudents(sortBy);
 		
 		
 		model.addAttribute("activeStudents", activeStudents);
@@ -127,7 +113,7 @@ public class StudentController {
 
 	@GetMapping("/student/{id}")
 	public String viewStudent(@PathVariable Long id, Model model) {
-		Optional<Student> studentO = studentService.findById(id); //cambiar 
+		Optional<Student> studentO = studentService.findById(id);
 		Student student = null;
 		if(studentO.isPresent()) {
 			student = studentO.get();

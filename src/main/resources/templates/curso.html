@@ -1,70 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Cargar Bootstrap Icons -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <!-- Cargar Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <!-- Cargar Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Cargar mis estilos y tema -->
-    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <title>Students</title>
+  <head th:replace="fragments/commonHead :: commonHead">
+    <title>Course details</title>
+    <meta name="description" content="Información del curso" />
   </head>
 
   <body>
     <section th:replace="fragments/decorationNav :: decorationNav"></section>
     <section>
       <!-- Offcanvas solo visible en móvil -->
-      <div
-        class="offcanvas offcanvas-start d-md-none"
-        tabindex="-1"
-        id="MyOffcanva"
-      >
-        <div class="offcanvas-header">
-          <h1 class="offcanvas-title fs-4">Menú</h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a
-                href="#"
-                class="nav-link text-primary d-flex align-items-center gap-2"
-              >
-                <i class="bi bi-person"></i> Alumnos
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                href="#"
-                class="nav-link text-primary d-flex align-items-center gap-2"
-              >
-                <i class="bi bi-pencil-square"></i> Inscripciones
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                href="#"
-                class="nav-link text-primary d-flex align-items-center gap-2"
-              >
-                <i class="bi bi-bar-chart"></i> Reportes
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
+       <div th:replace="fragments/offcanva :: offcanva"></div>
     </section>
 
     <!-- Modal editar curso -->
@@ -386,32 +331,7 @@
       <aside
         class="d-none d-md-flex flex-column bg-light border-end text-primary p-3 vh-100"
       >
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a
-              href="../html/students.html"
-              class="nav-link text-primary d-flex align-items-center gap-2"
-            >
-              <i class="bi bi-person"></i> Alumnos
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              href="#"
-              class="nav-link text-primary d-flex align-items-center gap-2"
-            >
-              <i class="bi bi-pencil-square"></i> Inscripciones
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              href="#"
-              class="nav-link text-primary d-flex align-items-center gap-2"
-            >
-              <i class="bi bi-bar-chart"></i> Reportes
-            </a>
-          </li>
-        </ul>
+        <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
       </aside>
 
       <div class="flex flex-column container-fluid p-4">
@@ -644,6 +564,42 @@
             <!--Envoltorio para overflow-->
             <div class="overflow-auto">
               <h2>Lista y Notas</h2>
+              <!-- <div class="dropdown mb-3">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                  >
+                    Ordenar Por
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        th:href="@{|/students?sort=alfabeDes|}"
+                        >(Z-A)</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        th:href="@{|/students?sort=grades|}"
+                        >Ordenar por nota (mayor a menor)<i
+                          class="bi bi-arrow-up"
+                        ></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        th:href="@{|/students?sort=date|}"
+                        >Ordenar por fecha de registro<i
+                          class="bi bi-arrow-down"
+                        ></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div> -->
               <div class="table-responsive">
                 <table class="table table-borderless table-hover table-light">
                   <thead>

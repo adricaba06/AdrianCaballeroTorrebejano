@@ -1,11 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>grades html</title>
-</head>
-<body>
-    
-</body>
+  <head th:replace="fragments/commonHead :: commonHead">
+    <title>Grades</title>
+    <meta name="description" content="Ediccion de notas" />
+  </head>
+  <body>
+    <section th:replace="fragments/decorationNav :: decorationNav"></section>
+    <section>
+      <!-- Offcanvas solo visible en móvil -->
+      <div th:replace="fragments/offcanva :: offcanva"></div>
+    </section>
+
+    <div class="d-flex">
+      <!-- aside -->
+      <aside
+        class="d-none d-md-flex flex-column bg-light border-end text-primary p-3 vh-100"
+      >
+        <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
+      </aside>
+
+      <main class="col-md-10 p-4 overflow-auto vh-100">
+        <section class="flex-grow-1 w-100 vh-100 px-0 mx-0">
+          <div class="row g-0">
+            <div class="w-100 col-12">
+              <div class="text-center py-4 bg-light">
+                <img
+                  th:src="@{'/pictures/' + ${student.photoPath}}"
+                  alt="Foto del estudiante"
+                  class="rounded-circle shadow"
+                  style="width: 180px; height: 180px; object-fit: cover"
+                />
+              </div>
+
+              <!-- Formulario -->
+              <form
+                th:action="@{/editGrades}"
+                th:object="${student}"
+                method="POST"
+                enctype="multipart/form-data"
+                class="p-5 bg-white"
+              >
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="row mb-3">
+                  <label class="form-label fw-bold">Speaking</label>
+                  <div class="col-md-6">
+                    <input
+                      type="number"
+                      th:field="*{name}"
+                      class="form-control"
+                      placeholder="Nombre"
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <input
+                      type="text"
+                      th:field="*{surname}"
+                      class="form-control"
+                      placeholder="Apellido"
+                    />
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Correo</label>
+                  <input
+                    type="email"
+                    th:field="*{email}"
+                    class="form-control"
+                    placeholder="Correo del alumno"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Edad</label>
+                  <input
+                    type="number"
+                    th:field="*{age}"
+                    class="form-control"
+                    placeholder="Edad del estudiante"
+                    min="1"
+                    max="140"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Curso</label>
+                  <select name="courseId" class="form-select">
+                    <option value="" disabled selected>
+                      Seleccione un curso
+                    </option>
+
+                    <option th:if="${#lists.isEmpty(courses)}" disabled>
+                      No hay cursos creados
+                    </option>
+
+                    <option
+                      th:each="course : ${courses}"
+                      th:value="${course.id}"
+                      th:if="${course.active}"
+                      th:text="${course.name}"
+                      th:selected="${student.course != null and course.id == student.course.id}"
+                    ></option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="photoPath" class="form-label fw-bold"
+                    >Actualizar foto</label
+                  >
+                  <input
+                    type="file"
+                    id="photoPath"
+                    name="file"
+                    class="form-control"
+                    accept="image/*"
+                  />
+                  <input
+                    type="hidden"
+                    name="existingPhoto"
+                    th:value="${student.photoPath}"
+                  />
+                </div>
+
+                <input
+                  type="hidden"
+                  name="resgDate"
+                  th:value="${registrationDate}"
+                />
+
+                <div class="mb-4">
+                  <label class="form-label fw-bold">Tipo de Matrícula</label>
+                  <select name="matricula" class="form-select">
+                    <option value="" disabled selected>
+                      Seleccione un tipo de matrícula
+                    </option>
+                    <option value="Tipo1">60 €/mes (2-11 años)</option>
+                    <option value="Tipo2">80 €/mes (+12 años)</option>
+                  </select>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="active" class="form-label">¿Está activo?</label>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      th:field="*{active}"
+                      type="checkbox"
+                      id="active"
+                      name="active"
+                    />
+                    <label class="form-check-label" for="active">Activo</label>
+                  </div>
+                </div>
+
+                <div class="alert alert-warning">
+                  <strong>Nota:</strong> Solo el/la profesor/a. del curso puede
+                  editar las notas de los alumnos.
+                </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-ouyline-primary px-5">
+                    Guardar cambios
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>

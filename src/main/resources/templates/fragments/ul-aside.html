@@ -1,26 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="fragments/commonHead :: commonHead">
-    <title>fragmento</title>
-  </head>
+<head th:replace="fragments/commonHead :: commonHead"></head>
 <body>
-    <div th:fragment="offcanva"
-        class="offcanvas offcanvas-start d-md-none"
-        tabindex="-1"
-        id="MyOffcanva"
-      >
-        <div class="offcanvas-header">
-          <h1 class="offcanvas-title fs-4">Menú</h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="nav flex-column">
-            <li class="nav-item">
+    <ul class="nav flex-column" th:fragment="ul-aside">
+        <li class="nav-item">
             <a
               th:href="@{/dashboard}"
               class="nav-link text-primary d-flex align-items-center gap-2"
@@ -44,8 +27,6 @@
               <i class="bi bi-bar-chart"></i> Reportes
             </a>
           </li>
-          </ul>
-        </div>
-      </div>
+        </ul>    
 </body>
 </html>

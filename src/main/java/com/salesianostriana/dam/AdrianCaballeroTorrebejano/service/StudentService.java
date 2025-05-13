@@ -1,6 +1,8 @@
 package com.salesianostriana.dam.AdrianCaballeroTorrebejano.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,8 +24,33 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 				.collect(Collectors.toList());
 	}
 
-	public List<Student> filterActiveStudents() {
-		return findAll().stream().filter((s) -> s.isActive()).collect(Collectors.toList());
+	public List<Student> filterActiveStudents(String sortBy) {
+		List<Student> activeStudents = findAll().stream().filter((s) -> s.isActive()).collect(Collectors.toList());
+		
+		   if (sortBy == null) {
+		        return activeStudents;
+		    }
+		   
+		switch(sortBy) {
+		case "date":
+			activeStudents.sort(Comparator.comparing(Student::getRegistrationDate));
+			break;
+			
+		case "alfabeDes":
+			activeStudents.sort(Comparator.comparing(Student::getName).reversed());
+			break;
+		
+		
+		case "grades":
+			activeStudents.sort(Comparator.comparing(Student::getAverageGrade));
+			break;
+		
+		default: 
+			Collections.sort(activeStudents);
+		}
+
+		return activeStudents;
 
 	}
+	
 }
