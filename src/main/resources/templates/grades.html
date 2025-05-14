@@ -31,51 +31,100 @@
                   style="width: 180px; height: 180px; object-fit: cover"
                 />
               </div>
-              <form
-                th:action="@{/saveGrades}"
-                th:object="${student}"
-                method="post"
-              >
-                <
-                <div>
-                  <label for="grades[Speaking]">Speaking:</label>
-                  <input
-                    type="number"
-                    th:field="*{grades[Speaking]}"
-                    step="0.01"
-                  />
-                </div>
-                <div>
-                  <label for="grades[Writing]">Writing:</label>
-                  <input
-                    type="number"
-                    th:field="*{grades[Writing]}"
-                    step="0.01"
-                  />
-                </div>
-                <div>
-                  <label for="grades[Listening]">Listening:</label>
-                  <input
-                    type="number"
-                    th:field="*{grades[Listening]}"
-                    step="0.01"
-                  />
-                </div>
-                <div>
-                  <label for="grades[UoE]">Use of English:</label>
-                  <input type="number" th:field="*{grades[UoE]}" step="0.01" />
-                </div>
-                <div>
-                  <label for="grades[Reading]">Reading:</label>
-                  <input
-                    type="number"
-                    th:field="*{grades[Reading]}"
-                    step="0.01"
-                  />
-                </div>
+              <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center">
+                  <form
+                    th:action="@{/saveStudentsGrades}"
+                    th:object="${student}"
+                    
+                    method="post"
+                    class="p-5 bg-white w-75"
+                  >
+                    <input type="hidden" th:field="*{id}" />
+                    <input type="hidden" th:field="*{name}" />
+                    <input type="hidden" th:field="*{surname}" />
+                    <input type="hidden" th:field="*{photoPath}" />
+                    <input type="hidden" th:field="*{registrationDate}"/>
+                    <input type="hidden" th:field="*{email}" />
+                    <input type="hidden" th:field="*{age}" />
+                    <input type="hidden" th:field="*{active}" />
+                    <input type="hidden" th:field="*{course}" />
+                    
+                    <div class="row g-4">
+                      <div class="col-md-6 text-center">
+                        <label class="form-label fw-bold">Speaking</label>
+                        <input
+                          type="number"
+                          th:field="*{grades[SPEAKING]}"
+                          step="0.01"
+                          min="0"
+                          max="10"
+                          class="form-control form-control-sm"
+                          placeholder="0 - 10"
+                        />
+                      </div>
 
-                <button type="submit">Guardar</button>
-              </form>
+                      <div class="col-md-6 text-center">
+                        <label class="form-label fw-bold">Writing</label>
+                        <input
+                          type="number"
+                          th:field="*{grades[WRITING]}"
+                          step="0.01"
+                          min="0"
+                          max="10"
+                          class="form-control form-control-sm"
+                          placeholder="0 - 10"
+                        />
+                      </div>
+
+                      <div class="col-md-6 text-center">
+                        <label class="form-label fw-bold">Listening</label>
+                        <input
+                          type="number"
+                          th:field="*{grades[LISTENING]}"
+                          step="0.01"
+                          min="0"
+                          max="10"
+                          class="form-control form-control-sm"
+                          placeholder="0 - 10"
+                        />
+                      </div>
+
+                      <div class="col-md-6 text-center">
+                        <label class="form-label fw-bold">Use of English</label>
+                        <input
+                          type="number"
+                          th:field="*{grades[UOE]}"
+                          step="0.01"
+                          min="0"
+                          max="10"
+                          class="form-control form-control-sm"
+                          placeholder="0 - 10"
+                        />
+                      </div>
+
+                      <div class="col-md-6 offset-md-3 text-center">
+                        <label class="form-label fw-bold">Reading</label>
+                        <input
+                          type="number"
+                          th:field="*{grades[READING]}"
+                          step="0.01"
+                          min="0"
+                          max="10"
+                          class="form-control form-control-sm"
+                          placeholder="0 - 10"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                      <button type="submit" class="btn btn-outline-primary">
+                        Guardar notas
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         </section>

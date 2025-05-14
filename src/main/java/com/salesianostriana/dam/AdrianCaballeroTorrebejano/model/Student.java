@@ -2,13 +2,20 @@ package com.salesianostriana.dam.AdrianCaballeroTorrebejano.model;
 
 import java.time.LocalDate;
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapKeyEnumerated;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -37,8 +44,11 @@ public class Student  implements Comparable<Student> {
 	
 	private String photoPath ;
 
-
-	private EnumMap<Grade, Double> grades;
+	@ElementCollection
+	@CollectionTable(name = "student_grades")
+	@MapKeyEnumerated(EnumType.STRING)
+	@Column(name = "grade")
+	private Map<Grade, Double> grades = new HashMap<>();
 	
 	
 	//helper methods

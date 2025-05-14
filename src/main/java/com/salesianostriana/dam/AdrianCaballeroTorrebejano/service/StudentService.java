@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import com.salesianostriana.dam.AdrianCaballeroTorrebejano.repository.StudentRep
 
 @Service
 public class StudentService extends BaseServiceImpl<Student, Long, StudentRepository> {
+	
+	@Autowired
+	StudentRepository sr;
 	
 	public List<Student> filterStudentsByCourseId(Long id) {
 		
@@ -51,6 +55,31 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 
 		return activeStudents;
 
+	}
+	
+	public double getAverageGrade(Long id) {
+		double summary = 0;
+		Optional<Student> studentO = findById(id);
+		Student student = null;
+		if(studentO != null) {
+			student = studentO.get();
+		}
+		
+		if(student.getGrades().isEmpty()) {
+			return 0.0;
+		}
+		
+		for (double grade : student.getGrades().values()) {
+			summary += grade;
+			
+		}
+		return summary / student.getGrades().size();
+		
+	}
+	
+	public List<Student> findByNameAndSurname(String name, String surname){
+		return sr.findByStudentsNameAndSurname(name, surname);
+		
 	}
 	
 }

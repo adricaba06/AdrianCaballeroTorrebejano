@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Course;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Grade;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.CourseService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.StudentService;
-
 
 @Controller
 public class StudentController {
@@ -36,7 +36,9 @@ public class StudentController {
 	private CourseService courseService;
 
 	@GetMapping("/students")
-	public String showStudents(Model model, @RequestParam(name = "sort", required = false) String sortBy) {
+	public String showStudents(Model model, @RequestParam(name = "sort", required = false) String sortBy, @RequestParam(name = "nameParam", required = false) String nameParam,
+		    @RequestParam(name = "surnameParam", required = false) String surnameParam) {
+		
 		model.addAttribute("student", new Student());
 
 		List<Student> students = studentService.findAll();  
@@ -47,6 +49,7 @@ public class StudentController {
 		model.addAttribute("activeStudents", activeStudents);
 		model.addAttribute("students", students);
 		model.addAttribute("courses", courses);
+		model.addAttribute("findByNameAndSurname", studentService.findByNameAndSurname(nameParam, surnameParam));
 		
 		return "students";
 
@@ -55,23 +58,24 @@ public class StudentController {
 	@PostMapping("/savestudent")
 	public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(required = false) Long courseId,
 			@RequestParam("file") MultipartFile pic,
-			@RequestParam(value = "existingPhoto", required = false) String existingPhoto, @RequestParam(value = "resgDate", required = false) LocalDate registrationDate) {
-		
+			@RequestParam(value = "existingPhoto", required = false) String existingPhoto,
+			@RequestParam(value = "resgDate", required = false) LocalDate registrationDate) {
+
 		LocalDate today = LocalDate.now();
 		byte[] bytesImg;
 		String absolutePath;
 		Path imageDirectory;
 		Path completePath;
-		
+
 		if (student.getId() == null) {
-	        student.setRegistrationDate(today); 
-	    } else {
-	        if (registrationDate != null) {
-	            student.setRegistrationDate(registrationDate); 
-	        } else {
-	            student.setRegistrationDate(today);
-	        }
-	    }
+			student.setRegistrationDate(today);
+		} else {
+			if (registrationDate != null) {
+				student.setRegistrationDate(registrationDate);
+			} else {
+				student.setRegistrationDate(today);
+			}
+		}
 
 		if (courseId != null) {
 			Optional<Course> courseO = courseService.findById(courseId);
@@ -80,6 +84,15 @@ public class StudentController {
 				student.addToCourse(course);
 
 			}
+		}
+
+		if (student.getId() == null) {
+			student.getGrades().put(Grade.SPEAKING, 0.0);
+			student.getGrades().put(Grade.LISTENING, 0.0);
+			student.getGrades().put(Grade.READING, 0.0);
+			student.getGrades().put(Grade.UOE, 0.0);
+			student.getGrades().put(Grade.WRITING, 0.0);
+
 		}
 
 		if (!pic.isEmpty()) { // https://youtu.be/df67kmObW7M?si=d3cDkO18vU_Ni7wz
@@ -115,35 +128,40 @@ public class StudentController {
 	public String viewStudent(@PathVariable Long id, Model model) {
 		Optional<Student> studentO = studentService.findById(id);
 		Student student = null;
-		if(studentO.isPresent()) {
+		if (studentO.isPresent()) {
 			student = studentO.get();
 		}
-		
+
 		List<Course> courses = courseService.findAll();
-		
+
 		model.addAttribute("student", student);
 		model.addAttribute("courses", courses);
-		
-		
+
 		return "student_detail";
 	}
-	
-	@GetMapping("editGradesOfStudent/{id}")
+
+	@GetMapping("/editGradesOfStudent/{id}")
 	public String showEditGradesForm(@PathVariable Long id, Model model) {
-	Optional<Student> studentO = studentService.findById(id);
-	Student student = null;
-	
-	if(studentO.isPresent()) {
-		student = studentO.get();
+		Optional<Student> studentO = studentService.findById(id);
+		Student student = null;
+
+		if (studentO.isPresent()) {
+			student = studentO.get();
+		}
+
+		model.addAttribute("student", student);
+		model.addAttribute("grade", Grade.values());
+
+		return "grades";
+
 	}
-	
-	model.addAttribute("student", student);
-				
-	return "grades";
-		
+
+	@PostMapping("saveStudentsGrades")
+	public String saveStudentsGrades(@ModelAttribute("student") Student student) {
+		studentService.save(student);
+		return "redirect:/course/" + student.getCourse().getId();
+
 	}
-	
-	
 	
 
 }
