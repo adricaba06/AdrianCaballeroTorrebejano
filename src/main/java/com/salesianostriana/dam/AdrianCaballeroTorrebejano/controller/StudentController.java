@@ -36,21 +36,21 @@ public class StudentController {
 	private CourseService courseService;
 
 	@GetMapping("/students")
-	public String showStudents(Model model, @RequestParam(name = "sort", required = false) String sortBy, @RequestParam(name = "nameParam", required = false) String nameParam,
-		    @RequestParam(name = "surnameParam", required = false) String surnameParam) {
-		
+	public String showStudents(Model model, @RequestParam(name = "sort", required = false) String sortBy,
+			@RequestParam(name = "nameParam", required = false) String nameParam) {
+
 		model.addAttribute("student", new Student());
 
-		List<Student> students = studentService.findAll();  
+		List<Student> students = studentService.findAll();
 		List<Course> courses = courseService.findAll();
 		List<Student> activeStudents = studentService.filterActiveStudents(sortBy);
+		List<Student> searchStudent = studentService.findByNameAndSurname(nameParam);
 		
-		
+		System.out.println(searchStudent);
+		model.addAttribute("searchStudent", searchStudent);
 		model.addAttribute("activeStudents", activeStudents);
 		model.addAttribute("students", students);
 		model.addAttribute("courses", courses);
-		model.addAttribute("findByNameAndSurname", studentService.findByNameAndSurname(nameParam, surnameParam));
-		
 		return "students";
 
 	}
@@ -162,6 +162,5 @@ public class StudentController {
 		return "redirect:/course/" + student.getCourse().getId();
 
 	}
-	
 
 }

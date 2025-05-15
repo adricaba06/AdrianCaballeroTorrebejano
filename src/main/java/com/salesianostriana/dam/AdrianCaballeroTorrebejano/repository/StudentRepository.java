@@ -10,7 +10,7 @@ import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-	@Query("SELECT s FROM student where s.name = :name OR s.surname = :surname")
-	public List<Student> findByStudentsNameAndSurname(@Param("name") String name, @Param("surname") String surname);
-	
-}
+	@Query("SELECT s FROM Student s WHERE s.name = :name")
+	public List<Student> findByStudentsNameAndSurname(@Param("name") String name);
+
+}                                 

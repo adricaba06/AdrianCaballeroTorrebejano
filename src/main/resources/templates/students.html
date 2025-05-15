@@ -1,432 +1,271 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head th:replace="fragments/commonHead :: commonHead">
-    <title>Students</title>
-    <meta name="description" content="Lista de estudiantes" />
-  </head>
 
-  <body>
-    <section th:replace="fragments/decorationNav :: decorationNav"></section>
-    <section>
-      <!-- Offcanvas solo visible en móvil -->
-      <div th:replace="fragments/offcanva :: offcanva"></div>
-    </section>
-    <div class="container-fluid">
-      <div class="row">
-        <!-- aaside-->
-        <aside
-          class="col-md-2 d-none d-md-block bg-light border-end p-3 vh-100 align-items-center"
-        >
-          <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
-          <button
-            type="button"
-            class="btn btn-outline-primary mt-3"
-            data-bs-toggle="modal"
-            data-bs-target="#NewStudent"
-          >
-            Añadir Alumno
+<head th:replace="fragments/commonHead :: commonHead">
+  <title>Students</title>
+  <meta name="description" content="Lista de estudiantes" />
+</head>
+
+<body>
+  <section th:replace="fragments/decorationNav :: decorationNav"></section>
+  <section>
+    <!-- Offcanvas solo visible en móvil -->
+    <div th:replace="fragments/offcanva :: offcanva"></div>
+  </section>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- aaside-->
+      <aside class="col-md-2 d-none d-md-block bg-light border-end p-3 vh-100 align-items-center">
+        <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
+        <button type="button" class="btn btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#NewStudent">
+          Añadir Alumno
+        </button>
+        <form th:action="@{/students}" method="get" class="input-group mb-3">
+          <input type="text" id="search" name="nameParam" class="form-control border-start-0"
+            placeholder="Buscar alumno..." />
+          <button type="submit" class="input-group-text">
+            <i class="bi bi-search ms-2"></i>
           </button>
-          <form
-            th:action="@{/students}"
-            method="get"
-            class="input-group mb-3"
-          >
-            <input
-              type="text"
-              id="search"
-              name="nameParam"
-              class="form-control border-start-0"
-              placeholder="Buscar alumno..."
-            />
-            <button type="submit" class="input-group-text">
-              <i class="bi bi-search ms-2"></i>
-            </button>
-          </form>
-        </aside>
+        </form>
+      </aside>
 
-        <!-- Contenedor de l tabla -->
-        <main class="col-md-10 p-4 overflow-auto vh-100">
-          <section>
+      <!-- Contenedor de l tabla -->
+      <main class="col-md-10 p-4 overflow-auto vh-100">
+        <section>
+          <div class="d-flex">
+            <h2 class="text-primary">Alumnos</h2>
+            <i class="bi bi-person fs-4 mt-1 text-primary"></i>
+          </div>
+        </section>
+        <ul class="nav nav-tabs" id="pestaniaVistas" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="pestaniaVistas" data-bs-toggle="tab" href="#vistaTabla" role="tab"
+              aria-controls="info" aria-selected="true">
+              Vista de tabla
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="pestaniaVistas" data-bs-toggle="tab" href="#vistaTarjeta" role="tab"
+              aria-controls="tarjeta" aria-selected="false">
+              Vista de tarjetas
+            </a>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+          <!-- Tabla de alumnos -->
+          <div class="tab-pane fade show active p-3" id="vistaTabla" role="tabpanel">
             <div class="d-flex">
-              <h2 class="text-primary">Alumnos</h2>
-              <i class="bi bi-person fs-4 mt-1 text-primary"></i>
-            </div>
-          </section>
-
-          <ul class="nav nav-tabs" id="pestaniaVistas" role="tablist">
-            <li class="nav-item" role="presentation">
-              <a
-                class="nav-link active"
-                id="pestaniaVistas"
-                data-bs-toggle="tab"
-                href="#vistaTabla"
-                role="tab"
-                aria-controls="info"
-                aria-selected="true"
-              >
-                Vista de tabla
-              </a>
-            </li>
-            <li class="nav-item" role="presentation">
-              <a
-                class="nav-link"
-                id="pestaniaVistas"
-                data-bs-toggle="tab"
-                href="#vistaTarjeta"
-                role="tab"
-                aria-controls="tarjeta"
-                aria-selected="false"
-              >
-                Vista de tarjetas
-              </a>
-            </li>
-          </ul>
-
-          <div class="tab-content" id="myTabContent">
-            <!-- Tabla de alumnos -->
-            <div
-              class="tab-pane fade show active p-3"
-              id="vistaTabla"
-              role="tabpanel"
-            >
-              <div class="d-flex">
-                <div class="dropdown mb-3">
-                  <button
-                    type="button"
-                    class="btn btn-outline-primary dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                  >
-                    Ordenar Por
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        th:href="@{|/students?sort=alfabeDes|}"
-                        >(Z-A)</a
-                      >
-                    </li>
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        th:href="@{|/students?sort=grades|}"
-                        >Ordenar por nota (mayor a menor)<i
-                          class="bi bi-arrow-up"
-                        ></i
-                      ></a>
-                    </li>
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        th:href="@{|/students?sort=date|}"
-                        >Ordenar por fecha de registro<i
-                          class="bi bi-arrow-down"
-                        ></i
-                      ></a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="input-group mb-3 ms-3 d-md-none">
-                  <input
-                    type="text"
-                    id="search"
-                    class="form-control border-start-0"
-                    placeholder="Buscar alumno..."
-                  />
-                  <label class="input-group-text">
-                    <i class="bi bi-search ms-2"></i>
-                  </label>
-                </div>
-              </div>
-              <div class="table-responsive">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Nombre</th>
-                      <th>Apellidos</th>
-                      <th>Email</th>
-                      <th>Curso</th>
-                      <th>Fecha de registro</th>
-                      <th>Nota media</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr th:each="student : ${activeStudents}">
-                      <td th:text="${student.name}">John</td>
-                      <td th:text="${student.surname}">Doe</td>
-                      <td th:text="${student.email}">john@example.com</td>
-
-                      <td
-                        th:text="${student.course != null ? student.course.name : 'Sin Asignar'}"
-                      >
-                        Curso no asignado
-                      </td>
-
-                      <td th:text="${student.registrationDate}">2025-04-25</td>
-                      <td>5</td>
-                      <td>
-                        <div class="d-flex gap-2">
-                          <a
-                            th:href="@{/student/{id}(id = ${student.id})}"
-                            class="text-decoration-none"
-                            ><i class="bi bi-pencil-square"></i>
-                          </a>
-                        </div>
-                        <div></div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <!-- Vista de tarjetas -->
-            <div
-              class="tab-pane fade show p-3"
-              id="vistaTarjeta"
-              role="tabpanel"
-              aria-labelledby="tarjeta"
-            >
               <div class="dropdown mb-3">
-                <button
-                  type="button"
-                  class="btn btn-outline-primary dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                >
+                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
                   Ordenar Por
                 </button>
                 <ul class="dropdown-menu">
                   <li>
-                    <a
-                      class="dropdown-item"
-                      th:href="@{|/students?sort=alfabeDes|}"
-                      >(Z-A)</a
-                    >
+                    <a class="dropdown-item" th:href="@{|/students?sort=alfabeDes|}">(Z-A)</a>
                   </li>
                   <li>
-                    <a
-                      class="dropdown-item"
-                      th:href="@{|/students?sort=grades|}"
-                      >Ordenar por nota (mayor a menor)<i
-                        class="bi bi-arrow-up"
-                      ></i
-                    ></a>
+                    <a class="dropdown-item" th:href="@{|/students?sort=grades|}">Ordenar por nota (mayor a menor)<i
+                        class="bi bi-arrow-up"></i></a>
                   </li>
                   <li>
-                    <a class="dropdown-item" th:href="@{|/students?sort=date|}"
-                      >Ordenar por fecha de registro<i
-                        class="bi bi-arrow-down"
-                      ></i
-                    ></a>
+                    <a class="dropdown-item" th:href="@{|/students?sort=date|}">Ordenar por fecha de registro<i
+                        class="bi bi-arrow-down"></i></a>
                   </li>
                 </ul>
               </div>
-              <section class="d-flex flex-wrap">
-                <!-- tajeta 1 -->
-                <div
-                  class="card m-4"
-                  style="width: 400px"
-                  th:each="student : ${students}"
-                  th:block
-                  th:if="${student.active}"
-                >
-                  <img
-                    th:src="@{'/pictures/' + ${student.photoPath}}"
-                    alt="Foto del estudiante"
-                    class="card-img-top object-fit-cover"
-                    width="500"
-                    height="300"
-                  />
+              <div class="input-group mb-3 ms-3 d-md-none">
+                <form th:action="@{/students}" method="get" class="input-group mb-3">
+                  <input type="text" id="search" name="nameParam" class="form-control border-start-0"
+                    placeholder="Buscar alumno..." />
+                  <button type="submit" class="input-group-text">
+                    <i class="bi bi-search ms-2"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
 
-                  <div class="card-body">
-                    <h4 th:text="${student.name}" class="card-title">John</h4>
-                    <h4 th:text="${student.surname}" class="card-title">
-                      Pork
-                    </h4>
-                    <p>
-                      <span class="fw-bold">Email: </span>
-                      <span th:text="${student.email}"></span>
-                    </p>
-                    <p>
-                      <span class="fw-bold">Curso: </span>
-                      <span
-                        th:text="${student.course?.name} ?: 'Sin curso'"
-                      ></span>
-                    </p>
-                    <p>
-                      <span class="fw-bold">Fecha de inscripción: </span>
-                      <span th:text="${student.registrationDate}"></span>
-                    </p>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Curso</th>
+                    <th>Fecha de registro</th>
+                    <th>Nota media</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="student : ${searchStudent.isEmpty()  ? activeStudents : searchStudent}">
+                    <td th:text="${student.name}">John</td>
+                    <td th:text="${student.surname}">Doe</td>
+                    <td th:text="${student.email}">john@example.com</td>
 
-                    <p><span class="fw-bold">Nota media: </span>5</p>
+                    <td th:text="${student.course != null ? student.course.name : 'Sin Asignar'}">
+                      Curso no asignado
+                    </td>
 
-                    <div class="d-flex gap-2">
-                      <a
-                        th:href="@{/student/{id}(id = ${student.id})}"
-                        class="text-decoration-none"
-                        ><i class="bi bi-pencil-square"></i>
-                      </a>
-                    </div>
+                    <td th:text="${student.registrationDate}">2025-04-25</td>
+                    <td>5</td>
+                    <td>
+                      <div class="d-flex gap-2">
+                        <a th:href="@{/student/{id}(id = ${student.id})}" class="text-decoration-none"><i
+                            class="bi bi-pencil-square"></i>
+                        </a>
+                      </div>
+                      <div></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Vista de tarjetas -->
+          <div class="tab-pane fade show p-3" id="vistaTarjeta" role="tabpanel" aria-labelledby="tarjeta">
+            <div class="dropdown mb-3">
+              <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+                Ordenar Por
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" th:href="@{|/students?sort=alfabeDes|}">(Z-A)</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" th:href="@{|/students?sort=grades|}">Ordenar por nota (mayor a menor)<i
+                      class="bi bi-arrow-up"></i></a>
+                </li>
+                <li>
+                  <a class="dropdown-item" th:href="@{|/students?sort=date|}">Ordenar por fecha de registro<i
+                      class="bi bi-arrow-down"></i></a>
+                </li>
+              </ul>
+            </div>
+            <section class="d-flex flex-wrap">
+              <!-- tajeta 1 -->
+              <div class="card m-4" style="width: 400px"
+                th:each="student : ${searchStudent.isEmpty()  ? activeStudents : searchStudent}">
+                <img th:src="@{'/pictures/' + ${student.photoPath}}" alt="Foto del estudiante"
+                  class="card-img-top object-fit-cover" width="500" height="300" />
+
+                <div class="card-body">
+                  <h4 th:text="${student.name}" class="card-title">John</h4>
+                  <h4 th:text="${student.surname}" class="card-title">
+                    Pork
+                  </h4>
+                  <p>
+                    <span class="fw-bold">Email: </span>
+                    <span th:text="${student.email}"></span>
+                  </p>
+                  <p>
+                    <span class="fw-bold">Curso: </span>
+                    <span th:text="${student.course?.name} ?: 'Sin curso'"></span>
+                  </p>
+                  <p>
+                    <span class="fw-bold">Fecha de inscripción: </span>
+                    <span th:text="${student.registrationDate}"></span>
+                  </p>
+
+                  <p><span class="fw-bold">Nota media: </span>5</p>
+
+                  <div class="d-flex gap-2">
+                    <a th:href="@{/student/{id}(id = ${student.id})}" class="text-decoration-none"><i
+                        class="bi bi-pencil-square"></i>
+                    </a>
                   </div>
                 </div>
-                <!-- tajeta 1 -->
-              </section>
-            </div>
-          </div>
-        </main>
-      </div>
-    </div>
-
-    <!-- Modal nuevo alumno -->
-    <section>
-      <div
-        class="modal fade"
-        id="NewStudent"
-        tabindex="-1"
-        aria-labelledby="NewStudentLabel"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h2 class="modal-title" id="NewStudentLabel">Nuevo Alumno</h2>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-
-            <!-- Modal Body -->
-            <form
-              th:action="@{/savestudent}"
-              th:object="${student}"
-              method="POST"
-              class="p-4"
-              enctype="multipart/form-data"
-            >
-              <div class="mb-3">
-                <label class="form-label fw-bold">Nombre del Alumno</label>
-                <div class="input-group">
-                  <input
-                    type="text"
-                    name="nombre"
-                    th:field="*{name}"
-                    class="form-control"
-                    required
-                    placeholder="Nombre"
-                    aria-label="Nombre"
-                    maxlength="50"
-                  />
-                  <input
-                    type="text"
-                    name="apellido"
-                    th:field="*{surname}"
-                    class="form-control"
-                    placeholder="Apellido"
-                    aria-label="Apellido"
-                    maxlength="50"
-                  />
-                </div>
               </div>
-
-              <!-- Correo del alumno -->
-              <div class="mb-3">
-                <label for="correoAlumno" class="form-label fw-bold"
-                  >Correo</label
-                >
-                <input
-                  type="email"
-                  id="correoAlumno"
-                  name="correoAlumno"
-                  th:field="*{email}"
-                  class="form-control"
-                  required
-                  placeholder="Correo del alumno"
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="ageStudent" class="form-label fw-bold">Age</label>
-                <input
-                  type="number"
-                  id="ageStudent"
-                  name="ageStudent"
-                  th:field="*{age}"
-                  class="form-control"
-                  required
-                  placeholder="Student's age"
-                  min="1"
-                  max="140"
-                />
-              </div>
-
-              Cursos
-              <div class="mb-3">
-                <label for="course" class="form-label"></label>
-                <select id="course" name="courseId" class="form-select">
-                  <option value="" disabled selected>Select a course</option>
-                  <option
-                    th:each="course : ${courses}"
-                    th:value="${course.id}"
-                    th:text="${course.name}"
-                  >
-                    Class
-                  </option>
-                </select>
-              </div>
-
-              <div class="mb-3">
-                <label for="photoPath" class="form-label fw-bold"
-                  >Foto del Alumno</label
-                >
-                <input
-                  type="file"
-                  id="photoPath"
-                  name="file"
-                  class="form-control"
-                  accept="image/*"
-                />
-              </div>
-
-              <!-- Tipo de matrícula -->
-              <div class="mb-3">
-                <label for="MatriculaEdad" class="form-label"
-                  ><strong>Tipo de Matrícula</strong></label
-                >
-                <select
-                  id="MatriculaEdad"
-                  name="matricula"
-                  class="form-select"
-                  required
-                >
-                  <option value="" disabled selected>
-                    Seleccione un tipo de matrícula
-                  </option>
-                  <option value="Tipo1">60 €/mes (2-11 años)</option>
-                  <option value="Tipo2">80 €/mes (+12 años)</option>
-                </select>
-              </div>
-              <button type="submit" class="btn btn-outline-primary">
-                Crear
-              </button>
-            </form>
-            <!-- Modal Footer -->
-            <div class="modal-footer"></div>
+              <!-- tajeta 1 -->
+            </section>
           </div>
         </div>
-      </div>
-    </section>
+      </main>
+    </div>
+  </div>
 
-    <!-- Botón flotante para agregar alumno -->
-    <button
-      type="button"
-      class="btn btn-primary btn-lg rounded-circle border-0 position-fixed d-md-none bottom-0 end-0 mb-5 me-3"
-      data-bs-toggle="modal"
-      data-bs-target="#NewStudent"
-    >
-      +
-    </button>
-  </body>
+  <!-- Modal nuevo alumno -->
+  <section>
+    <div class="modal fade" id="NewStudent" tabindex="-1" aria-labelledby="NewStudentLabel">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h2 class="modal-title" id="NewStudentLabel">Nuevo Alumno</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <!-- Modal Body -->
+          <form th:action="@{/savestudent}" th:object="${student}" method="POST" class="p-4"
+            enctype="multipart/form-data">
+            <div class="mb-3">
+              <label class="form-label fw-bold">Nombre del Alumno</label>
+              <div class="input-group">
+                <input type="text" name="nombre" th:field="*{name}" class="form-control" required placeholder="Nombre"
+                  aria-label="Nombre" maxlength="50" />
+                <input type="text" name="apellido" th:field="*{surname}" class="form-control" placeholder="Apellido"
+                  aria-label="Apellido" maxlength="50" />
+              </div>
+            </div>
+
+            <!-- Correo del alumno -->
+            <div class="mb-3">
+              <label for="correoAlumno" class="form-label fw-bold">Correo</label>
+              <input type="email" id="correoAlumno" name="correoAlumno" th:field="*{email}" class="form-control"
+                required placeholder="Correo del alumno" />
+            </div>
+
+            <div class="mb-3">
+              <label for="ageStudent" class="form-label fw-bold">Age</label>
+              <input type="number" id="ageStudent" name="ageStudent" th:field="*{age}" class="form-control" required
+                placeholder="Student's age" min="1" max="140" />
+            </div>
+
+            Cursos
+            <div class="mb-3">
+              <label for="course" class="form-label"></label>
+              <select id="course" name="courseId" class="form-select">
+                <option value="" disabled selected>Select a course</option>
+                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}">
+                  Class
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="photoPath" class="form-label fw-bold">Foto del Alumno</label>
+              <input type="file" id="photoPath" name="file" class="form-control" accept="image/*" />
+            </div>
+
+            <!-- Tipo de matrícula -->
+            <div class="mb-3">
+              <label for="MatriculaEdad" class="form-label"><strong>Tipo de Matrícula</strong></label>
+              <select id="MatriculaEdad" name="matricula" class="form-select" required>
+                <option value="" disabled selected>
+                  Seleccione un tipo de matrícula
+                </option>
+                <option value="Tipo1">60 €/mes (2-11 años)</option>
+                <option value="Tipo2">80 €/mes (+12 años)</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-outline-primary">
+              Crear
+            </button>
+          </form>
+          <!-- Modal Footer -->
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Botón flotante para agregar alumno -->
+  <button type="button"
+    class="btn btn-primary btn-lg rounded-circle border-0 position-fixed d-md-none bottom-0 end-0 mb-5 me-3"
+    data-bs-toggle="modal" data-bs-target="#NewStudent">
+    +
+  </button>
+</body>
+
 </html>

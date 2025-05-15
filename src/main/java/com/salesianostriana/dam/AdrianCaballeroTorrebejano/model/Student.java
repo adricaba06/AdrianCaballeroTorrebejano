@@ -27,63 +27,71 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "student")
-public class Student  implements Comparable<Student> {
-	
+public class Student implements Comparable<Student> {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name, surname, email;
 	private int age;
 	private LocalDate registrationDate;
 	private boolean active = true;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "course_id") 
+	@JoinColumn(name = "course_id")
 	private Course course;
-	
-	private String photoPath ;
+
+	private String photoPath;
 
 	@ElementCollection
 	@CollectionTable(name = "student_grades")
 	@MapKeyEnumerated(EnumType.STRING)
 	@Column(name = "grade")
 	private Map<Grade, Double> grades = new HashMap<>();
+	private double averageGrade;
+
 	
-	
-	//helper methods
+	//my own getter and setter for grade
+    public double getGrade(Grade grade) {
+        return grades.getOrDefault(grade, 0.0);
+    }
+
+    public void setGrade(Grade grade, Double value) {
+        grades.put(grade, (value == null) ? 0.0 : value);
+    }
+
+	// helper methods
 
 	public void addToCourse(Course course) {
 		this.course = course;
 		course.getStudentList().add(this);
 	}
-	
+
 	public void removeFromCourse(Course course) {
 		course.getStudentList().remove(this);
-		this.course = null;		
+		this.course = null;
 	}
-	
+
 	public double getAverageGrade() {
 		double summary = 0;
-		if(grades.isEmpty()) {
+		if (grades.isEmpty()) {
 			return 0.0;
 		}
-		
+
 		for (double grade : grades.values()) {
 			summary += grade;
-			
+
 		}
 		return summary / grades.size();
-		
+
 	}
-	
-	//order 
+
+	// order
 	@Override
 	public int compareTo(Student s) {
 		return this.name.compareTo(s.name);
-		
+
 	}
-	
-	
 
 }
