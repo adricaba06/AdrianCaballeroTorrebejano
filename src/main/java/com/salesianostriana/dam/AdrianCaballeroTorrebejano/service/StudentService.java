@@ -57,25 +57,15 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 
 	}
 	
-	/*public double getAverageGrade(Long id) {
-		double summary = 0;
+	public double getAverageGrade(Long id) {
 		Optional<Student> studentO = findById(id);
 		Student student = null;
-		if(studentO != null) {
+		if(studentO.isPresent())
 			student = studentO.get();
-		}
 		
-		if(student.getGrades().isEmpty()) {
-			return 0.0;
-		}
+		return student.getAverageGrade();
 		
-		for (double grade : student.getGrades().values()) {
-			summary += grade;
-			
-		}
-		return summary / student.getGrades().size();
-		
-	}*/
+	}
 	
 	public List<Student> findByNameAndSurname(String name){
 		return sr.findByStudentsNameAndSurname(name);

@@ -49,17 +49,9 @@ public class Student implements Comparable<Student> {
 	@MapKeyEnumerated(EnumType.STRING)
 	@Column(name = "grade")
 	private Map<Grade, Double> grades = new HashMap<>();
-	private double averageGrade;
-
 	
-	//my own getter and setter for grade
-    public double getGrade(Grade grade) {
-        return grades.getOrDefault(grade, 0.0);
-    }
-
-    public void setGrade(Grade grade, Double value) {
-        grades.put(grade, (value == null) ? 0.0 : value);
-    }
+	private double average;
+	
 
 	// helper methods
 

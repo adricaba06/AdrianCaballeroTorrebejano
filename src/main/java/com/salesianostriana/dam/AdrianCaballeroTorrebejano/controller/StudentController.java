@@ -40,17 +40,21 @@ public class StudentController {
 			@RequestParam(name = "nameParam", required = false) String nameParam) {
 
 		model.addAttribute("student", new Student());
-
+		
+		
+		
 		List<Student> students = studentService.findAll();
 		List<Course> courses = courseService.findAll();
 		List<Student> activeStudents = studentService.filterActiveStudents(sortBy);
 		List<Student> searchStudent = studentService.findByNameAndSurname(nameParam);
 		
-		System.out.println(searchStudent);
+		students.stream().forEach((s) -> s.setAverage(studentService.getAverageGrade(s.getId())));
+		
 		model.addAttribute("searchStudent", searchStudent);
 		model.addAttribute("activeStudents", activeStudents);
 		model.addAttribute("students", students);
 		model.addAttribute("courses", courses);
+		
 		return "students";
 
 	}
@@ -136,6 +140,7 @@ public class StudentController {
 
 		model.addAttribute("student", student);
 		model.addAttribute("courses", courses);
+		model.addAttribute("average", studentService.getAverageGrade(id));
 
 		return "student_detail";
 	}
