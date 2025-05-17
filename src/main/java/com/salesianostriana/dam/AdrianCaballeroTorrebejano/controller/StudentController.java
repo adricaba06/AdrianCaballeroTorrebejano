@@ -40,21 +40,19 @@ public class StudentController {
 			@RequestParam(name = "nameParam", required = false) String nameParam) {
 
 		model.addAttribute("student", new Student());
-		
-		
-		
+
 		List<Student> students = studentService.findAll();
 		List<Course> courses = courseService.findAll();
 		List<Student> activeStudents = studentService.filterActiveStudents(sortBy);
 		List<Student> searchStudent = studentService.findByNameAndSurname(nameParam);
-		
+
 		students.stream().forEach((s) -> s.setAverage(studentService.getAverageGrade(s.getId())));
-		
+
 		model.addAttribute("searchStudent", searchStudent);
 		model.addAttribute("activeStudents", activeStudents);
 		model.addAttribute("students", students);
 		model.addAttribute("courses", courses);
-		
+
 		return "students";
 
 	}
@@ -132,12 +130,15 @@ public class StudentController {
 	public String viewStudent(@PathVariable Long id, Model model) {
 		Optional<Student> studentO = studentService.findById(id);
 		Student student = null;
+		int numOfStudents;
+		List<Course> courses = courseService.findAll();
+
+		numOfStudents = courses.size();
 		if (studentO.isPresent()) {
 			student = studentO.get();
 		}
 
-		List<Course> courses = courseService.findAll();
-
+		model.addAttribute("numS",numOfStudents);
 		model.addAttribute("student", student);
 		model.addAttribute("courses", courses);
 		model.addAttribute("average", studentService.getAverageGrade(id));
@@ -161,11 +162,13 @@ public class StudentController {
 
 	}
 
-	@PostMapping("saveStudentsGrades")
+	@PostMapping("/saveStudentsGrades")
 	public String saveStudentsGrades(@ModelAttribute("student") Student student) {
 		studentService.save(student);
 		return "redirect:/course/" + student.getCourse().getId();
 
 	}
+	
+	
 
 }

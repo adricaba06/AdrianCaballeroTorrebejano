@@ -28,11 +28,7 @@
 
           <!-- Modal Body -->
           <div class="modal-body">
-            <form
-              th:action="@{/savestudent}"
-              method="post"
-              th:object="${course}"
-            >
+            <form th:action="@{/newcourse}" method="post" th:object="${course}">
               <input type="hidden" th:field="*{id}" />
 
               <!-- Información del curso -->
@@ -178,7 +174,7 @@
                   id="capacidadClase"
                   class="form-control"
                   placeholder="Ingrese la capacidad de la clase"
-                  min="1"
+                  th:min="*{numOfStudents}"
                   required
                   aria-label="Capacidad de la clase"
                 />
@@ -374,19 +370,23 @@
               <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
                   <i class="bi bi-people-fill me-2 fs-4"></i>
-                  <h4 class="mb-0 fs-5" th:text="${course.numOfStudents}">
-                    15
-                  </h4>
+                  <div class="d-flex flex-row">
+                    <h4 class="mb-0 fs-5" th:text="${course.numOfStudents}">
+                      15
+                    </h4>
+                    <h4>/</h4>
+                    <h4 class="mb-0 fs-5" th:text="${course.maxCapacity}"></h4>
+                  </div>
                 </div>
                 <div class="d-flex gap-3">
-                  <!-- Ícono de editar que abre el modal -->
+                  <!-- icono de editar que abre el modal -->
                   <i
                     class="bi bi-pencil-square fs-5 cursor-pointer"
                     data-bs-toggle="modal"
                     data-bs-target="#EditCourse"
                     id="editarCurso1"
                   ></i>
-                  <!-- Ícono de eliminar -->
+                  <!-- icono de eliminar -->
                   <button
                     type="button"
                     class="bg-transparent border-0"
@@ -394,7 +394,7 @@
                     data-bs-target="#archiveModal"
                   >
                     <i
-                      class="bi bi-trash-fill fs-5 text-secondary cursor-pointer"
+                      class="bi bi-archive-fill fs-5 text-secondary cursor-pointer"
                     ></i>
                   </button>
                 </div>
@@ -441,7 +441,7 @@
               <div class="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-outline-secondary"
+                  class="btn btn-outline-primary"
                   data-bs-dismiss="modal"
                 >
                   Cancelar
@@ -539,19 +539,17 @@
 
             <div class="mt-3">
               <p class="fw-bold">Estadística de notas</p>
-              <div class="progress fw-bold fs-6" style="height: 40px">
+              <div class="progress w-100 fw-bold fs-6" style="height: 40px">
                 <div
                   class="progress-bar bg-success progress-bar-striped progress-bar-animated"
-                  style="width: 60%"
-                >
-                  Aprobados
-                </div>
+                  th:style="|width: ${passingS}%|"
+                  th:text="|${passingS}% Aprobados|"
+                ></div>
                 <div
                   class="progress-bar bg-secondary progress-bar-striped progress-bar-animated"
-                  style="width: 40%"
-                >
-                  Suspensos
-                </div>
+                  th:style="|width: ${failingS}%|"
+                  th:text="|${failingS}% Suspensos|"
+                ></div>
               </div>
             </div>
           </div>
@@ -567,6 +565,40 @@
             <!--Envoltorio para overflow-->
             <div class="overflow-auto">
               <h2>Lista y Notas</h2>
+              <div>
+                <div class="dropdown mb-3">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                  >
+                    Filtrar...
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        th:href="@{/course/{id}(id=${course.id}, filter='max')}"
+                        >Alumno/a con mejor nota</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        th:href="@{/course/{id}(id=${course.id}, filter='min')}"
+                        >Alumno con peor nota</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        th:href="@{/course/{id}(id=${course.id}, filter='all')}"
+                        >Todos</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
               <div class="table-responsive">
                 <table class="table table-borderless table-hover table-light">
                   <thead>
@@ -585,9 +617,7 @@
                   </thead>
                   <tbody>
                     <!-- Fila 1 -->
-                    <tr
-                      th:each="student : ${students}"
-                    >
+                    <tr th:each="student : ${topOrLowestStudent}">
                       <td th:text="${student.name}">2</td>
                       <td th:text="${student.surname}">2</td>
                       <td th:text="${student.email}">2</td>
@@ -599,15 +629,14 @@
                       <td>
                         <div class="progress" style="height: 20px">
                           <div
-                            class="progress-bar bg-success"
-                            style="width: 72%"
+                            th:class="${student.average} >= 5 ? 'progress-bar progress-bar-striped progress-bar-animated bg-success' : 'progress-bar progress-bar-striped progress-bar-animated bg-secondary'"
+                            th:style="|width: ${(student.average * 10)}%|"
+                            th:text="|${#numbers.formatDecimal(student.average, 1, 1)} (${#numbers.formatDecimal(student.average * 10, 0, 0)}%)|"
                             role="progressbar"
-                            aria-valuenow="72"
+                            aria-valuenow="${student.average * 10}"
                             aria-valuemin="0"
                             aria-valuemax="100"
-                          >
-                            7.2
-                          </div>
+                          ></div>
                         </div>
                       </td>
                       <td>

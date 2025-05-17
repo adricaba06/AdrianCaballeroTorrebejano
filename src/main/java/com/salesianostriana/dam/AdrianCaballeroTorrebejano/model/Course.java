@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,7 +41,7 @@ public class Course {
 	private String teacher;
 
 	private int maxCapacity;
-	private int numOfStudents = 0;
+	private boolean isFull;
 
 	@Enumerated(EnumType.STRING)
 	private Level level;
@@ -59,12 +60,24 @@ public class Course {
 	@EqualsAndHashCode.Exclude
 	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
 	private List<Student> studentList;
-	
-	
-	
 
-	
-	
-	
+	// SE QUE PODRÍA HABER PUESTO VARIAS JUNTAS YA AHORRAR ESPACIO, PERO LUISMI DIJO
+	// QUE ERA MEJOR ASI
+
+	@Transient // https://stackoverflow.com/questions/2154622/why-does-jpa-have-a-transient-annotation
+	public int numOfStudents() { // AL SER UN DATO TAN VARIABLE NO ME INTERSA TENERLO EN LA BASE DE DATOS ADEMÁS
+									// TENERLO DE ESTA FORMA ME AYUDA A ASIGNARLO MEJOR Y NO TENER UN CONTADOR CON
+									// TANTOS ALUMNOS METIDOS A LA FUERZA
+		int num;
+		num = (int) studentList.stream().filter((s) -> s.isActive()).count(); // .count DEVUELVE UN LONG PERO NO ME
+																				// INTERESA QUE SEA UN LONG
+		return num;
+
+	}
+
+	@Transient
+	public boolean isFull() {
+		return numOfStudents() >= maxCapacity;
+	}
 
 }

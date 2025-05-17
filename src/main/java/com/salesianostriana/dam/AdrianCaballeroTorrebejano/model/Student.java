@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKeyEnumerated;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -49,15 +50,18 @@ public class Student implements Comparable<Student> {
 	@MapKeyEnumerated(EnumType.STRING)
 	@Column(name = "grade")
 	private Map<Grade, Double> grades = new HashMap<>();
-	
+
 	private double average;
-	
+
+	@OneToOne
+	private Fee fee;
 
 	// helper methods
 
 	public void addToCourse(Course course) {
 		this.course = course;
 		course.getStudentList().add(this);
+
 	}
 
 	public void removeFromCourse(Course course) {
