@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -34,10 +35,13 @@ public class Student implements Comparable<Student> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String name, surname, email;
+	private String name, surname, email, alternativeText;
 	private int age;
 	private LocalDate registrationDate;
+	
 	private boolean active = true;
+	@Column(name = "has_a_sibling")
+	private boolean hasASibling;
 
 	@ManyToOne
 	@JoinColumn(name = "course_id")
@@ -52,11 +56,13 @@ public class Student implements Comparable<Student> {
 	private Map<Grade, Double> grades = new HashMap<>();
 
 	private double average;
+	
+	
 
-	@OneToOne
+	@OneToOne(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Fee fee;
 
-	// helper methods
+	// helper methods-----------------------------
 
 	public void addToCourse(Course course) {
 		this.course = course;
@@ -81,6 +87,13 @@ public class Student implements Comparable<Student> {
 		}
 		return summary / grades.size();
 
+	}
+	
+	//-----------------------------------------------
+	
+	public void addFee(Fee fee) {
+	    this.fee = fee;
+	    fee.setStudent(this);
 	}
 
 	// order

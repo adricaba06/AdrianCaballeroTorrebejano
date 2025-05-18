@@ -1,5 +1,7 @@
 package com.salesianostriana.dam.AdrianCaballeroTorrebejano.service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -135,4 +137,8 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 
 	}
 
+	public Long getDaysUntilCourseStart(LocalDate isncriptionDate, LocalDate startDate) {
+		return ChronoUnit.DAYS.between(isncriptionDate, startDate);
+		
+	}
 }

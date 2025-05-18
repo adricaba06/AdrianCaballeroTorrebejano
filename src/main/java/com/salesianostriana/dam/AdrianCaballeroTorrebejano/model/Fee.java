@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,11 +25,18 @@ public class Fee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private boolean paid;
-    private double amount;
+    private double basePrice = 67;
+    private double siblingDiscount;
+    private double earlyRegistrationDiscount;
     
-    @ManyToOne
+    private double finalPrice;
+    
+    
+    @OneToOne
     private Student student;
 
+    //helper methods
+   
+    
+    
 }

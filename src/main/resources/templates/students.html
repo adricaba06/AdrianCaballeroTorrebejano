@@ -417,24 +417,40 @@
                 />
               </div>
 
-              <!-- Tipo de matrícula -->
+              <!-- Tipo de cuota -->
               <div class="mb-3">
                 <label for="MatriculaEdad" class="form-label"
-                  ><strong>Tipo de Matrícula</strong></label
+                  ><strong>Tipo de Cuota</strong></label
                 >
-                <select
-                  id="MatriculaEdad"
-                  name="matricula"
-                  class="form-select"
-                  required
-                >
-                  <option value="" disabled selected>
-                    Seleccione un tipo de matrícula
-                  </option>
-                  <option value="Tipo1">60 €/mes (2-11 años)</option>
-                  <option value="Tipo2">80 €/mes (+12 años)</option>
-                </select>
+
+                <div class="mb-3 form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="hermano"
+                    name="tieneHermano"
+                    th:field="*{hasASibling}"
+                  />
+                  <label class="form-check-label" for="hermano"
+                    >Tiene un hermano/a en la academia</label
+                  >
+                </div>
               </div>
+
+              <div class="mb-3">
+                <label for="textoAlternativo" class="form-label">
+                  Añade texto alternativo
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="textoAlternativo"
+                  name="textoAlternativo"
+                  th:field="*{alternativeText}"
+                  placeholder="Por ejemplo: el alumno tiene un hermano ya inscrito"
+                />
+              </div>
+
               <button type="submit" class="btn btn-outline-primary">
                 Crear
               </button>

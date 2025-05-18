@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Course;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Fee;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Grade;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.CourseService;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.FeeService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.StudentService;
 
 @Controller
@@ -34,6 +36,8 @@ public class StudentController {
 	private StudentService studentService;
 	@Autowired
 	private CourseService courseService;
+	@Autowired
+	FeeService feeService;
 
 	@GetMapping("/students")
 	public String showStudents(Model model, @RequestParam(name = "sort", required = false) String sortBy,
@@ -52,6 +56,7 @@ public class StudentController {
 		model.addAttribute("activeStudents", activeStudents);
 		model.addAttribute("students", students);
 		model.addAttribute("courses", courses);
+		model.addAttribute("fee", new Fee());
 
 		return "students";
 
@@ -68,6 +73,8 @@ public class StudentController {
 		String absolutePath;
 		Path imageDirectory;
 		Path completePath;
+		Long daysUntilCourseStarts = 0L;
+		Fee fee = new Fee();
 
 		if (student.getId() == null) {
 			student.setRegistrationDate(today);
@@ -121,6 +128,27 @@ public class StudentController {
 			}
 		}
 
+		daysUntilCourseStarts = studentService.getDaysUntilCourseStart(student.getRegistrationDate(),
+				student.getCourse().getStartDate());
+
+		if (fee == null) {
+
+			if (student.getCourse() != null && student.getCourse().getStartDate() != null
+					&& student.getRegistrationDate() != null) {
+				fee = feeService.generateConvenientFee(student, daysUntilCourseStarts);
+				student.addFee(fee);
+			}
+		} else if (student.getCourse() != null && student.getCourse().getStartDate() != null
+				&& student.getRegistrationDate() != null) {
+
+			Fee updatedFee = feeService.generateConvenientFee(student, daysUntilCourseStarts);
+
+			fee.setBasePrice(updatedFee.getBasePrice());
+			fee.setEarlyRegistrationDiscount(updatedFee.getEarlyRegistrationDiscount());
+			fee.setFinalPrice(updatedFee.getFinalPrice());
+			fee.setSiblingDiscount(updatedFee.getSiblingDiscount());
+		}
+
 		studentService.save(student);
 		return "redirect:/students";
 
@@ -138,7 +166,7 @@ public class StudentController {
 			student = studentO.get();
 		}
 
-		model.addAttribute("numS",numOfStudents);
+		model.addAttribute("numS", numOfStudents);
 		model.addAttribute("student", student);
 		model.addAttribute("courses", courses);
 		model.addAttribute("average", studentService.getAverageGrade(id));
@@ -168,7 +196,5 @@ public class StudentController {
 		return "redirect:/course/" + student.getCourse().getId();
 
 	}
-	
-	
 
 }
