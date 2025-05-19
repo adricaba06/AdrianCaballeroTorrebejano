@@ -3,6 +3,7 @@ package com.salesianostriana.dam.AdrianCaballeroTorrebejano.model;
 import java.time.LocalDate;
 import java.util.Map;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,8 +33,9 @@ public class Fee {
     private double finalPrice;
     
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Student student;
+
 
     //helper methods
    

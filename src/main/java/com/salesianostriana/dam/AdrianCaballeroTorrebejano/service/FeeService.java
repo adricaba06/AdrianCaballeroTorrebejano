@@ -34,6 +34,7 @@ public class FeeService extends BaseServiceImpl<Fee, Long, FeeRepository> {
 	    fee.setEarlyRegistrationDiscount(earlyDiscount);
 
 	    fee.setFinalPrice(calculateFinalPrice(fee));
+	    
 
 	    return fee;
 	}

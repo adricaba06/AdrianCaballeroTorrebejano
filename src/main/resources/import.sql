@@ -123,3 +123,18 @@ INSERT INTO fee (base_price, sibling_discount, early_registration_discount, fina
 INSERT INTO fee (base_price, sibling_discount, early_registration_discount, final_price, student_id) VALUES (60, 15, 5, 32.75, 13);
 INSERT INTO fee (base_price, sibling_discount, early_registration_discount, final_price, student_id) VALUES (60, 0, 0, 48.45, 14);
 
+UPDATE student SET fee_id = 1 WHERE ID = 1; 
+UPDATE student SET fee_id = 2 WHERE ID = 2; 
+UPDATE student SET fee_id = 3 WHERE ID = 3; 
+UPDATE student SET fee_id = 4 WHERE ID = 4; 
+UPDATE student SET fee_id = 5 WHERE ID = 5; 
+UPDATE student SET fee_id = 6 WHERE ID = 6; 
+UPDATE student SET fee_id = 7 WHERE ID = 7; 
+UPDATE student SET fee_id = 8 WHERE ID = 8; 
+UPDATE student SET fee_id = 9 WHERE ID = 9; 
+UPDATE student SET fee_id = 10 WHERE ID = 10; 
+UPDATE student SET fee_id = 11 WHERE ID = 11; 
+UPDATE student SET fee_id = 12 WHERE ID = 12; 
+UPDATE student SET fee_id = 13 WHERE ID = 13; 
+UPDATE student SET fee_id = 14 WHERE ID = 14; 
+

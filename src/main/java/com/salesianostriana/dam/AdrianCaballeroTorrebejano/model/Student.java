@@ -23,6 +23,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString.Exclude;
 
 @Data
 @NoArgsConstructor
@@ -57,10 +58,10 @@ public class Student implements Comparable<Student> {
 
 	private double average;
 	
-	
-
-	@OneToOne(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne
+	@Exclude
 	private Fee fee;
+
 
 	// helper methods-----------------------------
 

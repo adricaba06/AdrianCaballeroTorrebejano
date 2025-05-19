@@ -74,7 +74,7 @@ public class StudentController {
 		Path imageDirectory;
 		Path completePath;
 		Long daysUntilCourseStarts = 0L;
-		Fee fee = new Fee();
+		Fee fee = student.getFee();
 
 		if (student.getId() == null) {
 			student.setRegistrationDate(today);
@@ -131,22 +131,16 @@ public class StudentController {
 		daysUntilCourseStarts = studentService.getDaysUntilCourseStart(student.getRegistrationDate(),
 				student.getCourse().getStartDate());
 
-		if (fee == null) {
-
-			if (student.getCourse() != null && student.getCourse().getStartDate() != null
-					&& student.getRegistrationDate() != null) {
+		if (student != null && student.getCourse() != null && student.getCourse().getStartDate() != null
+				&& student.getRegistrationDate() != null) {
+			if (fee == null) {
 				fee = feeService.generateConvenientFee(student, daysUntilCourseStarts);
 				student.addFee(fee);
+			} else {
+				fee = feeService.generateConvenientFee(student, daysUntilCourseStarts);
+				fee.setId(student.getFee().getId());
+				student.setFee(fee);
 			}
-		} else if (student.getCourse() != null && student.getCourse().getStartDate() != null
-				&& student.getRegistrationDate() != null) {
-
-			Fee updatedFee = feeService.generateConvenientFee(student, daysUntilCourseStarts);
-
-			fee.setBasePrice(updatedFee.getBasePrice());
-			fee.setEarlyRegistrationDiscount(updatedFee.getEarlyRegistrationDiscount());
-			fee.setFinalPrice(updatedFee.getFinalPrice());
-			fee.setSiblingDiscount(updatedFee.getSiblingDiscount());
 		}
 
 		studentService.save(student);
