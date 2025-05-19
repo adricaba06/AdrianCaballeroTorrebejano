@@ -141,4 +141,19 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 		return ChronoUnit.DAYS.between(isncriptionDate, startDate);
 		
 	}
+	
+	public void  validateStudent(Student student, LocalDate registrationDate) {
+		LocalDate today = LocalDate.now();
+		
+		if (student.getId() == null) {
+			student.setRegistrationDate(today);
+		} else {
+			if (registrationDate != null) {
+				student.setRegistrationDate(registrationDate);
+			} else {
+				student.setRegistrationDate(today);
+			}
+		}
+	}
+	
 }
