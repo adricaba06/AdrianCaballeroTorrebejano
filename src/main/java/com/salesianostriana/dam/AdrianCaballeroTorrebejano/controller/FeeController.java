@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Fee;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
@@ -25,8 +26,10 @@ public class FeeController {
 	StudentService studentService;
 
 	@GetMapping("/reports")
-	public String showReports(Model model, @RequestParam(name = "sort", required = false) String sortBy){
-		List<Student> activeStudents = studentService.filterActiveStudents(sortBy);
+	public String showReports(Model model, @RequestParam(name = "sort", required = false) String sortBy, @RequestParam boolean complete){
+		List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
+		
+		
 		model.addAttribute("activeStudents", activeStudents);
 		model.addAttribute("fee", new Fee());
 		model.addAttribute("total", feeService.calculateTotalEstimated(activeStudents));
@@ -41,3 +44,5 @@ public class FeeController {
 	}
 
 }
+
+

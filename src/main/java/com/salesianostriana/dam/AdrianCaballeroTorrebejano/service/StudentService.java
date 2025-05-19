@@ -1,5 +1,9 @@
 package com.salesianostriana.dam.AdrianCaballeroTorrebejano.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -11,9 +15,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.base.service.BaseService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.base.service.BaseServiceImpl;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Grade;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.repository.StudentRepository;
 
@@ -30,8 +36,13 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 				.collect(Collectors.toList());
 	}
 
-	public List<Student> filterActiveStudents(String sortBy) {
-		List<Student> activeStudents = findAll().stream().filter((s) -> s.isActive()).collect(Collectors.toList());
+	public List<Student> filterActiveStudents(String sortBy, boolean complete) {
+		List<Student> activeStudents;
+		if (complete) {
+			activeStudents = findAll().stream().filter((s) -> s.isActive()).collect(Collectors.toList());
+		} else {
+			activeStudents = findAll().stream().limit(8).filter((s) -> s.isActive()).collect(Collectors.toList());
+		}
 
 		if (sortBy == null) {
 			return activeStudents;
@@ -52,8 +63,7 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 
 		case "alfabe":
 			Collections.sort(activeStudents);
-
-		case "max":
+			break;
 
 		default:
 			Collections.sort(activeStudents);
@@ -123,7 +133,7 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 	public List<Student> filterMaxOrMinByParam(Long id, String maxOrMin) {
 		List<Student> filteredStudent = null;
 		if (maxOrMin == null) {
-		    maxOrMin = "all";
+			maxOrMin = "all";
 		}
 		filteredStudent = switch (maxOrMin) {
 		case "max" -> getStudentWithHighestGrade(id);
@@ -139,12 +149,12 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 
 	public Long getDaysUntilCourseStart(LocalDate isncriptionDate, LocalDate startDate) {
 		return ChronoUnit.DAYS.between(isncriptionDate, startDate);
-		
+
 	}
-	
-	public void  validateStudent(Student student, LocalDate registrationDate) {
+
+	public void validateStudent(Student student, LocalDate registrationDate) {
 		LocalDate today = LocalDate.now();
-		
+
 		if (student.getId() == null) {
 			student.setRegistrationDate(today);
 		} else {
@@ -154,6 +164,45 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 				student.setRegistrationDate(today);
 			}
 		}
+
+		if (student.getId() == null) {
+			student.getGrades().put(Grade.SPEAKING, 0.0);
+			student.getGrades().put(Grade.LISTENING, 0.0);
+			student.getGrades().put(Grade.READING, 0.0);
+			student.getGrades().put(Grade.UOE, 0.0);
+			student.getGrades().put(Grade.WRITING, 0.0);
+
+		}
 	}
-	
+
+	public void addProfilePicture(MultipartFile pic, String existingPhoto, Student student) {
+		byte[] bytesImg;
+		String absolutePath;
+		Path imageDirectory;
+		Path completePath;
+
+		if (!pic.isEmpty()) { // https://youtu.be/df67kmObW7M?si=d3cDkO18vU_Ni7wz
+
+			imageDirectory = Paths.get("src//main//resources//static/pictures"); // relative path
+			absolutePath = imageDirectory.toFile().getAbsolutePath();
+
+			// Now i need to know the bytes of the picture
+			try {
+				bytesImg = pic.getBytes();
+				completePath = Paths.get(absolutePath + "//" + pic.getOriginalFilename()); // specific path for the
+																							// field
+				Files.write(completePath, bytesImg); // this saves the files on the folder
+				student.setPhotoPath(pic.getOriginalFilename().replaceAll("^/+", ""));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		} else {
+			if (pic.isEmpty() || pic == null) {
+				student.setPhotoPath("defaultPicture.jpg");
+			} else {
+				student.setPhotoPath("existingPhoto");
+			}
+		}
+	}
 }

@@ -1,13 +1,7 @@
 package com.salesianostriana.dam.AdrianCaballeroTorrebejano.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,14 +35,19 @@ public class StudentController {
 
 	@GetMapping("/students")
 	public String showStudents(Model model, @RequestParam(name = "sort", required = false) String sortBy,
-			@RequestParam(name = "nameParam", required = false) String nameParam) {
+			@RequestParam(required = false) String nameParam,
+			@RequestParam(required = false) boolean complete) {
 
+
+		model.addAttribute("complete", complete);
 		model.addAttribute("student", new Student());
 
 		List<Student> students = studentService.findAll();
 		List<Course> courses = courseService.findAll();
-		List<Student> activeStudents = studentService.filterActiveStudents(sortBy);
-		List<Student> searchStudent = studentService.findByNameAndSurname(nameParam);
+		List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
+		List<Student> searchStudent = nameParam != null && !nameParam.isEmpty()
+				? studentService.findByNameAndSurname(nameParam)
+				: new ArrayList<>();
 
 		students.stream().forEach((s) -> s.setAverage(studentService.getAverageGrade(s.getId())));
 
@@ -69,22 +68,10 @@ public class StudentController {
 			@RequestParam(value = "resgDate", required = false) LocalDate registrationDate) {
 
 		LocalDate today = LocalDate.now();
-		byte[] bytesImg;
-		String absolutePath;
-		Path imageDirectory;
-		Path completePath;
 		Long daysUntilCourseStarts = 0L;
 		Fee fee = student.getFee();
 
-		if (student.getId() == null) {
-			student.setRegistrationDate(today);
-		} else {
-			if (registrationDate != null) {
-				student.setRegistrationDate(registrationDate);
-			} else {
-				student.setRegistrationDate(today);
-			}
-		}
+		studentService.validateStudent(student, registrationDate);
 
 		if (courseId != null) {
 			Optional<Course> courseO = courseService.findById(courseId);
@@ -95,38 +82,7 @@ public class StudentController {
 			}
 		}
 
-		if (student.getId() == null) {
-			student.getGrades().put(Grade.SPEAKING, 0.0);
-			student.getGrades().put(Grade.LISTENING, 0.0);
-			student.getGrades().put(Grade.READING, 0.0);
-			student.getGrades().put(Grade.UOE, 0.0);
-			student.getGrades().put(Grade.WRITING, 0.0);
-
-		}
-
-		if (!pic.isEmpty()) { // https://youtu.be/df67kmObW7M?si=d3cDkO18vU_Ni7wz
-
-			imageDirectory = Paths.get("src//main//resources//static/pictures"); // relative path
-			absolutePath = imageDirectory.toFile().getAbsolutePath();
-
-			// Now i need to know the bytes of the picture
-			try {
-				bytesImg = pic.getBytes();
-				completePath = Paths.get(absolutePath + "//" + pic.getOriginalFilename()); // specific path for the
-																							// field
-				Files.write(completePath, bytesImg); // this saves the files on the folder
-				student.setPhotoPath(pic.getOriginalFilename().replaceAll("^/+", ""));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		} else {
-			if (pic.isEmpty() || pic == null) {
-				student.setPhotoPath("defaultPicture.jpg");
-			} else {
-				student.setPhotoPath("existingPhoto");
-			}
-		}
+		studentService.addProfilePicture(pic, existingPhoto, student);
 
 		daysUntilCourseStarts = studentService.getDaysUntilCourseStart(student.getRegistrationDate(),
 				student.getCourse().getStartDate());
@@ -143,6 +99,7 @@ public class StudentController {
 			}
 		}
 
+		feeService.save(fee);
 		studentService.save(student);
 		return "redirect:/students";
 
