@@ -1,191 +1,370 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head th:replace="fragments/commonHead :: commonHead">
+    <title>Reports</title>
+    <meta name="description" content="Calculos y estadisticas" />
+  </head>
 
-<head th:replace="fragments/commonHead :: commonHead">
-  <title>Reports</title>
-  <meta name="description" content="Calculos y estadisticas" />
-</head>
+  <body>
+    <section>
+      <!-- Offcanvas solo visible en móvil -->
+      <div th:replace="fragments/offcanva :: offcanva"></div>
+    </section>
 
-<body>
-  <section>
-    <!-- Offcanvas solo visible en móvil -->
-    <div th:replace="fragments/offcanva :: offcanva"></div>
-  </section>
-
-  <section class="container-fluid bg-light border-bottom py-2">
-    <div class="d-flex justify-content-between align-items-center px-3">
-      <button class="btn btn-outline-primary d-md-none" type="button" data-bs-toggle="offcanvas"
-        data-bs-target="#MyOffcanva">
-        <i class="bi bi-list fs-4"></i>
-      </button>
-      <h1 class="m-0 fs-3 text-primary">
-        <a th:href="@{/dashboard}" class="text-primary text-decoration-none">ACADEMIX</a>
-      </h1>
-      <img th:src="@{/pictures/logo/2-transparent.png}" alt="Logo" width="60" class="img-fluid" />
-    </div>
-  </section>
-
-  <div class="d-flex flex-column flex-md-row">
-    <aside class="d-none d-md-flex flex-column bg-light border-end text-primary p-3 vh-100">
-      <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
-      <div class="dropdown mb-3">
-        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
-          Ordenar Por
+    <section class="container-fluid bg-light border-bottom py-2">
+      <div class="d-flex justify-content-between align-items-center px-3">
+        <button
+          class="btn btn-outline-primary d-md-none"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#MyOffcanva"
+        >
+          <i class="bi bi-list fs-4"></i>
         </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item"
-              th:href="@{/reports(page=${page}, complete=${complete}, sort='alfabe')}">(A-Z)</a></li>
-          <li><a class="dropdown-item"
-              th:href="@{/reports(page=${page}, complete=${complete}, sort='alfabeDes')}">(Z-A)</a></li>
-          <li><a class="dropdown-item" th:href="@{/reports(page=${page}, complete=${complete}, sort='grades')}">Ordenar
-              por nota (mayor a menor) <i class="bi bi-arrow-up"></i></a></li>
-          <li><a class="dropdown-item" th:href="@{/reports(page=${page}, complete=${complete}, sort='date')}">Ordenar
-              por fecha de registro <i class="bi bi-arrow-down"></i></a></li>
-        </ul>
+        <h1 class="m-0 fs-3 text-primary">
+          <a th:href="@{/dashboard}" class="text-primary text-decoration-none"
+            >ACADEMIX</a
+          >
+        </h1>
+        <img
+          th:src="@{/pictures/logo/2-transparent.png}"
+          alt="Logo"
+          width="60"
+          class="img-fluid"
+        />
       </div>
-    </aside>
+    </section>
 
-    <main class="container-fluid flex-fill">
-      <div class="container mt-4">
-        <div class="d-flex align-items-center mb-3">
-          <h2 class="text-primary">Ingresos Estimados</h2>
-          <button type="button" class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
-            data-bs-toggle="collapse" data-bs-target="#ingresosEstimados">
-            <i class="bi bi-caret-down fs-4"></i>
+    <div class="d-flex flex-column flex-md-row">
+      <aside
+        class="d-none d-md-flex flex-column bg-light border-end text-primary p-3 vh-100"
+      >
+        <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
+        <div class="dropdown mb-3">
+          <button
+            type="button"
+            class="btn btn-outline-primary dropdown-toggle"
+            data-bs-toggle="dropdown"
+          >
+            Ordenar Por
           </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a
+                class="dropdown-item"
+                th:href="@{/reports(page=${page}, complete=${complete}, sort='alfabe')}"
+                >(A-Z)</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                th:href="@{/reports(page=${page}, complete=${complete}, sort='alfabeDes')}"
+                >(Z-A)</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                th:href="@{/reports(page=${page}, complete=${complete}, sort='grades')}"
+                >Ordenar por nota (mayor a menor) <i class="bi bi-arrow-up"></i
+              ></a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                th:href="@{/reports(page=${page}, complete=${complete}, sort='date')}"
+                >Ordenar por fecha de registro <i class="bi bi-arrow-down"></i
+              ></a>
+            </li>
+          </ul>
         </div>
+      </aside>
 
-        <div id="ingresosEstimados" class="collapse show">
-          <div class="input-group mb-3 ms-3">
-            <form th:action="@{/reports}" method="get" class="input-group mb-3">
-              <input type="text" id="search" name="nameParam" class="form-control border-start-0"
-                placeholder="Buscar alumno..." />
-              <button type="submit" class="input-group-text">
-                <i class="bi bi-search ms-2"></i>
-              </button>
-            </form>
-          </div>
-          <div class="bg-light table-responsive p-4 rounded-3">
-            <table class="table table-hover table-light">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Apellido</th>
-                  <th>Cantidad/mes</th>
-                  <th>Descuento por hermano</th>
-                  <th>Descuento por Antelación</th>
-                  <th>Curso</th>
-                  <th>Precio Total a Pagar</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="student : ${searchStudent.isEmpty() ? activeStudents : searchStudent}">
-                  <td th:text="${student.name}">John</td>
-                  <td th:text="${student.surname}">Doe</td>
-                  <td th:text="${student.fee != null ? student.fee.basePrice + ' €' : 'Sin cuota'}"></td>
-                  <td
-                    th:text="${student.hasASibling and student.fee != null ? student.fee.siblingDiscount + ' %' : 'No tiene hermano/a'}">
-                  </td>
-                  <td th:text="${student.fee != null ? student.fee.earlyRegistrationDiscount + ' %' : '0 %'}"></td>
-                  <td th:text="${student.course.name}">Curso 1</td>
-                  <td th:text="${student.fee != null ? student.fee.finalPrice + ' €' : '---'}"></td>
-                </tr>
-              </tbody>
-            </table>
-            <a th:href="@{/reports(complete=${complete} ? false : true)}" class="btn btn-outline-primary mt-3 w-100"
-              type="button" th:text="${complete} ? 'Mostrar menos' : 'Mostrar más'">
-            </a>
-            <h2 th:text="'Total Estimado: ' + ${#numbers.formatDecimal(total, 1, 'COMMA', 2, 'POINT')} + ' €'"></h2>
-          </div>
-        </div>
-      </div>
-
-      <!-- Estadística -->
-      <div class="container mt-4">
-        <div class="d-flex align-items-center mb-3">
-          <h2 class="text-primary">Estadísticas</h2>
-          <button type="button" class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
-            data-bs-toggle="collapse" data-bs-target="#estadisticas">
-            <i class="bi bi-caret-down fs-4"></i>
-          </button>
-        </div>
-
-        <div id="estadisticas" class="collapse show">
-          <div class="d-flex flex-column flex-md-row gap-3">
-            <!-- Primer bloque -->
-            <div class="bg-light p-4 rounded-3 flex-grow-1">
-              <label for="cursoFilterOcupacion" class="form-label">Ocupación</label>
-              <select class="form-select" id="cursoFilterOcupacion" name="courseId">
-                <!-- Mostrar mensaje si no hay cursos disponibles -->
-                <option th:if="${activeCourse == null or #lists.isEmpty(activeCourse)}" th:value="${course.id}" disabled>
-                  No hay cursos creados
-                </option>
-
-                <!-- Iterar sobre activeCourse si hay cursos disponibles -->
-                <option th:each="course : ${activeCourse}" th:value="${course.id}" th:text="${course.name}"></option>
-              </select>
-
-              <div class="progress fw-bold fs-6 mt-3" style="height: 40px">
-                <div class="progress-bar progress-bar-striped bg-primary progress-bar-animated" style="width: 70%">
-                  Curso 60% completado
-                </div>
-              </div>
-            </div>
-
-
-            <!-- Segundo bloque -->
-            <div class="bg-light p-4 rounded-3 flex-grow-1">
-              <label for="cursoFilterNota" class="form-label">Nota media de curso</label>
-              <select class="form-select" id="cursoFilterNota">
-                <option value="all">Todos los cursos</option>
-                <option value="curso1">Curso 1</option>
-                <option value="curso2">Curso 2</option>
-                <option value="curso3">Curso 3</option>
-              </select>
-              <div class="progress fw-bold fs-6 mt-3" style="height: 40px">
-                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width: 84%">
-                  Nota media: 8.4
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-
-      <!-- Precios -->
-
-      <div class="container mt-4">
-        <div class="d-flex align-items-center mb-3">
-          <h2 class="text-primary">PRECIO DE CUOTA</h2>
-          <button type="button" class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
-            data-bs-toggle="collapse" data-bs-target="#precios">
-            <i class="bi bi-caret-down fs-4"></i>
-          </button>
-        </div>
-
-        <div id="precios" class="collapse show">
-          <div class="bg-light p-4 rounded-3">
-            <div class="mb-3">
-              <label for="establecerPrecio1" class="form-label">Primer tipo de cuota</label>
-              <input type="number" class="form-control form-control-sm" placeholder="60 € / mes" id="establecerPrecio1"
-                min="0" />
-            </div>
-
-            <div class="mb-3">
-              <label for="establecerPrecio2" class="form-label">Segundo tipo de cuota</label>
-              <input type="number" class="form-control form-control-sm" placeholder="60 € / mes" id="establecerPrecio2"
-                min="0" />
-            </div>
-            <button type="button" class="btn btn-outline-primary">
-              Guardar
+      <main class="container-fluid flex-fill overflow-auto vh-100">
+        <div class="container mt-4">
+          <div class="d-flex align-items-center mb-3">
+            <h2 class="text-primary">Ingresos Estimados</h2>
+            <button
+              type="button"
+              class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
+              data-bs-toggle="collapse"
+              data-bs-target="#ingresosEstimados"
+            >
+              <i class="bi bi-caret-down fs-4"></i>
             </button>
           </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</body>
 
+          <div id="ingresosEstimados" class="collapse show">
+            <div class="input-group mb-3 ms-3">
+              <form
+                th:action="@{/reports}"
+                method="get"
+                class="input-group mb-3"
+              >
+                <input
+                  type="text"
+                  id="search"
+                  name="nameParam"
+                  class="form-control border-start-0"
+                  placeholder="Buscar alumno..."
+                />
+                <button type="submit" class="input-group-text">
+                  <i class="bi bi-search ms-2"></i>
+                </button>
+              </form>
+            </div>
+            <div class="bg-light table-responsive p-4 rounded-3">
+              <table class="table table-hover table-light">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Cantidad/mes</th>
+                    <th>Descuento por hermano</th>
+                    <th>Descuento por Antelación</th>
+                    <th>Curso</th>
+                    <th>Precio Total a Pagar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    th:each="student : ${searchStudent.isEmpty() ? activeStudents : searchStudent}"
+                  >
+                    <td th:text="${student.name}">John</td>
+                    <td th:text="${student.surname}">Doe</td>
+                    <td
+                      th:text="${student.fee != null ? student.fee.basePrice + ' €' : 'Sin cuota'}"
+                    ></td>
+                    <td
+                      th:text="${student.hasASibling and student.fee != null ? student.fee.siblingDiscount + ' %' : 'No tiene hermano/a'}"
+                    ></td>
+                    <td
+                      th:text="${student.fee != null ? student.fee.earlyRegistrationDiscount + ' %' : '0 %'}"
+                    ></td>
+                    <td th:text="${student.course.name}">Curso 1</td>
+                    <td
+                      th:text="${student.fee != null ? student.fee.finalPrice + ' €' : '---'}"
+                    ></td>
+                  </tr>
+                </tbody>
+              </table>
+              <a
+                th:href="@{/reports(complete=${complete} ? false : true)}"
+                class="btn btn-outline-primary mt-3 w-100"
+                type="button"
+                th:text="${complete} ? 'Mostrar menos' : 'Mostrar más'"
+              >
+              </a>
+              <h2
+                th:text="'Total Estimado: ' + ${#numbers.formatDecimal(total, 1, 'COMMA', 2, 'POINT')} + ' €'"
+              ></h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estadística -->
+        <div class="container mt-4">
+          <div class="d-flex align-items-center mb-3">
+            <h2 class="text-primary">Estadísticas</h2>
+            <button
+              type="button"
+              class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
+              data-bs-toggle="collapse"
+              data-bs-target="#estadisticas"
+            >
+              <i class="bi bi-caret-down fs-4"></i>
+            </button>
+          </div>
+
+          <div id="estadisticas" class="collapse show">
+            <div class="d-flex flex-column flex-md-row gap-3">
+              <!-- Primer bloque -->
+              <div
+                class="bg-light p-4 rounded-3 flex-grow-1"
+                style="min-height: 200px"
+              >
+                <label for="cursoFilterOcupacion" class="form-label"
+                  >Ocupación</label
+                >
+                <form method="get" th:action="@{/reports}">
+                  <select
+                    class="form-select"
+                    id="cursoFilterOcupacion"
+                    name="courseId"
+                  >
+                    <option
+                      th:if="${activeCourses == null or #lists.isEmpty(activeCourses)}"
+                      disabled
+                    >
+                      No hay cursos creados
+                    </option>
+                    <option
+                      th:each="course : ${activeCourses}"
+                      th:value="${course.id}"
+                      th:text="${course.name}"
+                      th:selected="${course.id == param.courseId}"
+                    ></option>
+                  </select>
+
+                  <button
+                    type="submit"
+                    class="btn btn-outline-primary mt-3 w-100"
+                  >
+                    Comprobar
+                  </button>
+                </form>
+
+                <h2 th:if="${course != null}" th:text="${course.name}"></h2>
+                <h2 th:if="${course == null}" class="text-muted">
+                  Selecciona un curso
+                </h2>
+
+                <div class="progress fw-bold fs-6 mt-3" style="height: 40px">
+                  <div
+                    th:if="${course != null}"
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    th:classappend="${ocupationPercent > 85} ? ' bg-secondary' : ' bg-primary'"
+                    th:style="'width:' + ${ocupationPercent} + '%'"
+                  >
+                    <span th:text="${ocupationPercent} + '%'">0%</span>
+                  </div>
+                  <div
+                    th:if="${course == null}"
+                    class="progress-bar bg-light text-muted d-flex justify-content-center align-items-center"
+                    style="width: 100%; height: 100%"
+                  >
+                    Sin datos
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2 bloque -->
+              <div
+                class="bg-light p-4 rounded-3 flex-grow-1"
+                style="min-height: 200px"
+              >
+                <label for="courseAverage" class="form-label"
+                  >Nota Media de Curso</label
+                >
+                <form method="get" th:action="@{/reports}">
+                  <select
+                    class="form-select"
+                    id="courseAverage"
+                    name="courseId"
+                  >
+                    <option
+                      th:if="${activeCourses == null or #lists.isEmpty(activeCourses)}"
+                      disabled
+                    >
+                      No hay cursos creados
+                    </option>
+                    <option
+                      th:each="course : ${activeCourses}"
+                      th:value="${course.id}"
+                      th:text="${course.name}"
+                      th:selected="${course.id == param.courseId}"
+                    ></option>
+                  </select>
+
+                  <button
+                    type="submit"
+                    class="btn btn-outline-primary mt-3 w-100"
+                  >
+                    Comprobar
+                  </button>
+                </form>
+
+                <h2 th:if="${course != null}" th:text="${course.name}"></h2>
+                <h2 th:if="${course == null}" class="text-muted">
+                  Selecciona un curso
+                </h2>
+
+                <div class="progress fw-bold fs-6 mt-3" style="height: 40px">
+                  <div
+                    th:if="${course != null}"
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    th:classappend="${average < 5} ? ' bg-secondary' : ' bg-primary'"
+                    th:style="'width:' + ${average}"
+                  >
+                    <span
+                      th:text="${#numbers.formatDecimal(average, 1, 2)}"
+                    ></span>
+                  </div>
+                  <div
+                    th:if="${course == null}"
+                    class="progress-bar bg-light text-muted d-flex justify-content-center align-items-center"
+                    style="width: 100%; height: 100%"
+                  >
+                    Sin datos
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Precios -->
+        <section class="container mt-4">
+          <div class="d-flex align-items-center mb-3">
+            <h2 class="text-primary">Precios</h2>
+            <button
+              type="button"
+              class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
+              data-bs-toggle="collapse"
+              data-bs-target="#precios"
+              aria-expanded="true"
+              aria-controls="precios"
+            >
+              <i class="bi bi-caret-down fs-4"></i>
+            </button>
+          </div>
+
+          <div id="precios" class="collapse show">
+            <div class="bg-light p-4 rounded-3">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="border rounded p-3 bg-white">
+                    <h6 class="mb-1">Primer tipo de cuota</h6>
+                    <p class="mb-0" id="mostrarPrecio1">60 € / mes</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="border rounded p-3 bg-white">
+                    <h6 class="mb-1">Segundo tipo de cuota</h6>
+                    <p class="mb-0" id="mostrarPrecio2">60 € / mes</p>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="border rounded p-3 bg-white">
+                    <h6 class="mb-1">Descuento por registración temprana</h6>
+                    <p class="mb-0" id="mostrarDescuentoTemprano">
+                      10% de descuento
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="border rounded p-3 bg-white">
+                    <h6 class="mb-1">Descuento por hermano</h6>
+                    <p class="mb-0" id="mostrarDescuentoHermano">
+                      15% de descuento
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-end mt-4">
+                <a th:href="@{/showPricesForm}" type="button" class="btn btn-outline-primary">
+                  Editar
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>

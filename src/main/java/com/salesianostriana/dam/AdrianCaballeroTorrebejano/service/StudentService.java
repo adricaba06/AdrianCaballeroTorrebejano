@@ -205,4 +205,16 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 			}
 		}
 	}
+
+	public double calculateAverageGradeOfTheWholeAcademy(Long id) {
+		double summary = 0;
+		long totalOfStudents = 1;
+		List<Student> students = filterStudentsByCourseId(id);
+		totalOfStudents = students.stream().count();
+		
+		for (Student s : students ) {
+			summary += s.getAverageGrade();
+		}
+		return (summary / totalOfStudents);
+	}
 }

@@ -51,14 +51,9 @@ public class CourseService extends BaseServiceImpl<Course, Long, CourseRepositor
 	
 	
 	public double getPercentOfOcupation(Long courseId) {
-		Optional<Course> courseO = cr.findById(courseId);
-		Course course = null;
-		if(courseO.isPresent()) {
-			course = courseO.get();
-		}
-		return calculatePercent(course.numOfStudents() , course.getMaxCapacity());
-		
-		
+	    return cr.findById(courseId)
+	             .map(c -> calculatePercent(c.numOfStudents(), c.getMaxCapacity()))
+	             .orElse(0.0);
 	}
 
 }

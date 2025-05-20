@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head th:replace="fragments/commonHead :: commonHead">
+    <title>Prices</title>
+    <meta name="description" content="Edición de precios" />
+  </head>
+  <body>
+    <!-- Navbar de decoración -->
+    <section th:replace="fragments/decorationNav :: decorationNav"></section>
+
+    <!-- Offcanvas visible solo en móvil -->
+    <section>
+      <div th:replace="fragments/offcanva :: offcanva"></div>
+    </section>
+
+    <div class="d-flex">
+      <!-- Menú lateral -->
+      <aside
+        class="d-none d-md-flex flex-column bg-light border-end text-primary p-3 vh-100"
+      >
+        <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
+        <button
+          type="button"
+          class="btn btn-outline-primary mt-3"
+          data-bs-toggle="modal"
+          data-bs-target="#NewCourse"
+        >
+          Añadir Curso
+        </button>
+      </aside>
+
+      <!-- Contenido principal -->
+      <main class="col-md-10 p-4 overflow-auto vh-100">
+        <section class="flex-grow-1 w-100 vh-100 px-0 mx-0">
+          <div class="row g-0">
+            <div class="w-100 col-12">
+              <div class="d-flex justify-content-center">
+                <form
+                  th:action="@{/savePrices}"
+                  method="post"
+                  th:object="${feePrices}"
+                  class="p-5 bg-white w-75 shadow rounded-4"
+                >
+                  <div class="row g-4">
+                    <div class="col-md-6 text-center">
+                      <label class="form-label fw-bold"
+                        >Precio base menores de laa edad</label
+                      >
+                      <input
+                        type="number"
+                        th:field="*{basePriceUnderAge}"
+                        step="0.01"
+                        class="form-control form-control-sm"
+                        placeholder="0.00"
+                      />
+                    </div>
+
+                    <div class="col-md-6 text-center">
+                      <label class="form-label fw-bold"
+                        >Precio base mayores de 12</label
+                      >
+                      <input
+                        type="number"
+                        th:field="*{basePriceOverAge}"
+                        step="0.01"
+                        class="form-control form-control-sm"
+                        placeholder="0.00"
+                      />
+                    </div>
+
+                    <div class="col-md-6 text-center">
+                      <label class="form-label fw-bold"
+                        >Descuento por hermano (%)</label
+                      >
+                      <input
+                        type="number"
+                        th:field="*{siblingDiscount}"
+                        step="0.01"
+                        class="form-control form-control-sm"
+                        placeholder="0.00"
+                      />
+                    </div>
+
+                    <div class="col-md-6 text-center">
+                      <label class="form-label fw-bold"
+                        >Descuento por inscripción temprana (%)</label
+                      >
+                      <input
+                        type="number"
+                        th:field="*{earlyRegistrationDiscount}"
+                        step="0.01"
+                        class="form-control form-control-sm"
+                        placeholder="0.00"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-outline-primary">
+                      Guardar precios
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

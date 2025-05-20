@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.base.service.BaseServiceImpl;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Fee;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.FeeSetting;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.repository.FeeRepository;
 
@@ -13,6 +14,12 @@ import com.salesianostriana.dam.AdrianCaballeroTorrebejano.repository.FeeReposit
 public class FeeService extends BaseServiceImpl<Fee, Long, FeeRepository> {
 	
 	private FeeRepository feeRepository;
+	
+	private final FeeSettingService feeSettingService;
+
+    public FeeService(FeeSettingService feeSettingService) {
+        this.feeSettingService = feeSettingService;
+    }
 	
 	public double calculateFinalPrice(Fee fee) {
 	    double base = fee.getBasePrice();
@@ -24,13 +31,14 @@ public class FeeService extends BaseServiceImpl<Fee, Long, FeeRepository> {
 	}
 
 	public Fee generateConvenientFee(Student student, Long daysUntilCourseStarts) {
+	    FeeSetting fs = feeSettingService.getCurrentSetting();
 	    Fee fee = new Fee();
 
-	    fee.setBasePrice(student.getAge() <= 12 ? 45.0 : 60.0);
+	    fee.setBasePrice(student.getAge() <= fs.getAge() ? fs.getBasePriceUnderAge() : fs.getBasePriceOverAge());
 
-	    fee.setSiblingDiscount(student.isHasASibling() ? 15.0 : 0.0);
+	    fee.setSiblingDiscount(student.isHasASibling() ? fs.getSiblingDiscount() : 0.0);
 
-	    double earlyDiscount = (daysUntilCourseStarts != null && daysUntilCourseStarts >= 15) ? 5.0 : 0.0;
+	    double earlyDiscount = (daysUntilCourseStarts != null && daysUntilCourseStarts >= fs.getDaysBeforeCourseStarts()) ? fs.getEarlyRegistrationDiscount() : 0.0;
 	    fee.setEarlyRegistrationDiscount(earlyDiscount);
 
 	    fee.setFinalPrice(calculateFinalPrice(fee));
@@ -45,6 +53,9 @@ public class FeeService extends BaseServiceImpl<Fee, Long, FeeRepository> {
 				.mapToDouble((s) -> s.getFee().getFinalPrice())
 				.sum();
 	}
+	
+
+	
 
 	}
 		

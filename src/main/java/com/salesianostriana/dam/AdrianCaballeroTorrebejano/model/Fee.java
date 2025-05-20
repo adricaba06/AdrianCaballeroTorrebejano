@@ -35,6 +35,8 @@ public class Fee {
     
     @OneToOne(cascade = CascadeType.PERSIST)
     private Student student;
+    
+    
 
 
     //helper methods
