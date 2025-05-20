@@ -35,7 +35,7 @@ public class CourseController {
 	@GetMapping("/dashboard")
 	public String showDashboard(Model model) {
 		model.addAttribute("course", new Course());
-		List<Course> courses = courseService.findAll();
+		List<Course> courses = courseService.showActiveCourses();
 		model.addAttribute("courses", courses);
 
 		return "dashboard";
@@ -87,7 +87,6 @@ public class CourseController {
 		}else {
 			 return "redirect:/dashboard";
 		}
-		
 		
 		
 		

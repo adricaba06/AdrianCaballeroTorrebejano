@@ -66,7 +66,8 @@ public class Course {
 
 	@Transient // https://stackoverflow.com/questions/2154622/why-does-jpa-have-a-transient-annotation
 	public int numOfStudents() { // AL SER UN DATO TAN VARIABLE NO ME INTERSA TENERLO EN LA BASE DE DATOS ADEMÁS
-									// TENERLO DE ESTA FORMA ME AYUDA A ASIGNARLO MEJOR Y NO TENER UN CONTADOR CON
+									// // TENERLO DE ESTA FORMA ME AYUDA A ASIGNARLO MEJOR Y NO TENER UN CONTADOR
+									// CON
 									// TANTOS ALUMNOS METIDOS A LA FUERZA
 		int num;
 		num = (int) studentList.stream().filter((s) -> s.isActive()).count(); // .count DEVUELVE UN LONG PERO NO ME

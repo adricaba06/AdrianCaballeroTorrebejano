@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,20 @@ public class CourseService extends BaseServiceImpl<Course, Long, CourseRepositor
 	}
 	// https://stackoverflow.com/questions/62101906/java-how-to-get-the-percentage-between-2-datetimes
 	
+	public List<Course> showActiveCourses(){
+		return findAll().stream().filter((c) -> c.isActive()).collect(Collectors.toList());
+	}
+	
+	
+	public double getPercentOfOcupation(Long courseId) {
+		Optional<Course> courseO = cr.findById(courseId);
+		Course course = null;
+		if(courseO.isPresent()) {
+			course = courseO.get();
+		}
+		return calculatePercent(course.numOfStudents() , course.getMaxCapacity());
+		
+		
+	}
 
 }
