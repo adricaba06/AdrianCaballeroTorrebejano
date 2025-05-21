@@ -1,5 +1,7 @@
 package com.salesianostriana.dam.AdrianCaballeroTorrebejano.controller;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -94,6 +96,24 @@ public class FeeController {
 	@PostMapping("/savePrices")
 	public String setPrices(@ModelAttribute("feePrices") FeeSetting updatedRules) {
 		feeSettingService.updateSetting(updatedRules);
+		List<Student> students = studentService.findAll();
+		Fee newFee;
+		for (Student student : students) {
+			if (student.getCourse() != null && student.getCourse().getEndDate() != null) {
+
+				long daysUntilCourseEnds = ChronoUnit.DAYS.between(LocalDate.now(), student.getCourse().getEndDate());
+				newFee = feeService.generateConvenientFee(student, daysUntilCourseEnds);
+				studentService.save(student);
+			} else {
+				newFee = new Fee();
+				newFee.setBasePrice(0);
+				newFee.setFinalPrice(0);
+			}
+			newFee.setId(student.getFee().getId());
+			newFee.setStudent(student);
+			feeService.save(newFee);
+			student.setFee(newFee);
+		}
 
 		return "redirect:/reports";
 	}

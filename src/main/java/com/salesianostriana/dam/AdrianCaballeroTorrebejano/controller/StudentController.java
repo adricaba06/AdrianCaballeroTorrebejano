@@ -35,9 +35,7 @@ public class StudentController {
 
 	@GetMapping("/students")
 	public String showStudents(Model model, @RequestParam(name = "sort", required = false) String sortBy,
-			@RequestParam(required = false) String nameParam,
-			@RequestParam(required = false) boolean complete) {
-
+			@RequestParam(required = false) String nameParam, @RequestParam(required = false) boolean complete) {
 
 		model.addAttribute("complete", complete);
 		model.addAttribute("student", new Student());
@@ -79,13 +77,14 @@ public class StudentController {
 				Course course = courseO.get();
 				student.addToCourse(course);
 
+				daysUntilCourseStarts = studentService.getDaysUntilCourseStart(student.getRegistrationDate(),
+						student.getCourse().getStartDate());
 			}
+		}else {
+			daysUntilCourseStarts = 0L;
 		}
 
 		studentService.addProfilePicture(pic, existingPhoto, student);
-
-		daysUntilCourseStarts = studentService.getDaysUntilCourseStart(student.getRegistrationDate(),
-				student.getCourse().getStartDate());
 
 		if (student != null && student.getCourse() != null && student.getCourse().getStartDate() != null
 				&& student.getRegistrationDate() != null) {

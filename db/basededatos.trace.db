@@ -10323,3 +10323,155 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/caballe
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 54 more
+2025-05-21 09:48:59.959751+02:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]FEE"
+Syntax error in SQL statement "[*]FEE"; SQL statement:
+FEE [42000-232]
+2025-05-21 10:42:48.073891+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, is_full) VALUES ('Sin Curso', 'Sin Curso', 'Sin Curso', SELECT COUNT(*) FROM student, [*]'A1', '2025-06-01', '2025-12-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png', false)"; se esperaba "identifier"
+Syntax error in SQL statement "INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, is_full) VALUES ('Sin Curso', 'Sin Curso', 'Sin Curso', SELECT COUNT(*) FROM student, [*]'A1', '2025-06-01', '2025-12-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png', false)"; expected "identifier"; SQL statement:
+INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, is_full) VALUES ('Sin Curso', 'Sin Curso', 'Sin Curso', SELECT COUNT(*) FROM student, 'A1', '2025-06-01', '2025-12-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png', false) [42001-232]
+2025-05-21 11:00:58.045590+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "UPDATE course[*]"; se esperaba "., AS, SET"
+Syntax error in SQL statement "UPDATE course[*]"; expected "., AS, SET"; SQL statement:
+UPDATE course [42001-232]
+2025-05-21 11:00:58.052572+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SET [*]max_capacity = max_capacity + 10"; se esperaba "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"
+Syntax error in SQL statement "SET [*]max_capacity = max_capacity + 10"; expected "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"; SQL statement:
+SET max_capacity = max_capacity + 10 [42001-232]
+2025-05-21 11:00:58.053569+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]WHERE name = 'Sin Curso'"
+Syntax error in SQL statement "[*]WHERE name = 'Sin Curso'"; SQL statement:
+WHERE name = 'Sin Curso' [42000-232]
+2025-05-21 11:00:58.055564+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]AND (SELECT COUNT(*) FROM student WHERE course_id = (SELECT id FROM course WHERE name = 'Sin Curso')) >= max_capacity"
+Syntax error in SQL statement "[*]AND (SELECT COUNT(*) FROM student WHERE course_id = (SELECT id FROM course WHERE name = 'Sin Curso')) >= max_capacity"; SQL statement:
+AND (SELECT COUNT(*) FROM student WHERE course_id = (SELECT id FROM course WHERE name = 'Sin Curso')) >= max_capacity [42000-232]
+2025-05-21 11:02:15.407489+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "UPDATE course[*]"; se esperaba "., AS, SET"
+Syntax error in SQL statement "UPDATE course[*]"; expected "., AS, SET"; SQL statement:
+UPDATE course [42001-232]
+2025-05-21 11:02:15.414470+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SET [*]max_capacity = max_capacity + 10"; se esperaba "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"
+Syntax error in SQL statement "SET [*]max_capacity = max_capacity + 10"; expected "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"; SQL statement:
+SET max_capacity = max_capacity + 10 [42001-232]
+2025-05-21 11:02:15.415471+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]WHERE id = 1"
+Syntax error in SQL statement "[*]WHERE id = 1"; SQL statement:
+WHERE id = 1 [42000-232]
+2025-05-21 11:02:15.417462+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]AND (SELECT COUNT(*) FROM student WHERE course_id = (SELECT id FROM course WHERE name = 'Sin Curso')) >= max_capacity"
+Syntax error in SQL statement "[*]AND (SELECT COUNT(*) FROM student WHERE course_id = (SELECT id FROM course WHERE name = 'Sin Curso')) >= max_capacity"; SQL statement:
+AND (SELECT COUNT(*) FROM student WHERE course_id = (SELECT id FROM course WHERE name = 'Sin Curso')) >= max_capacity [42000-232]
+2025-05-21 11:39:31.974544+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "UPDATE course[*]"; se esperaba "., AS, SET"
+Syntax error in SQL statement "UPDATE course[*]"; expected "., AS, SET"; SQL statement:
+UPDATE course [42001-232]
+2025-05-21 11:39:31.982522+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SET [*]max_capacity = max_capacity + 10"; se esperaba "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"
+Syntax error in SQL statement "SET [*]max_capacity = max_capacity + 10"; expected "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"; SQL statement:
+SET max_capacity = max_capacity + 10 [42001-232]
+2025-05-21 11:39:31.984516+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]WHERE id = 1"
+Syntax error in SQL statement "[*]WHERE id = 1"; SQL statement:
+WHERE id = 1 [42000-232]
+2025-05-21 11:39:31.986511+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]AND (SELECT COUNT(*) FROM student WHERE course_id = 1) >= max_capacity"
+Syntax error in SQL statement "[*]AND (SELECT COUNT(*) FROM student WHERE course_id = 1) >= max_capacity"; SQL statement:
+AND (SELECT COUNT(*) FROM student WHERE course_id = 1) >= max_capacity [42000-232]
+2025-05-21 11:41:40.439061+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "UPDATE course[*]"; se esperaba "., AS, SET"
+Syntax error in SQL statement "UPDATE course[*]"; expected "., AS, SET"; SQL statement:
+UPDATE course [42001-232]
+2025-05-21 11:41:40.446042+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SET [*]max_capacity = max_capacity + 10"; se esperaba "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"
+Syntax error in SQL statement "SET [*]max_capacity = max_capacity + 10"; expected "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"; SQL statement:
+SET max_capacity = max_capacity + 10 [42001-232]
+2025-05-21 11:41:40.447039+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]WHERE id = 1"
+Syntax error in SQL statement "[*]WHERE id = 1"; SQL statement:
+WHERE id = 1 [42000-232]
+2025-05-21 11:41:40.448037+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]AND (SELECT COUNT(*) FROM student WHERE course_id = 1) >= max_capacity"
+Syntax error in SQL statement "[*]AND (SELECT COUNT(*) FROM student WHERE course_id = 1) >= max_capacity"; SQL statement:
+AND (SELECT COUNT(*) FROM student WHERE course_id = 1) >= max_capacity [42000-232]
+2025-05-21 11:57:29.235323+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "UPDATE course[*]"; se esperaba "., AS, SET"
+Syntax error in SQL statement "UPDATE course[*]"; expected "., AS, SET"; SQL statement:
+UPDATE course [42001-232]
+2025-05-21 11:57:29.241306+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SET [*]max_capacity = max_capacity + 10 WHERE id = 1 AND is is_full = true"; se esperaba "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"
+Syntax error in SQL statement "SET [*]max_capacity = max_capacity + 10 WHERE id = 1 AND is is_full = true"; expected "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"; SQL statement:
+SET max_capacity = max_capacity + 10 WHERE id = 1 AND is is_full = true [42001-232]
+2025-05-21 11:58:05.539618+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "UPDATE course[*]"; se esperaba "., AS, SET"
+Syntax error in SQL statement "UPDATE course[*]"; expected "., AS, SET"; SQL statement:
+UPDATE course [42001-232]
+2025-05-21 11:58:05.546598+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SET [*]max_capacity = max_capacity + 10 WHERE id = 1 AND  is_full = true"; se esperaba "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"
+Syntax error in SQL statement "SET [*]max_capacity = max_capacity + 10 WHERE id = 1 AND  is_full = true"; expected "@, AUTOCOMMIT, EXCLUSIVE, IGNORECASE, PASSWORD, SALT, MODE, DATABASE, COLLATION, CLUSTER, DATABASE_EVENT_LISTENER, ALLOW_LITERALS, DEFAULT_TABLE_TYPE, SCHEMA, CATALOG, SCHEMA_SEARCH_PATH, JAVA_OBJECT_SERIALIZER, IGNORE_CATALOGS, SESSION, TRANSACTION, TIME, NON_KEYWORDS, DEFAULT_NULL_ORDERING"; SQL statement:
+SET max_capacity = max_capacity + 10 WHERE id = 1 AND  is_full = true [42001-232]
+2025-05-21 12:27:40.507013+02:00 jdbc[15]: null
+org.h2.message.DbException: La conexión no fue cerrada por la aplicación y esta siendo limpiada (garbage collected)
+The connection was not closed by the application and is garbage collected [90018-232]
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:217)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:134)
+	at org.h2.Driver.connect(Driver.java:59)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:137)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:360)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:202)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:461)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:724)
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:703)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: La conexión no fue cerrada por la aplicación y esta siendo limpiada (garbage collected)
+The connection was not closed by the application and is garbage collected [90018-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 16 more
+2025-05-21 12:37:20.180247+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "create table course (active boolean not null, end_date date, [*]full boolean not null, max_capacity integer not null, start_date date, id bigint generated by default as identity, description varchar(255), image_url varchar(255), name varchar(255), teacher varchar(255), level enum ('A1','A2','B1','B2','C1','C2'), primary key (id))"; se esperaba "identifier"
+Syntax error in SQL statement "create table course (active boolean not null, end_date date, [*]full boolean not null, max_capacity integer not null, start_date date, id bigint generated by default as identity, description varchar(255), image_url varchar(255), name varchar(255), teacher varchar(255), level enum ('A1','A2','B1','B2','C1','C2'), primary key (id))"; expected "identifier"; SQL statement:
+create table course (active boolean not null, end_date date, full boolean not null, max_capacity integer not null, start_date date, id bigint generated by default as identity, description varchar(255), image_url varchar(255), name varchar(255), teacher varchar(255), level enum ('A1','A2','B1','B2','C1','C2'), primary key (id)) [42001-232]
+2025-05-21 12:37:20.214159+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "COURSE" no encontrada
+Table "COURSE" not found; SQL statement:
+alter table if exists student add constraint FKdfypyqt0stgfc0aij9kcxm99s foreign key (course_id) references course [42102-232]
+2025-05-21 12:37:20.230113+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "COURSE" no encontrada
+Table "COURSE" not found; SQL statement:
+INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, full) VALUES ('Sin Curso', 'Sin Curso', 'Sin Curso', 2, 'A1', '2025-06-01', '2025-12-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png', false) [42102-232]
+2025-05-21 12:37:20.232108+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "COURSE" no encontrada
+Table "COURSE" not found; SQL statement:
+INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, full) VALUES ('Inglés A1', 'Curso introductorio para principiantes', 'Profesora Smith', 20, 'A1', '2025-06-01', '2025-12-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png', false) [42102-232]
+2025-05-21 12:37:20.233133+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "COURSE" no encontrada
+Table "COURSE" not found; SQL statement:
+INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, full) VALUES ('Inglés A2', 'Mejora tu nivel básico de inglés', 'Profesor Johnson', 25, 'A2', '2025-07-01', '2025-12-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/1200px-Flag_of_the_United_Kingdom_%281-2%29.svg.png', false) [42102-232]
+2025-05-21 12:37:20.234102+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "COURSE" no encontrada
+Table "COURSE" not found; SQL statement:
+INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, full) VALUES ('Inglés B1', 'Curso intermedio para reforzar gramática y vocabulario', 'Profesora Davis', 30, 'B1', '2025-05-15', '2025-11-15', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/1200px-Flag_of_Australia_%28converted%29.svg.png', false) [42102-232]
+2025-05-21 12:37:20.235128+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "COURSE" no encontrada
+Table "COURSE" not found; SQL statement:
+INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, full) VALUES ('Inglés B2', 'Avanza en la fluidez y comprensión oral', 'Profesor Brown', 35, 'B2', '2025-06-10', '2025-12-10', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Flag_of_Ireland.svg/1200px-Flag_of_Ireland.svg.png', false) [42102-232]
+2025-05-21 12:37:20.236126+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "COURSE" no encontrada
+Table "COURSE" not found; SQL statement:
+INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, full) VALUES ('Inglés C1', 'Desarrollo avanzado de habilidades comunicativas', 'Profesora Wilson', 40, 'C1', '2025-07-05', '2025-12-15', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/960px-Flag_of_Canada_%28Pantone%29.svg.png', false) [42102-232]
+2025-05-21 12:37:20.237128+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "COURSE" no encontrada
+Table "COURSE" not found; SQL statement:
+INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, full) VALUES ('Inglés C2', 'Dominio completo del idioma y perfeccionamiento', 'Profesor Martinez', 45, 'C2', '2025-08-01', '2025-12-20', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Flag_of_Jamaica.svg/1200px-Flag_of_Jamaica.svg.png', false) [42102-232]
+2025-05-21 12:37:20.305911+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "COURSE" no encontrada
+Table "COURSE" not found; SQL statement:
+UPDATE course SET max_capacity = max_capacity + 10 WHERE id = 1 AND  full = true [42102-232]

@@ -375,7 +375,7 @@
             class="col-12 col-md-6 col-lg-4"
             th:each="course : ${courses}"
             th:block
-            th:if="${course.active}"
+            th:if="${course.id != 1}"
           >
             <a
               th:href="@{/course/{id}(id = ${course.id})}"

@@ -33,6 +33,11 @@ public class FeeService extends BaseServiceImpl<Fee, Long, FeeRepository> {
 	public Fee generateConvenientFee(Student student, Long daysUntilCourseStarts) {
 	    FeeSetting fs = feeSettingService.getCurrentSetting();
 	    Fee fee = new Fee();
+	    
+	    if(fs.getEarlyRegistrationDiscount() + fs.getSiblingDiscount() >= 100) {
+	    	fs.setEarlyRegistrationDiscount(0);
+	    	fs.setSiblingDiscount(0);
+	    }
 
 	    fee.setBasePrice(student.getAge() <= fs.getAge() ? fs.getBasePriceUnderAge() : fs.getBasePriceOverAge());
 
