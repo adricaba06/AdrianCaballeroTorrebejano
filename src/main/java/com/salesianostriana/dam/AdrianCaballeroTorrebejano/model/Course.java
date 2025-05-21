@@ -64,11 +64,8 @@ public class Course {
 	// SE QUE PODRÍA HABER PUESTO VARIAS JUNTAS YA AHORRAR ESPACIO, PERO LUISMI DIJO
 	// QUE ERA MEJOR ASI
 
-	@Transient // https://stackoverflow.com/questions/2154622/why-does-jpa-have-a-transient-annotation
-	public int numOfStudents() { // AL SER UN DATO TAN VARIABLE NO ME INTERSA TENERLO EN LA BASE DE DATOS ADEMÁS
-									// // TENERLO DE ESTA FORMA ME AYUDA A ASIGNARLO MEJOR Y NO TENER UN CONTADOR
-									// CON
-									// TANTOS ALUMNOS METIDOS A LA FUERZA
+	
+	public int numOfStudents() {   					
 		int num;
 		num = (int) studentList.stream().filter((s) -> s.isActive()).count(); // .count DEVUELVE UN LONG PERO NO ME
 																				// INTERESA QUE SEA UN LONG
@@ -80,5 +77,13 @@ public class Course {
 	public boolean isFull() {
 		return numOfStudents() >= maxCapacity;
 	}
+	
+	public void removeStudent(Student student) {
+	    if (studentList != null) {
+	        studentList.remove(student);
+	    }
+	}
+
+	
 
 }

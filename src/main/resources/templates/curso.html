@@ -511,7 +511,7 @@
                 type="text"
                 class="form-control"
                 id="fechaCurso"
-                th:value="${course.startDate}"
+                th:value="${#temporals.format(course.startDate, 'dd-MM-yyyy')}"
                 readonly
               />
             </div>
@@ -523,7 +523,7 @@
               type="text"
               class="form-control"
               id="fechaCurso"
-              th:value="${course.endDate}"
+              th:value="${#temporals.format(course.endDate, 'dd-MM-yyyy')}"
               readonly
             />
 

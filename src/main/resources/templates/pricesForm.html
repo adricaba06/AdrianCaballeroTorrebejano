@@ -44,11 +44,11 @@
                   <div class="row g-4">
                     <div class="col-md-6 text-center">
                       <label class="form-label fw-bold"
-                        >Precio base menores de laa edad</label
+                        >Precio base de cuota</label
                       >
                       <input
                         type="number"
-                        th:field="*{basePriceUnderAge}"
+                        th:field="*{basePrice}"
                         step="0.01"
                         class="form-control form-control-sm"
                         placeholder="0.00"
@@ -57,11 +57,11 @@
 
                     <div class="col-md-6 text-center">
                       <label class="form-label fw-bold"
-                        >Precio base mayores de 12</label
+                        >Dias de antelación para descuento</label
                       >
                       <input
                         type="number"
-                        th:field="*{basePriceOverAge}"
+                        th:field="*{daysBeforeCourseStartsSetByUser}"
                         step="0.01"
                         class="form-control form-control-sm"
                         placeholder="0.00"

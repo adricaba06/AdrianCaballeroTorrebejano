@@ -12,57 +12,50 @@ import com.salesianostriana.dam.AdrianCaballeroTorrebejano.repository.FeeReposit
 
 @Service
 public class FeeService extends BaseServiceImpl<Fee, Long, FeeRepository> {
-	
+
 	private FeeRepository feeRepository;
-	
+
 	private final FeeSettingService feeSettingService;
 
-    public FeeService(FeeSettingService feeSettingService) {
-        this.feeSettingService = feeSettingService;
-    }
-	
+	public FeeService(FeeSettingService feeSettingService) {
+		this.feeSettingService = feeSettingService;
+	}
+
 	public double calculateFinalPrice(Fee fee) {
-	    double base = fee.getBasePrice();
+		double base = fee.getBasePrice();
 
-	    double siblingDiscountAmount = base * (fee.getSiblingDiscount() / 100.0);
-	    double earlyDiscountAmount = base * (fee.getEarlyRegistrationDiscount() / 100.0);
+		double siblingDiscountAmount = base * (fee.getSiblingDiscount() / 100.0);
+		double earlyDiscountAmount = base * (fee.getEarlyRegistrationDiscount() / 100.0);
 
-	    return base - siblingDiscountAmount - earlyDiscountAmount;
+		return base - siblingDiscountAmount - earlyDiscountAmount;
 	}
 
 	public Fee generateConvenientFee(Student student, Long daysUntilCourseStarts) {
-	    FeeSetting fs = feeSettingService.getCurrentSetting();
-	    Fee fee = new Fee();
-	    
-	    if(fs.getEarlyRegistrationDiscount() + fs.getSiblingDiscount() >= 100) {
-	    	fs.setEarlyRegistrationDiscount(0);
-	    	fs.setSiblingDiscount(0);
-	    }
+		FeeSetting fs = feeSettingService.getCurrentSetting();
+		Fee fee = new Fee();
+		double earlyDiscount;
 
-	    fee.setBasePrice(student.getAge() <= fs.getAge() ? fs.getBasePriceUnderAge() : fs.getBasePriceOverAge());
+		if (fs.getEarlyRegistrationDiscount() + fs.getSiblingDiscount() >= 100) {
+			fs.setEarlyRegistrationDiscount(0);
+			fs.setSiblingDiscount(0);
+		}
 
-	    fee.setSiblingDiscount(student.isHasASibling() ? fs.getSiblingDiscount() : 0.0);
+		fee.setBasePrice(fs.getBasePrice());
 
-	    double earlyDiscount = (daysUntilCourseStarts != null && daysUntilCourseStarts >= fs.getDaysBeforeCourseStarts()) ? fs.getEarlyRegistrationDiscount() : 0.0;
-	    fee.setEarlyRegistrationDiscount(earlyDiscount);
+		fee.setSiblingDiscount(student.isHasASibling() ? fs.getSiblingDiscount() : 0.0);
 
-	    fee.setFinalPrice(calculateFinalPrice(fee));
-	    
+		earlyDiscount = (daysUntilCourseStarts != null
+				&& daysUntilCourseStarts >= fs.getDaysBeforeCourseStartsSetByUser()) ? fs.getEarlyRegistrationDiscount()
+						: 0.0;
+		fee.setEarlyRegistrationDiscount(earlyDiscount);
 
-	    return fee;
+		fee.setFinalPrice(calculateFinalPrice(fee));
+
+		return fee;
 	}
 
 	public double calculateTotalEstimated(List<Student> students) {
-		return students.stream()
-				.filter((s) -> s.getFee() != null)
-				.mapToDouble((s) -> s.getFee().getFinalPrice())
-				.sum();
+		return students.stream().filter((s) -> s.getFee() != null).mapToDouble((s) -> s.getFee().getFinalPrice()).sum();
 	}
-	
 
-	
-
-	}
-		
-	
-
+}

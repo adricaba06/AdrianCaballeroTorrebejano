@@ -77,6 +77,11 @@ public class FeeController {
 		model.addAttribute("average", averageGrade);
 
 		model.addAttribute("course", course);
+		model.addAttribute("basePrice", feeService.roundTwoDecimals(feeSettingService.getCurrentSetting().getBasePrice()));
+		model.addAttribute("siblingDis", feeService.roundTwoDecimals(feeSettingService.getCurrentSetting().getSiblingDiscount()));
+		model.addAttribute("earlyDis", feeService.roundTwoDecimals(feeSettingService.getCurrentSetting().getEarlyRegistrationDiscount()));
+		model.addAttribute("daysForDis", feeSettingService.getCurrentSetting().getDaysBeforeCourseStartsSetByUser());
+		
 		return "reports";
 	}
 
@@ -97,12 +102,13 @@ public class FeeController {
 	public String setPrices(@ModelAttribute("feePrices") FeeSetting updatedRules) {
 		feeSettingService.updateSetting(updatedRules);
 		List<Student> students = studentService.findAll();
+		long daysUntilCourseStarts;
 		Fee newFee;
 		for (Student student : students) {
 			if (student.getCourse() != null && student.getCourse().getEndDate() != null) {
 
-				long daysUntilCourseEnds = ChronoUnit.DAYS.between(LocalDate.now(), student.getCourse().getEndDate());
-				newFee = feeService.generateConvenientFee(student, daysUntilCourseEnds);
+				daysUntilCourseStarts = ChronoUnit.DAYS.between(LocalDate.now(), student.getCourse().getStartDate());
+				newFee = feeService.generateConvenientFee(student, daysUntilCourseStarts);
 				studentService.save(student);
 			} else {
 				newFee = new Fee();

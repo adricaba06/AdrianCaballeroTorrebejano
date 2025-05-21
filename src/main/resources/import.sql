@@ -1,6 +1,6 @@
 
 
-INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, is_full) VALUES ('Sin Curso', 'Sin Curso', 'Sin Curso', 2, 'A1', '2025-06-01', '2025-12-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png', false);
+INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, is_full) VALUES ('Sin Curso', 'Sin Curso', 'Sin Curso', 1, 'A1', '2025-06-01', '2025-12-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png', false);
 INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, is_full) VALUES ('Inglés A1', 'Curso introductorio para principiantes', 'Profesora Smith', 20, 'A1', '2025-06-01', '2025-12-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png', false);
 INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, is_full) VALUES ('Inglés A2', 'Mejora tu nivel básico de inglés', 'Profesor Johnson', 25, 'A2', '2025-07-01', '2025-12-01', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/1200px-Flag_of_the_United_Kingdom_%281-2%29.svg.png', false);
 INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, is_full) VALUES ('Inglés B1', 'Curso intermedio para reforzar gramática y vocabulario', 'Profesora Davis', 30, 'B1', '2025-05-15', '2025-11-15', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/1200px-Flag_of_Australia_%28converted%29.svg.png', false);
@@ -18,7 +18,7 @@ INSERT INTO student (name, surname, email, age, registration_date, active, cours
 INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Diego', 'Fuentes', 'diego.fuentes@example.com', 22, '2025-05-02', true, 6, 'defaultPicture.jpg', 0.0, false, 'Diego Fuentes - preparación B2');
 INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Patricia', 'Serrano', 'patricia.serrano@example.com', 21, '2025-05-01', true, 6, 'defaultPicture.jpg', 0.0, true, 'Patricia Serrano - inscrita con hermana');
 INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Raquel', 'Cano', 'raquel.cano@example.com', 9, '2025-04-30', true, 6, 'defaultPicture.jpg', 0.0, false, 'Raquel Cano - curso intensivo');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Mario', 'López', 'mario.lopez@example.com', 23, '2025-04-29', true, 1, 'defaultPicture.jpg', 0.0, true, 'Mario López - hermano de Lucía');
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Mario', 'López', 'mario.lopez@example.com', 23, '2025-04-29', true, 2, 'defaultPicture.jpg', 0.0, true, 'Mario López - hermano de Lucía');
 INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Lucía', 'Martínez', 'lucia.martinez@example.com', 12, '2025-04-28', true, 2, 'defaultPicture.jpg', 0.0, false, 'Lucía Martínez - avanzada');
 INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Jorge', 'Castro', 'jorge.castro@example.com', 21, '2025-04-27', true, 3, 'defaultPicture.jpg', 0.0, true, 'Jorge Castro - familia en la academia');
 INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Elena', 'Ruiz', 'elena.ruiz@example.com', 20, '2025-04-26', true, 4, 'defaultPicture.jpg', 0.0, false, 'Elena Ruiz - estudiante regular');
@@ -138,7 +138,5 @@ UPDATE student SET fee_id = 11 WHERE ID = 11;
 UPDATE student SET fee_id = 12 WHERE ID = 12; 
 UPDATE student SET fee_id = 13 WHERE ID = 13; 
 UPDATE student SET fee_id = 14 WHERE ID = 14; 
-
-UPDATE course SET max_capacity = max_capacity + 10 WHERE id = 1 AND  is_full = true;
 
 

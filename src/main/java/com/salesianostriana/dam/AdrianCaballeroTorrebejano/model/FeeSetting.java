@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FeeSetting { //ESTO SON DATOS POR DEFECTO, EL USUARIO PUEDE CAMBIARLOS DESDE EL FRONT
 
-	private double basePriceUnderAge=88, basePriceOverAge, siblingDiscount,  earlyRegistrationDiscount;
-    private int age = 12, daysBeforeCourseStarts = 9;
+	private double basePrice=88, siblingDiscount,  earlyRegistrationDiscount;
+    private int age = 12, daysBeforeCourseStartsSetByUser = 9;
    
 }
 

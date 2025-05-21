@@ -1,5 +1,7 @@
  package com.salesianostriana.dam.AdrianCaballeroTorrebejano.base.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +49,12 @@ public abstract class BaseServiceImpl<T, ID, R extends JpaRepository<T, ID>> imp
     public double calculatePercent(double num1, double num2) {
     	return (num1/num2)*100;
     	
+    }
+    
+    public static double roundTwoDecimals(double value) { //https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-places
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
     
 

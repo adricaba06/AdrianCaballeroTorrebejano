@@ -175,7 +175,10 @@
                         Curso no asignado
                       </td>
 
-                      <td th:text="${student.registrationDate}">2025-04-25</td>
+                      <td
+                        th:text="${#temporals.format(student.registrationDate, 'dd/MM/yyyy')}"
+                      ></td>
+
                       <td
                         th:text="${#numbers.formatDecimal(student.average, 1, 'COMMA', 2, 'POINT')}"
                       >
@@ -282,7 +285,7 @@
                     </p>
                     <p>
                       <span class="fw-bold">Fecha de inscripción: </span>
-                      <span th:text="${student.registrationDate}"></span>
+                      <span th:text="${#temporals.format(student.registrationDate, 'dd/MM/yyyy')}"></span>
                     </p>
 
                     <p>

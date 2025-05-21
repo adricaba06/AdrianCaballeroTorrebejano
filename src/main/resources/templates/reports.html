@@ -325,22 +325,22 @@
               <div class="row g-3">
                 <div class="col-md-6">
                   <div class="border rounded p-3 bg-white">
-                    <h6 class="mb-1">Primer tipo de cuota</h6>
-                    <p class="mb-0" id="mostrarPrecio1">60 € / mes</p>
+                    <h6 class="mb-1">Precio de la cuota</h6>
+                    <p class="mb-0" id="mostrarPrecio1" th:text="${basePrice} + ' € / mes'">60 € / mes</p>
                   </div>
                 </div>
 
                 <div class="col-md-6">
                   <div class="border rounded p-3 bg-white">
-                    <h6 class="mb-1">Segundo tipo de cuota</h6>
-                    <p class="mb-0" id="mostrarPrecio2">60 € / mes</p>
+                    <h6 class="mb-1">Dias de antelación para descuento</h6>
+                    <p class="mb-0" id="mostrarPrecio2" th:text="${daysForDis} + ' dias'">4 dias</p>
                   </div>
                 </div>
 
                 <div class="col-md-6">
                   <div class="border rounded p-3 bg-white">
-                    <h6 class="mb-1">Descuento por registración temprana</h6>
-                    <p class="mb-0" id="mostrarDescuentoTemprano">
+                    <h6 class="mb-1">Descuento por hermano (%)</h6>
+                    <p class="mb-0" id="mostrarDescuentoTemprano" th:text="${siblingDis} + ' % de descuento'">
                       10% de descuento
                     </p>
                   </div>
@@ -348,8 +348,8 @@
 
                 <div class="col-md-6">
                   <div class="border rounded p-3 bg-white">
-                    <h6 class="mb-1">Descuento por hermano</h6>
-                    <p class="mb-0" id="mostrarDescuentoHermano">
+                    <h6 class="mb-1">Descuento por inscripción temprana (%)</h6>
+                    <p class="mb-0" id="mostrarDescuentoHermano" th:text="${earlyDis} + ' % de descuento'">
                       15% de descuento
                     </p>
                   </div>
@@ -357,7 +357,11 @@
               </div>
 
               <div class="text-end mt-4">
-                <a th:href="@{/showPricesForm}" type="button" class="btn btn-outline-primary">
+                <a
+                  th:href="@{/showPricesForm}"
+                  type="button"
+                  class="btn btn-outline-primary"
+                >
                   Editar
                 </a>
               </div>

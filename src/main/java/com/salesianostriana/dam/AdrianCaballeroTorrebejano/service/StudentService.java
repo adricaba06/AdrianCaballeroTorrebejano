@@ -217,4 +217,21 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 		}
 		return (summary / totalOfStudents);
 	}
+	
+	public List<Student> listInactiveStudents(){
+		return sr.findInactiveStudents();
+	}
+	
+	public void activateStudent(Long id) {
+        sr.findById(id).ifPresent(student -> {
+            student.setActive(true);
+            sr.save(student);
+        });
+    }
+
+    public void deleteStudent(Long id) {
+        if (sr.existsById(id)) {
+            sr.deleteById(id);
+        }
+    }
 }

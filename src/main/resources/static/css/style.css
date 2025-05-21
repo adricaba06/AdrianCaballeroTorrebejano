@@ -23,16 +23,6 @@ aside {
   background-color: rgba(3, 56, 113, 0.5); 
 }
 
-/* .scroll-sin-barra-firefox {
-  overflow: auto;
-  scrollbar-width: none; /* Firefox */
- 
-/*/
-
-.scroll-sin-barra-chrome::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
-
-
 .transitional-ease {
   transition: transform 0.3s ease; 
 }

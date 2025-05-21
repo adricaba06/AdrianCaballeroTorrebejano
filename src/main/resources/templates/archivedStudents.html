@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head th:replace="fragments/commonHead :: commonHead">
+    <title>Alumnos Archivados</title>
+    <meta name="description" content="Listado de alumnos archivados" />
+  </head>
+
+  <body>
+    <section th:replace="fragments/decorationNav :: decorationNav"></section>
+
+    <section>
+      <!-- Offcanvas solo visible en móvil -->
+      <div th:replace="fragments/offcanva :: offcanva"></div>
+    </section>
+
+    <div class="d-flex">
+      <aside
+        class="d-none d-md-flex flex-column bg-light border-end text-primary p-3 vh-100"
+      >
+        <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
+      </aside>
+
+      <section class="container my-4 overflow-auto vh-100">
+        <h2 class="mb-4 text-primary">Alumnos Archivados</h2>
+
+        <div class="table-responsive">
+          <table
+            class="table table-hover table-bordereless align-middle text-center"
+          >
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Fecha de registro</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="student : ${archivedStudents}">
+                <td th:text="${student.name}">Nombre</td>
+                <td th:text="${student.surname}">Apellido</td>
+                <td
+                  th:text="${#temporals.format(student.registrationDate, 'dd/MM/yyyy')}"
+                >
+                  01/01/2024
+                </td>
+                <td>
+                  <div class="d-flex justify-content-center gap-2">
+                    <!-- Activar botón -->
+                    <form
+                      th:action="@{/student/activate/{id}(id=${student.id})}"
+                      method="post"
+                    >
+                      <button
+                        type="submit"
+                        class="btn btn-secondary btn-sm"
+                        title="Activar"
+                      >
+                        <i class="bi bi-check-circle"></i>
+                      </button>
+                    </form>
+
+                    <!-- Borrar botón -->
+                    <form
+                      th:action="@{/student/delete/{id}(id=${student.id})}"
+                      method="post"
+                    >
+                      <input type="hidden" name="_method" value="delete" />
+                      <button
+                        type="submit"
+                        class="btn btn-secondary btn-sm"
+                        title="Eliminar"
+                      >
+                        <i class="bi bi-trash3-fill"></i>
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

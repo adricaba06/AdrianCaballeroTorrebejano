@@ -76,7 +76,7 @@ public class StudentController {
 			if (courseO.isPresent()) {
 				Course course = courseO.get();
 				student.addToCourse(course);
-
+				courseService.checkOcupation(course);
 				daysUntilCourseStarts = studentService.getDaysUntilCourseStart(student.getRegistrationDate(),
 						student.getCourse().getStartDate());
 			}
@@ -97,7 +97,9 @@ public class StudentController {
 				student.setFee(fee);
 			}
 		}
-
+		
+		
+		
 		feeService.save(fee);
 		studentService.save(student);
 		return "redirect:/students";
@@ -145,6 +147,26 @@ public class StudentController {
 		studentService.save(student);
 		return "redirect:/course/" + student.getCourse().getId();
 
+	}
+	
+	@GetMapping("/students/archived")
+	public String showArchivedStudents(Model model) {
+	    List<Student> archivedStudents = studentService.listInactiveStudents();
+	    model.addAttribute("archivedStudents", archivedStudents);
+	    return "archivedStudents"; 
+	}
+	
+	@PostMapping("student/activate/{id}")
+	public String activateStudent(@PathVariable Long id) {
+		studentService.activateStudent(id);
+
+		return "redirect:/students/archived";
+	}
+
+	@PostMapping("student/delete/{id}")
+	public String deleteStudent(@PathVariable Long id) {
+		studentService.deleteStudent(id);
+		return "redirect:/students/archived";
 	}
 
 }
