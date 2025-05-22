@@ -42,7 +42,7 @@ public class StudentController {
 
 		List<Student> students;
 		if (nameParam != null && !nameParam.isEmpty()) {
-		    students = studentService.findByNameAndSurname(nameParam);
+		    students = studentService.findByName(nameParam);
 		} else {
 		    students = studentService.filterActiveStudents(sortBy, complete);
 		}
@@ -50,7 +50,7 @@ public class StudentController {
 		List<Course> courses = courseService.findAll();
 		List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
 		List<Student> searchStudent = nameParam != null && !nameParam.isEmpty()
-				? studentService.findByNameAndSurname(nameParam)
+				? studentService.findByName(nameParam)
 				: new ArrayList<>();
 
 		students.stream().forEach((s) -> s.setAverage(studentService.getAverageGrade(s.getId())));

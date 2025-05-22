@@ -48,6 +48,7 @@
                     <input type="hidden" th:field="*{age}" />
                     <input type="hidden" th:field="*{active}" />
                     <input type="hidden" th:field="*{course}" />
+                    <input type="hidden" th:field="*{fee}" />
 
                     <div class="row g-4">
                       <div class="col-md-6 text-center">
@@ -56,7 +57,7 @@
                           type="number"
                           th:field="*{grades[SPEAKING]}"
                           step="0.01"
-                          min="0"
+                          min="1"
                           max="10"
                           class="form-control form-control-sm"
                           placeholder="0 - 10"
@@ -69,7 +70,7 @@
                           type="number"
                           th:field="*{grades[WRITING]}"
                           step="0.01"
-                          min="0"
+                          min="1"
                           max="10"
                           class="form-control form-control-sm"
                           placeholder="0 - 10"
@@ -82,7 +83,7 @@
                           type="number"
                           th:field="*{grades[LISTENING]}"
                           step="0.01"
-                          min="0"
+                          min="1"
                           max="10"
                           class="form-control form-control-sm"
                           placeholder="0 - 10"
@@ -95,7 +96,7 @@
                           type="number"
                           th:field="*{grades[UOE]}"
                           step="0.01"
-                          min="0"
+                          min="1"
                           max="10"
                           class="form-control form-control-sm"
                           placeholder="0 - 10"
@@ -108,7 +109,7 @@
                           type="number"
                           th:field="*{grades[READING]}"
                           step="0.01"
-                          min="0"
+                          min="1"
                           max="10"
                           class="form-control form-control-sm"
                           placeholder="0 - 10"

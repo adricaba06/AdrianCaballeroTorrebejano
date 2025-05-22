@@ -365,6 +365,7 @@
                     placeholder="Apellido"
                     aria-label="Apellido"
                     maxlength="50"
+                    required
                   />
                 </div>
               </div>
@@ -403,7 +404,7 @@
               Cursos
               <div class="mb-3">
                 <label for="course" class="form-label"></label>
-                <select id="course" name="courseId" class="form-select">
+                <select id="course" name="courseId" required class="form-select">
                   <option value="" disabled selected>Select a course</option>
                   <option
                     th:each="course : ${courses}"
@@ -431,7 +432,7 @@
               <!-- Tipo de cuota -->
               <div class="mb-3">
                 <label for="MatriculaEdad" class="form-label"
-                  ><strong>Tipo de Cuota</strong></label
+                  ><strong>Info para Cuota</strong></label
                 >
 
                 <div class="mb-3 form-check">
@@ -449,7 +450,7 @@
               </div>
 
               <div class="mb-3">
-                <label for="textoAlternativo" class="form-label">
+                <label for="textoAlternativo"  class="form-label">
                   Añade texto alternativo
                 </label>
                 <input
@@ -459,6 +460,7 @@
                   name="textoAlternativo"
                   th:field="*{alternativeText}"
                   placeholder="Por ejemplo: el alumno tiene un hermano ya inscrito"
+                  required
                 />
               </div>
 

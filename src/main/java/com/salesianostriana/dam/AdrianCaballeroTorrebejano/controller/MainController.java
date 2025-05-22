@@ -18,8 +18,4 @@ public class MainController {
         return "aboutUs"; 
     }
 
-    @GetMapping("/gestion")
-    public String gestion() {
-        return "gestion"; 
-    }
 }

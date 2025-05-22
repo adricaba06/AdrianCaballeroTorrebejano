@@ -61,7 +61,7 @@ public class FeeController {
 		List<Course> activeCourses = courseService.showActiveCourses();
 		List<Student> studentFromCourse = studentService.filterStudentsByCourseId(courseId);
 		List<Student> searchStudent = nameParam != null && !nameParam.isEmpty()
-				? studentService.findByNameAndSurname(nameParam)
+				? studentService.findByName(nameParam)
 				: new ArrayList<>();
 		total = feeService.calculateTotalEstimated(studentService.filterActiveStudents(sortBy, true));
 
@@ -113,7 +113,7 @@ public class FeeController {
 		long daysUntilCourseStarts;
 		Fee newFee;
 		for (Student student : students) {
-			if (student.getCourse() != null && student.getCourse().getEndDate() != null) {
+			if (student.getCourse() != null && student.getCourse().getEndDate() != null && student.getFee().getId() != null) {
 
 				daysUntilCourseStarts = ChronoUnit.DAYS.between(LocalDate.now(), student.getCourse().getStartDate());
 				newFee = feeService.generateConvenientFee(student, daysUntilCourseStarts);
