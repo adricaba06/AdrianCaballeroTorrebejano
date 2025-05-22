@@ -38,16 +38,12 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 
 	public List<Student> filterActiveStudents(String sortBy, boolean complete) {
 		List<Student> activeStudents;
-		if (complete) {
-			activeStudents = findAll().stream().filter((s) -> s.isActive()).collect(Collectors.toList());
-		} else {
-			activeStudents = findAll().stream().limit(8).filter((s) -> s.isActive()).collect(Collectors.toList());
-		}
-
+		activeStudents = findAll().stream().filter(Student::isActive).collect(Collectors.toList());
 		if (sortBy == null) {
-			return activeStudents;
+		    sortBy = "alfabe"; 
 		}
 
+		
 		switch (sortBy) {
 		case "date":
 			activeStudents.sort(Comparator.comparing(Student::getRegistrationDate));
@@ -68,7 +64,10 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 		default:
 			Collections.sort(activeStudents);
 		}
-
+		 if (!complete) {
+		        return activeStudents.stream().limit(8).collect(Collectors.toList());
+		    }
+		 
 		return activeStudents;
 
 	}
@@ -91,6 +90,9 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 	public double getPassPercent(Long id) {
 		List<Student> students = filterStudentsByCourseId(id);
 		double passingStudentsNumber = 0;
+		if (students.isEmpty()) {
+			return 0.0;
+		}
 
 		passingStudentsNumber = students.stream().filter((s) -> s.getAverageGrade() >= 5).count();
 
@@ -101,6 +103,9 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 	public double getFailPercent(Long id) {
 		List<Student> students = filterStudentsByCourseId(id);
 		double failingStudentNumber = 0;
+		if (students.isEmpty()) {
+			return 0.0;
+		}
 
 		failingStudentNumber = students.stream().filter((s) -> s.getAverageGrade() < 5).count();
 
@@ -211,27 +216,27 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 		long totalOfStudents = 1;
 		List<Student> students = filterStudentsByCourseId(id);
 		totalOfStudents = students.stream().count();
-		
-		for (Student s : students ) {
+
+		for (Student s : students) {
 			summary += s.getAverageGrade();
 		}
 		return (summary / totalOfStudents);
 	}
-	
-	public List<Student> listInactiveStudents(){
+
+	public List<Student> listInactiveStudents() {
 		return sr.findInactiveStudents();
 	}
-	
-	public void activateStudent(Long id) {
-        sr.findById(id).ifPresent(student -> {
-            student.setActive(true);
-            sr.save(student);
-        });
-    }
 
-    public void deleteStudent(Long id) {
-        if (sr.existsById(id)) {
-            sr.deleteById(id);
-        }
-    }
+	public void activateStudent(Long id) {
+		sr.findById(id).ifPresent(student -> {
+			student.setActive(true);
+			sr.save(student);
+		});
+	}
+
+	public void deleteStudent(Long id) {
+		if (sr.existsById(id)) {
+			sr.deleteById(id);
+		}
+	}
 }

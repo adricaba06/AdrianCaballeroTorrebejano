@@ -34,9 +34,7 @@
           <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-              <h2 class="modal-title">
-                Nuevo Curso
-              </h2>
+              <h2 class="modal-title">Nuevo Curso</h2>
               <button
                 type="button"
                 class="btn-close"
@@ -48,13 +46,17 @@
             <div class="modal-body">
               <form
                 method="POST"
-                th:action="@{/newcourse}"
+                th:action="@{/courses/newcourse}"
                 th:object="${course}"
                 id="nuevoCursoForm"
               >
                 <!-- info del curso -->
                 <div class="mb-3">
-                  <label class="form-label"><strong>Info <span class="text-danger">*</span></strong></label>
+                  <label class="form-label"
+                    ><strong
+                      >Info <span class="text-danger">*</span></strong
+                    ></label
+                  >
                   <div class="input-group">
                     <input
                       type="text"
@@ -78,7 +80,11 @@
 
                 <!-- Nivel de inglés -->
                 <div class="mb-3">
-                  <label class="form-label"><strong>Nivel <span class="text-danger">*</span></strong></label>
+                  <label class="form-label"
+                    ><strong
+                      >Nivel <span class="text-danger">*</span></strong
+                    ></label
+                  >
                   <div>
                     <div class="form-check form-check-inline">
                       <input
@@ -178,7 +184,8 @@
 
                 <div class="mb-3">
                   <label for="fechaFin" class="form-label fw-bold">
-                    Fecha de finalización del curso: <span class="text-danger">*</span>
+                    Fecha de finalización del curso:
+                    <span class="text-danger">*</span>
                   </label>
                   <input
                     type="date"
@@ -193,7 +200,10 @@
                 <!-- nombre de profe -->
                 <div class="mb-3">
                   <label class="form-label"
-                    ><strong>Nombre del profesor/a <span class="text-danger">*</span></strong></label
+                    ><strong
+                      >Nombre del profesor/a
+                      <span class="text-danger">*</span></strong
+                    ></label
                   >
                   <input
                     type="text"
@@ -208,7 +218,8 @@
 
                 <div class="mb-3">
                   <label for="capacidadClase" class="form-label fw-bold">
-                    Indique la capacidad de la clase <span class="text-danger">*</span>
+                    Indique la capacidad de la clase
+                    <span class="text-danger">*</span>
                   </label>
                   <input
                     type="number"
@@ -225,7 +236,8 @@
                 <!-- Imagenes portada -->
                 <div class="mb-3">
                   <label class="form-label fw-bold"
-                    >Selecciona una imagen de portada: <span class="text-danger">*</span></label
+                    >Selecciona una imagen de portada:
+                    <span class="text-danger">*</span></label
                   >
                   <div class="d-flex flex-wrap gap-3">
                     <!-- imagen 1 -->
@@ -378,7 +390,7 @@
             th:if="${course.id != 1}"
           >
             <a
-              th:href="@{/course/{id}(id = ${course.id})}"
+              th:href="@{/courses/course/{id}(id = ${course.id})}"
               class="text-decoration-none"
             >
               <div
@@ -430,5 +442,6 @@
     >
       +
     </button>
+    <section th:replace="fragments/footer :: footer"></section>
   </body>
 </html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <head th:replace="fragments/commonHead :: commonHead">
+      <title>Portada</title>
+      <meta name="description" content="Bienvenido a Royal English" />
+    </head>
+  </head>
+  <body>
+    <!-- Barra superior -->
+    <section th:replace="fragments/decorationNav :: decorationNav"></section>
+
+    <!-- Portada pantalla completa con imagen responsiva -->
+    <div class="position-relative w-100" style="height: 100vh">
+      <!-- Imagen para escritorio -->
+      <img
+        th:src="@{/pictures/cover.png}"
+        class="position-absolute top-0 start-0 w-100 h-100 d-none d-sm-block"
+        style="object-fit: cover; z-index: -1"
+        alt="Portada escritorio"
+      />
+
+      <!-- Imagen para móvil -->
+      <img
+        th:src="@{/pictures/cover-mobile.png}"
+        class="position-absolute top-0 start-0 w-100 h-100 d-block d-sm-none"
+        style="object-fit: cover; z-index: -1"
+        alt="Portada móvil"
+      />
+
+      <!-- Contenido sobre la imagen -->
+      <div
+        class="d-flex flex-column justify-content-center align-items-start h-100 ps-4 pe-4"
+      >
+        <div class="bg-light bg-opacity-75 p-4 rounded shadow text-start">
+          <h1 class="display-4 fw-bold text-primary">Royal English</h1>
+          <p class="lead text-dark">Aprende inglés con excelencia.</p>
+          <a
+            href="/main/quienes-somos"
+            class="btn btn-outline-primary btn-lg mt-3"
+          >
+            Conócenos
+          </a>
+        </div>
+      </div>
+    </div>
+    <section th:replace="fragments/footer :: footer"></section>
+  </body>
+</html>

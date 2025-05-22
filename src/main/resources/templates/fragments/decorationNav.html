@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -20,26 +20,64 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <title>ne</title>
-</head>
-<body>
-    <section th:fragment="decorationNav" class="container-fluid bg-light border-bottom py-2">
-      <div class="d-flex justify-content-between align-items-center px-3">
+  </head>
+  <body>
+    <!-- CABECERA -->
+    <section th:fragment="decorationNav">
+      <div class="container-fluid bg-light border-bottom py-2">
+        <div class="d-flex justify-content-between align-items-center px-3">
+          <h1 class="m-0 fs-3 text-primary">Royal English</h1>
+          <img
+            th:src="@{/pictures/logo/2-transparent.png}"
+            alt="Logo"
+            width="60"
+            class="img-fluid"
+          />
+        </div>
         <button
-          class="btn btn-outline-primary d-md-none"
+          class="btn btn-outline-primary d-md-none ms-2"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#MyOffcanva"
+          aria-controls="MyOffcanva"
         >
-          <i class="bi bi-list fs-4"></i>
+          <i class="bi bi-list"></i>
         </button>
-        <h1 class="m-0 fs-3 text-primary">Royal English</h1>
-        <img
-          th:src="@{/pictures/logo/2-transparent.png}"
-          alt="Logo"
-          width="60"
-          class="img-fluid"
-        />
       </div>
+
+      <nav
+        class="navbar navbar-light bg-light border-bottom"
+        style="padding-top: 0.25rem; padding-bottom: 0.25rem"
+      >
+        <div class="container-fluid px-3">
+          <ul class="navbar-nav flex-row flex-wrap me-auto mb-0">
+            <li class="nav-item me-3">
+              <a
+                class="nav-link py-1"
+                th:href="@{/main/cover}"
+                style="line-height: 1"
+                >Inicio</a
+              >
+            </li>
+            <li class="nav-item me-3">
+              <a
+                class="nav-link py-1"
+                th:href="@{/main/aboutUs}"
+                style="line-height: 1"
+                >Quiénes somos</a
+              >
+            </li>
+            <li class="nav-item me-3">
+              <a
+                class="nav-link py-1"
+                th:href="@{/dashboard}"
+                style="line-height: 1"
+                >Gestión</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
     </section>
-</body>
+  </body>
 </html>

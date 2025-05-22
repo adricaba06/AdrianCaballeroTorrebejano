@@ -285,7 +285,9 @@
                     </p>
                     <p>
                       <span class="fw-bold">Fecha de inscripción: </span>
-                      <span th:text="${#temporals.format(student.registrationDate, 'dd/MM/yyyy')}"></span>
+                      <span
+                        th:text="${#temporals.format(student.registrationDate, 'dd/MM/yyyy')}"
+                      ></span>
                     </p>
 
                     <p>
@@ -480,5 +482,6 @@
     >
       +
     </button>
+    <section th:replace="fragments/footer :: footer"></section>
   </body>
 </html>

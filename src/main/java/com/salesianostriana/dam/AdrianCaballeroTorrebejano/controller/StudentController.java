@@ -40,7 +40,13 @@ public class StudentController {
 		model.addAttribute("complete", complete);
 		model.addAttribute("student", new Student());
 
-		List<Student> students = studentService.findAll();
+		List<Student> students;
+		if (nameParam != null && !nameParam.isEmpty()) {
+		    students = studentService.findByNameAndSurname(nameParam);
+		} else {
+		    students = studentService.filterActiveStudents(sortBy, complete);
+		}
+
 		List<Course> courses = courseService.findAll();
 		List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
 		List<Student> searchStudent = nameParam != null && !nameParam.isEmpty()
@@ -145,7 +151,7 @@ public class StudentController {
 	@PostMapping("/saveStudentsGrades")
 	public String saveStudentsGrades(@ModelAttribute("student") Student student) {
 		studentService.save(student);
-		return "redirect:/course/" + student.getCourse().getId();
+		return "redirect:/courses/course/" + student.getCourse().getId();
 
 	}
 	

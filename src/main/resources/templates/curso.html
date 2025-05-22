@@ -28,7 +28,11 @@
 
           <!-- Modal Body -->
           <div class="modal-body">
-            <form th:action="@{/newcourse}" method="post" th:object="${course}">
+            <form
+              th:action="@{courses/newcourse}"
+              method="post"
+              th:object="${course}"
+            >
               <input type="hidden" th:field="*{id}" />
 
               <!-- Información del curso -->
@@ -447,7 +451,7 @@
                   Cancelar
                 </button>
                 <form
-                  th:action="@{/archiveCourse/{id}(id=${course.id})}"
+                  th:action="@{/courses/archiveCourse/{id}(id=${course.id})}"
                   method="post"
                   class="d-inline"
                 >
@@ -578,21 +582,21 @@
                     <li>
                       <a
                         class="dropdown-item"
-                        th:href="@{/course/{id}(id=${course.id}, filter='max')}"
+                        th:href="@{/courses/course/{id}(id=${course.id}, filter='max')}"
                         >Alumno/a con mejor nota</a
                       >
                     </li>
                     <li>
                       <a
                         class="dropdown-item"
-                        th:href="@{/course/{id}(id=${course.id}, filter='min')}"
+                        th:href="@{/courses/course/{id}(id=${course.id}, filter='min')}"
                         >Alumno con peor nota</a
                       >
                     </li>
                     <li>
                       <a
                         class="dropdown-item"
-                        th:href="@{/course/{id}(id=${course.id}, filter='all')}"
+                        th:href="@{/courses/course/{id}(id=${course.id}, filter='all')}"
                         >Todos</a
                       >
                     </li>
@@ -617,6 +621,11 @@
                   </thead>
                   <tbody>
                     <!-- Fila 1 -->
+                    <tr th:if="${#lists.isEmpty(topOrLowestStudent)}">
+                      <td colspan="9" class="text-center">
+                        No hay alumnos que mostrar
+                      </td>
+                    </tr>
                     <tr th:each="student : ${topOrLowestStudent}">
                       <td th:text="${student.name}">2</td>
                       <td th:text="${student.surname}">2</td>
@@ -656,5 +665,6 @@
         </div>
       </div>
     </div>
+    <section th:replace="fragments/footer :: footer"></section>
   </body>
 </html>

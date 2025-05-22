@@ -47,7 +47,7 @@ public class FeeController {
 		double total = 0, ocupationPercent = 0, averageGrade = 0;
 
 		Course course = null;
-
+	
 		if (courseId != null) {
 			ocupationPercent = Math.round(courseService.getPercentOfOcupation(courseId));
 			Optional<Course> courseO = courseService.findById(courseId);
@@ -59,6 +59,7 @@ public class FeeController {
 
 		List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
 		List<Course> activeCourses = courseService.showActiveCourses();
+		List<Student> studentFromCourse = studentService.filterStudentsByCourseId(courseId);
 		List<Student> searchStudent = nameParam != null && !nameParam.isEmpty()
 				? studentService.findByNameAndSurname(nameParam)
 				: new ArrayList<>();
@@ -74,7 +75,14 @@ public class FeeController {
 		model.addAttribute("total", total);
 
 		model.addAttribute("ocupationPercent", ocupationPercent);
-		model.addAttribute("average", averageGrade);
+		
+		
+		if (studentFromCourse.isEmpty() || Double.isNaN(averageGrade) || Double.isInfinite(averageGrade)) {
+		    model.addAttribute("average", null);
+		} else {
+		    model.addAttribute("average", averageGrade);
+		}
+
 
 		model.addAttribute("course", course);
 		model.addAttribute("basePrice", feeService.roundTwoDecimals(feeSettingService.getCurrentSetting().getBasePrice()));

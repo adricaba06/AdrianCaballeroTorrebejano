@@ -61,14 +61,14 @@ public class Course {
 	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
 	private List<Student> studentList;
 
-	// SE QUE PODRÍA HABER PUESTO VARIAS JUNTAS YA AHORRAR ESPACIO, PERO LUISMI DIJO
+	// SE QUE PODRÍA HABER PUESTO VARIAS JUNTAS Y AHORRAR ESPACIO, PERO LUISMI DIJO
 	// QUE ERA MEJOR ASI
 
 	
 	public int numOfStudents() {   					
 		int num;
-		num = (int) studentList.stream().filter((s) -> s.isActive()).count(); // .count DEVUELVE UN LONG PERO NO ME
-																				// INTERESA QUE SEA UN LONG
+		num = (int) studentList.stream().filter((s) -> s.isActive()).count(); 
+																				
 		return num;
 
 	}
@@ -83,7 +83,5 @@ public class Course {
 	        studentList.remove(student);
 	    }
 	}
-
-	
 
 }

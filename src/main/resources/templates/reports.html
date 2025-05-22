@@ -261,6 +261,7 @@
                     </option>
                     <option
                       th:each="course : ${activeCourses}"
+                      th:if="${course.id != 1}"
                       th:value="${course.id}"
                       th:text="${course.name}"
                       th:selected="${course.id == param.courseId}"
@@ -282,17 +283,18 @@
 
                 <div class="progress fw-bold fs-6 mt-3" style="height: 40px">
                   <div
-                    th:if="${course != null}"
+                    th:if="${average != null}"
                     class="progress-bar progress-bar-striped progress-bar-animated"
                     th:classappend="${average < 5} ? ' bg-secondary' : ' bg-primary'"
-                    th:style="'width:' + ${average}"
+                    th:style="'width:' + (${average} * 10) + '%'"
                   >
                     <span
                       th:text="${#numbers.formatDecimal(average, 1, 2)}"
                     ></span>
                   </div>
+
                   <div
-                    th:if="${course == null}"
+                    th:if="${average == null}"
                     class="progress-bar bg-light text-muted d-flex justify-content-center align-items-center"
                     style="width: 100%; height: 100%"
                   >
@@ -326,21 +328,37 @@
                 <div class="col-md-6">
                   <div class="border rounded p-3 bg-white">
                     <h6 class="mb-1">Precio de la cuota</h6>
-                    <p class="mb-0" id="mostrarPrecio1" th:text="${basePrice} + ' € / mes'">60 € / mes</p>
+                    <p
+                      class="mb-0"
+                      id="mostrarPrecio1"
+                      th:text="${basePrice} + ' € / mes'"
+                    >
+                      60 € / mes
+                    </p>
                   </div>
                 </div>
 
                 <div class="col-md-6">
                   <div class="border rounded p-3 bg-white">
                     <h6 class="mb-1">Dias de antelación para descuento</h6>
-                    <p class="mb-0" id="mostrarPrecio2" th:text="${daysForDis} + ' dias'">4 dias</p>
+                    <p
+                      class="mb-0"
+                      id="mostrarPrecio2"
+                      th:text="${daysForDis} + ' dias'"
+                    >
+                      4 dias
+                    </p>
                   </div>
                 </div>
 
                 <div class="col-md-6">
                   <div class="border rounded p-3 bg-white">
                     <h6 class="mb-1">Descuento por hermano (%)</h6>
-                    <p class="mb-0" id="mostrarDescuentoTemprano" th:text="${siblingDis} + ' % de descuento'">
+                    <p
+                      class="mb-0"
+                      id="mostrarDescuentoTemprano"
+                      th:text="${siblingDis} + ' % de descuento'"
+                    >
                       10% de descuento
                     </p>
                   </div>
@@ -349,7 +367,11 @@
                 <div class="col-md-6">
                   <div class="border rounded p-3 bg-white">
                     <h6 class="mb-1">Descuento por inscripción temprana (%)</h6>
-                    <p class="mb-0" id="mostrarDescuentoHermano" th:text="${earlyDis} + ' % de descuento'">
+                    <p
+                      class="mb-0"
+                      id="mostrarDescuentoHermano"
+                      th:text="${earlyDis} + ' % de descuento'"
+                    >
                       15% de descuento
                     </p>
                   </div>
@@ -370,5 +392,6 @@
         </section>
       </main>
     </div>
+    <section th:replace="fragments/footer :: footer"></section>
   </body>
 </html>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Course;
@@ -21,14 +22,13 @@ import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.StudentServic
 import jakarta.persistence.EntityNotFoundException;
 
 @Controller
+@RequestMapping("/courses")
 public class CourseController {
 
 	@Autowired
 	private CourseService courseService;
 	@Autowired
 	private StudentService studentService;
-
-	// Controller para mostrar una lista
 
 	@GetMapping("/dashboard")
 	public String showDashboard(Model model) {
@@ -42,7 +42,7 @@ public class CourseController {
 	@PostMapping("/newcourse")
 	public String saveCourse(@ModelAttribute("course") Course course) {
 		courseService.save(course);
-		return "redirect:/dashboard";
+		return "redirect:/courses/dashboard";
 	}
 
 	@GetMapping("/course/{id}")
@@ -55,6 +55,7 @@ public class CourseController {
 		if (courseO.isPresent()) {
 			course = courseO.get();
 		}
+		
 
 		List<Student> filteredStudentList = studentService.filterStudentsByCourseId(id);
 		List<Student> maxOrMinStudents = studentService.filterMaxOrMinByParam(id, filter);
@@ -82,9 +83,9 @@ public class CourseController {
 			course.get().setActive(false);
 			courseService.save(course.get());
 			courseService.moveStudents(id);
-			return "redirect:/dashboard";
+			return "redirect:/courses/dashboard";
 		} else {
-			return "redirect:/dashboard";
+			return "redirect:/courses/dashboard";
 		}
 
 	}
@@ -98,13 +99,13 @@ public class CourseController {
 	@PostMapping("/course/delete/{id}")
 	public String deleteCourse(@PathVariable Long id) {
 	    courseService.deleteById(id);
-	    return "redirect:/showArchiveCourses";
+	    return "redirect:/courses/showArchiveCourses";
 	}
 	
 	@PostMapping("/course/reactivate/{id}")
 	public String reactivateCourse(@PathVariable Long id) {
 	    courseService.reactivateById(id);
-	    return "redirect:/showArchiveCourses";
+	    return "redirect:/courses/showArchiveCourses";
 	}
 
 }

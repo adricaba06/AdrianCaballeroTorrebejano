@@ -20,5 +20,11 @@ public interface BaseService<T, ID> {
 	
 	void deleteById(ID id);
 	
+	public double calculatePercent(double num1, double num2);
+	
+	double roundTwoDecimals(double value);
+	
+	
+	
 
 }

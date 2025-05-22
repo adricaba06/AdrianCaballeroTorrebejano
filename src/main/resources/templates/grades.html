@@ -36,7 +36,6 @@
                   <form
                     th:action="@{/saveStudentsGrades}"
                     th:object="${student}"
-                    
                     method="post"
                     class="p-5 bg-white w-75"
                   >
@@ -44,12 +43,12 @@
                     <input type="hidden" th:field="*{name}" />
                     <input type="hidden" th:field="*{surname}" />
                     <input type="hidden" th:field="*{photoPath}" />
-                    <input type="hidden" th:field="*{registrationDate}"/>
+                    <input type="hidden" th:field="*{registrationDate}" />
                     <input type="hidden" th:field="*{email}" />
                     <input type="hidden" th:field="*{age}" />
                     <input type="hidden" th:field="*{active}" />
                     <input type="hidden" th:field="*{course}" />
-                    
+
                     <div class="row g-4">
                       <div class="col-md-6 text-center">
                         <label class="form-label fw-bold">Speaking</label>
@@ -130,5 +129,6 @@
         </section>
       </main>
     </div>
+    <section th:replace="fragments/footer :: footer"></section>
   </body>
 </html>

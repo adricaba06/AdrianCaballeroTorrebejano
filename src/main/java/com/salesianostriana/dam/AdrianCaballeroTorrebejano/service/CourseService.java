@@ -90,15 +90,13 @@ public class CourseService extends BaseServiceImpl<Course, Long, CourseRepositor
 			throw new RuntimeException("not found");
 		}
 	}
-	
+
 	public void reactivateById(Long id) {
-	    Course course = cr.findById(id)
-	        .orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
+		Course course = cr.findById(id).orElseThrow(() -> new IllegalArgumentException("Curso no encontrado"));
 
-	    course.setActive(true);
-	    cr.save(course);
+		course.setActive(true);
+		cr.save(course);
 	}
-
 
 	public List<Course> findInactiveCourses() {
 		return cr.findInactiveCourses();

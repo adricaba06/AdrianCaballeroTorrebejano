@@ -5,7 +5,7 @@
     <ul class="nav flex-column" th:fragment="ul-aside">
       <li class="nav-item">
         <a
-          th:href="@{/dashboard}"
+          th:href="@{/courses/dashboard}"
           class="nav-link text-primary d-flex align-items-center gap-2"
         >
           <i class="bi bi-mortarboard"></i> Cursos
@@ -29,7 +29,7 @@
       </li>
       <li class="nav-item">
         <a
-          th:href="@{/showArchiveCourses}"
+          th:href="@{/courses/showArchiveCourses}"
           class="nav-link text-primary d-flex align-items-center gap-2"
         >
           <i class="bi bi-archive"></i> Cursos archivados
@@ -40,7 +40,7 @@
           th:href="@{/students/archived}"
           class="nav-link text-primary d-flex align-items-center gap-2"
         >
-          <i class="bi bi-person-rolodex"></i> Cursos archivados
+          <i class="bi bi-person-rolodex"></i> Alumnos archivados
         </a>
       </li>
     </ul>
