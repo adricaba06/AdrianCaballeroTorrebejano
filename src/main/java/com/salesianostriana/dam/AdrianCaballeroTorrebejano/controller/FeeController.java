@@ -37,9 +37,6 @@ public class FeeController {
 	@Autowired
 	private CourseService courseService;
 
-	@Autowired
-	private FeeSettingService feeSettingService;
-
 	@GetMapping("/reports")
 	public String showReports(Model model, @RequestParam(name = "sort", required = false) String sortBy,
 			@RequestParam(required = false) String nameParam, @RequestParam(required = false) boolean complete,
@@ -88,10 +85,6 @@ public class FeeController {
 
 		model.addAttribute("fees", allFees);
 		model.addAttribute("course", course);
-		model.addAttribute("basePrice", feeService.roundTwoDecimals(feeSettingService.getCurrentSetting().getBasePrice()));
-		model.addAttribute("siblingDis", feeService.roundTwoDecimals(feeSettingService.getCurrentSetting().getSiblingDiscount()));
-		model.addAttribute("earlyDis", feeService.roundTwoDecimals(feeSettingService.getCurrentSetting().getEarlyRegistrationDiscount()));
-		model.addAttribute("daysForDis", feeSettingService.getCurrentSetting().getDaysBeforeCourseStartsSetByUser());
 		
 		return "reports";
 	}
