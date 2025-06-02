@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.base.service.BaseServiceImpl;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Fee;
-import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.FeeSetting;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.repository.FeeRepository;
 

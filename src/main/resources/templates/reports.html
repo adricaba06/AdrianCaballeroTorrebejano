@@ -84,7 +84,9 @@
                   </td>
                   <td th:text="${student.fee != null ? student.fee.earlyRegistrationDiscount + ' %' : '0 %'}"></td>
                   <td th:text="${student.course.name}">Curso 1</td>
-                  <td th:text="${student.fee.calculateFinalPrice != null ? student.fee.calculateFinalPrice + ' €' : '---'}"></td>
+                  <td
+                    th:text="${student.fee.calculateFinalPrice != null ? student.fee.calculateFinalPrice + ' €' : '---'}">
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -227,8 +229,13 @@
               </div>
               <div class="text-end mt-4">
                 <a th:href="@{'/showPricesForm/' + ${fee.id}}" class="btn btn-outline-primary" role="button">Editar</a>
-                
-                
+              </div>
+              <div>
+                <form th:action="@{/savePrices}" th:object="${student}" method="POST" class="p-4">
+                  <a><button type="submit" class="btn btn-outline-primary">
+                      Crear
+                    </button></a>
+                </form>
               </div>
             </div>
           </div>
