@@ -41,6 +41,16 @@ public class Fee {
 	
 
 	// helper methods
+	
+	public double calculateFinalPrice() {
+		double base = basePrice;
+
+		double siblingDiscountAmount = base * (siblingDiscount / 100.0);
+		double earlyDiscountAmount = base * (earlyRegistrationDiscount / 100.0);
+
+		return base - siblingDiscountAmount - earlyDiscountAmount;
+	}
+	
 	  public void addStudent(Student student) {
 	        students.add(student);
 	        student.setFee(this);  

@@ -42,15 +42,14 @@ public class StudentController {
 
 		List<Student> students;
 		if (nameParam != null && !nameParam.isEmpty()) {
-		    students = studentService.findByName(nameParam);
+			students = studentService.findByName(nameParam);
 		} else {
-		    students = studentService.filterActiveStudents(sortBy, complete);
+			students = studentService.filterActiveStudents(sortBy, complete);
 		}
 
 		List<Course> courses = courseService.findAll();
 		List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
-		List<Student> searchStudent = nameParam != null && !nameParam.isEmpty()
-				? studentService.findByName(nameParam)
+		List<Student> searchStudent = nameParam != null && !nameParam.isEmpty() ? studentService.findByName(nameParam)
 				: new ArrayList<>();
 
 		students.stream().forEach((s) -> s.setAverage(studentService.getAverageGrade(s.getId())));
@@ -68,15 +67,22 @@ public class StudentController {
 	@PostMapping("/savestudent")
 	public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(required = false) Long courseId,
 			@RequestParam("file") MultipartFile pic,
+			@RequestParam("feeId") Long feeId,
 			@RequestParam(value = "existingPhoto", required = false) String existingPhoto,
 			@RequestParam(value = "resgDate", required = false) LocalDate registrationDate) {
 
 		LocalDate today = LocalDate.now();
 		Long daysUntilCourseStarts = 0L;
-		Fee fee = student.getFee();
 
 		studentService.validateStudent(student, registrationDate);
-
+		
+		if (feeId != null) {
+	        Optional<Fee> feeO = feeService.findById(feeId);
+	        feeO.ifPresent(student::setFee);
+	    } else {
+	        student.setFee(null);
+	    }
+		
 		if (courseId != null) {
 			Optional<Course> courseO = courseService.findById(courseId);
 			if (courseO.isPresent()) {
@@ -86,24 +92,11 @@ public class StudentController {
 				daysUntilCourseStarts = studentService.getDaysUntilCourseStart(student.getRegistrationDate(),
 						student.getCourse().getStartDate());
 			}
-		}else {
+		} else {
 			daysUntilCourseStarts = 0L;
 		}
 
 		studentService.addProfilePicture(pic, existingPhoto, student);
-
-		if (student != null && student.getCourse() != null && student.getCourse().getStartDate() != null
-				&& student.getRegistrationDate() != null) {
-			if (fee == null) {
-				fee.addStudent(student);
-			} else {
-				//TO DO 
-			}
-		}
-		
-		
-		
-		feeService.save(fee);
 		studentService.save(student);
 		return "redirect:/students";
 
@@ -153,14 +146,14 @@ public class StudentController {
 		return "redirect:/courses/course/" + student.getCourse().getId();
 
 	}
-	
+
 	@GetMapping("/students/archived")
 	public String showArchivedStudents(Model model) {
-	    List<Student> archivedStudents = studentService.listInactiveStudents();
-	    model.addAttribute("archivedStudents", archivedStudents);
-	    return "archivedStudents"; 
+		List<Student> archivedStudents = studentService.listInactiveStudents();
+		model.addAttribute("archivedStudents", archivedStudents);
+		return "archivedStudents";
 	}
-	
+
 	@PostMapping("student/activate/{id}")
 	public String activateStudent(@PathVariable Long id) {
 		studentService.activateStudent(id);

@@ -84,7 +84,7 @@
                   </td>
                   <td th:text="${student.fee != null ? student.fee.earlyRegistrationDiscount + ' %' : '0 %'}"></td>
                   <td th:text="${student.course.name}">Curso 1</td>
-                  <td th:text="${student.fee != null ? student.fee.finalPrice + ' €' : '---'}"></td>
+                  <td th:text="${student.fee.calculateFinalPrice != null ? student.fee.calculateFinalPrice + ' €' : '---'}"></td>
                 </tr>
               </tbody>
             </table>
@@ -209,7 +209,7 @@
                   <h6 class="mb-1">Precio de la cuota</h6>
                   <p class="mb-0" th:text="${fee.basePrice} + ' € / mes'">60 € / mes</p>
                 </div>
-                
+
                 <div class="col-md-6">
                   <h6 class="mb-1">Días de antelación para descuento</h6>
                   <p class="mb-0" th:text="${fee.daysForDiscount} + ' dias'">4 dias</p>

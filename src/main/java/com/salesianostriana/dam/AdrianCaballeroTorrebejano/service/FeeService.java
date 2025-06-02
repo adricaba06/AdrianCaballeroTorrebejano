@@ -17,12 +17,6 @@ public class FeeService extends BaseServiceImpl<Fee, Long, FeeRepository> {
 	@Autowired
 	private FeeRepository feeRepository;
 
-	private final FeeSettingService feeSettingService;
-
-	public FeeService(FeeSettingService feeSettingService) {
-		this.feeSettingService = feeSettingService;
-	}
-
 	public double calculateFinalPrice(Fee fee) {
 		double base = fee.getBasePrice();
 
@@ -32,29 +26,6 @@ public class FeeService extends BaseServiceImpl<Fee, Long, FeeRepository> {
 		return base - siblingDiscountAmount - earlyDiscountAmount;
 	}
 
-	public Fee generateConvenientFee(Student student, Long daysUntilCourseStarts) {
-		FeeSetting fs = feeSettingService.getCurrentSetting();
-		Fee fee = new Fee();
-		double earlyDiscount;
-
-		if (fs.getEarlyRegistrationDiscount() + fs.getSiblingDiscount() >= 100) {
-			fs.setEarlyRegistrationDiscount(0);
-			fs.setSiblingDiscount(0);
-		}
-
-		fee.setBasePrice(fs.getBasePrice());
-
-		fee.setSiblingDiscount(student.isHasASibling() ? fs.getSiblingDiscount() : 0.0);
-
-		earlyDiscount = (daysUntilCourseStarts != null
-				&& daysUntilCourseStarts >= fs.getDaysBeforeCourseStartsSetByUser()) ? fs.getEarlyRegistrationDiscount()
-						: 0.0;
-		fee.setEarlyRegistrationDiscount(earlyDiscount);
-
-		fee.setFinalPrice(calculateFinalPrice(fee));
-
-		return fee;
-	}
 
 	public double calculateTotalEstimated(List<Student> students) {
 		return students.stream().filter((s) -> s.getFee() != null).mapToDouble((s) -> s.getFee().getFinalPrice()).sum();

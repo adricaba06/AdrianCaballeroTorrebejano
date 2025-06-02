@@ -115,28 +115,8 @@ public class FeeController {
 	}
 
 	@PostMapping("/savePrices")
-	public String setPrices(@ModelAttribute("feePrices") FeeSetting updatedRules) {
-		feeSettingService.updateSetting(updatedRules);
-		List<Student> students = studentService.findAll();
-		long daysUntilCourseStarts;
-		Fee newFee;
-		for (Student student : students) {
-			if (student.getCourse() != null && student.getCourse().getEndDate() != null && student.getFee().getId() != null) {
-
-				daysUntilCourseStarts = ChronoUnit.DAYS.between(LocalDate.now(), student.getCourse().getStartDate());
-				newFee = feeService.generateConvenientFee(student, daysUntilCourseStarts);
-				studentService.save(student);
-			} else {
-				newFee = new Fee();
-				newFee.setBasePrice(0);
-				newFee.setFinalPrice(0);
-			}
-			newFee.setId(student.getFee().getId());
-			newFee.addStudent(student);
-			feeService.save(newFee);
-			student.setFee(newFee);
-		}
-
+	public String setPrices(@ModelAttribute("feePrices") Fee fee) {
+		feeService.save(fee);
 		return "redirect:/reports";
 	}
 
