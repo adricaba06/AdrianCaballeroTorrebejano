@@ -117,7 +117,7 @@ public class StudentController {
 		Optional<Student> studentO = studentService.findById(id);
 		Student student = null;
 		int numOfStudents;
-		List<Course> courses = courseService.findAll();
+		List<Course> courses = courseService.showActiveCourses();
 
 		numOfStudents = courses.size();
 		if (studentO.isPresent()) {

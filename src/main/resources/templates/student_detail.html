@@ -105,7 +105,7 @@
                     <option
                       th:each="course : ${courses}"
                       th:value="${course.id}"
-                      th:if="${course.active and not course.full}"
+                      th:else="${course.full}"
                       th:text="${course.name}"
                       th:selected="${student.course != null and course.id == student.course.id}"
                     ></option>
