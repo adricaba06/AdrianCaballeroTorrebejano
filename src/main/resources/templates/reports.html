@@ -186,62 +186,57 @@
 
       <!-- Precios -->
       <section class="container mt-4">
-        <div class="d-flex align-items-center mb-3">
-          <h2 class="text-primary">Precios</h2>
-          <button type="button" class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
-            data-bs-toggle="collapse" data-bs-target="#precios" aria-expanded="true" aria-controls="precios">
-            <i class="bi bi-caret-down fs-4"></i>
-          </button>
-        </div>
 
-        <div id="precios" class="collapse show">
-          <div class="bg-light p-4 rounded-3">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <div class="border rounded p-3 bg-white">
+        <p th:if="${#lists.isEmpty(fees)}">No hay cuotas.</p>
+
+        <div th:if="${!#lists.isEmpty(fees)}">
+
+          <div class="d-flex align-items-center mb-3">
+            <h2 class="text-primary">Precios</h2>
+            <button type="button"
+              class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
+              data-bs-toggle="collapse" data-bs-target="#precios" aria-expanded="true" aria-controls="precios">
+              <i class="bi bi-caret-down fs-4"></i>
+            </button>
+          </div>
+
+          <div id="precios" class="collapse show bg-light p-4 rounded-3">
+
+            <div th:each="fee : ${fees}" class="border rounded p-3 bg-white mb-3">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <h2 th:text="${fee.name}"></h2>
                   <h6 class="mb-1">Precio de la cuota</h6>
-                  <p class="mb-0" id="mostrarPrecio1" th:text="${basePrice} + ' € / mes'">
-                    60 € / mes
-                  </p>
+                  <p class="mb-0" th:text="${fee.basePrice} + ' € / mes'">60 € / mes</p>
                 </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="border rounded p-3 bg-white">
-                  <h6 class="mb-1">Dias de antelación para descuento</h6>
-                  <p class="mb-0" id="mostrarPrecio2" th:text="${daysForDis} + ' dias'">
-                    4 dias
-                  </p>
+                
+                <div class="col-md-6">
+                  <h6 class="mb-1">Días de antelación para descuento</h6>
+                  <p class="mb-0" th:text="${fee.daysForDiscount} + ' dias'">4 dias</p>
                 </div>
-              </div>
 
-              <div class="col-md-6">
-                <div class="border rounded p-3 bg-white">
+                <div class="col-md-6">
                   <h6 class="mb-1">Descuento por hermano (%)</h6>
-                  <p class="mb-0" id="mostrarDescuentoTemprano" th:text="${siblingDis} + ' % de descuento'">
-                    10% de descuento
-                  </p>
+                  <p class="mb-0" th:text="${fee.siblingDiscount} + ' % de descuento'">10% de descuento</p>
                 </div>
-              </div>
 
-              <div class="col-md-6">
-                <div class="border rounded p-3 bg-white">
+                <div class="col-md-6">
                   <h6 class="mb-1">Descuento por inscripción temprana (%)</h6>
-                  <p class="mb-0" id="mostrarDescuentoHermano" th:text="${earlyDis} + ' % de descuento'">
-                    15% de descuento
-                  </p>
+                  <p class="mb-0" th:text="${fee.earlyRegistrationDiscount} + ' % de descuento'">15% de descuento</p>
                 </div>
               </div>
-            </div>
-
-            <div class="text-end mt-4">
-              <a th:href="@{/showPricesForm}" type="button" class="btn btn-outline-primary">
+              <div class="text-end mt-4">
+                <a th:href="@{'/showPricesForm/' + ${fee.id}}" class="btn btn-outline-primary" role="button"></a>
                 Editar
-              </a>
+                </a>
+              </div>
             </div>
           </div>
+
         </div>
+
       </section>
+
     </main>
   </div>
   <section th:replace="fragments/footer :: footer"></section>

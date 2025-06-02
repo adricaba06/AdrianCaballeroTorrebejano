@@ -8,20 +8,23 @@ INSERT INTO course (name, description, teacher, max_capacity, level, start_date,
 INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, is_full) VALUES ('Inglés C1', 'Desarrollo avanzado de habilidades comunicativas', 'Profesora Wilson', 40, 'C1', '2025-07-05', '2025-12-15', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/960px-Flag_of_Canada_%28Pantone%29.svg.png', false);
 INSERT INTO course (name, description, teacher, max_capacity, level, start_date, end_date, active, image_url, is_full) VALUES ('Inglés C2', 'Dominio completo del idioma y perfeccionamiento', 'Profesor Martinez', 45, 'C2', '2025-08-01', '2025-12-20', true, 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Flag_of_Jamaica.svg/1200px-Flag_of_Jamaica.svg.png', false);
 
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Adriana', 'Lima', 'Adriana.Lima@example.com', 20, '2025-05-10', true, 6, 'defaultPicture.jpg', 0.0, true, 'Adriana Lima - estudiante avanzada');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Lola', 'Torreblanca', 'lolaTorre.blanca@example.com', 20, '2025-05-10', true, 6, 'defaultPicture.jpg', 0.0, false, 'Lola Torreblanca - nueva inscripción');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, 6, 'defaultPicture.jpg', 0.0, false, 'Tomás Vega - inglés intermedio');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, 6, 'defaultPicture.jpg', 0.0, true, 'Natalia Herrera - hermana de Adriana');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Laura', 'Navarro', 'laura.navarro@example.com', 6, '2025-05-10', true, 6, 'defaultPicture.jpg', 0.0, false, 'Laura Navarro - estudiante constante');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Isabel', 'Ramírez', 'isabel.ramirez@example.com', 20, '2025-05-04', true, 6, 'defaultPicture.jpg', 0.0, false, 'Isabel Ramírez - participación destacada');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Carmen', 'Delgado', 'carmen.delgado@example.com', 20, '2025-05-03', true, 6, 'defaultPicture.jpg', 0.0, true, 'Carmen Delgado - hermana de Natalia');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Diego', 'Fuentes', 'diego.fuentes@example.com', 22, '2025-05-02', true, 6, 'defaultPicture.jpg', 0.0, false, 'Diego Fuentes - preparación B2');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Patricia', 'Serrano', 'patricia.serrano@example.com', 21, '2025-05-01', true, 6, 'defaultPicture.jpg', 0.0, true, 'Patricia Serrano - inscrita con hermana');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Raquel', 'Cano', 'raquel.cano@example.com', 9, '2025-04-30', true, 6, 'defaultPicture.jpg', 0.0, false, 'Raquel Cano - curso intensivo');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Mario', 'López', 'mario.lopez@example.com', 23, '2025-04-29', true, 2, 'defaultPicture.jpg', 0.0, true, 'Mario López - hermano de Lucía');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Lucía', 'Martínez', 'lucia.martinez@example.com', 12, '2025-04-28', true, 2, 'defaultPicture.jpg', 0.0, false, 'Lucía Martínez - avanzada');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Jorge', 'Castro', 'jorge.castro@example.com', 21, '2025-04-27', true, 3, 'defaultPicture.jpg', 0.0, true, 'Jorge Castro - familia en la academia');
-INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text) VALUES ('Elena', 'Ruiz', 'elena.ruiz@example.com', 20, '2025-04-26', true, 4, 'defaultPicture.jpg', 0.0, false, 'Elena Ruiz - estudiante regular');
+INSERT INTO fee (name, base_price, sibling_discount, early_registration_discount, days_for_discount, final_price) VALUES ('Cuota Básica', 60.0, 10.0, 15.0, 4, 45.0);
+INSERT INTO fee (name, base_price, sibling_discount, early_registration_discount, days_for_discount, final_price) VALUES ('Cuota Premium', 100.0, 20.0, 25.0, 5, 65.0);
+
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Adriana', 'Lima', 'Adriana.Lima@example.com', 20, '2025-05-10', true, 6, 'defaultPicture.jpg', 0.0, true, 'Adriana Lima - estudiante avanzada', 1);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Lola', 'Torreblanca', 'lolaTorre.blanca@example.com', 20, '2025-05-10', true, 6, 'defaultPicture.jpg', 0.0, false, 'Lola Torreblanca - nueva inscripción', 2);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Tomás', 'Vega', 'tomas.vega@example.com', 22, '2025-05-09', true, 6, 'defaultPicture.jpg', 0.0, false, 'Tomás Vega - inglés intermedio', 1);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Natalia', 'Herrera', 'natalia.herrera@example.com', 21, '2025-05-08', true, 6, 'defaultPicture.jpg', 0.0, true, 'Natalia Herrera - hermana de Adriana', 1);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Laura', 'Navarro', 'laura.navarro@example.com', 6, '2025-05-10', true, 6, 'defaultPicture.jpg', 0.0, false, 'Laura Navarro - estudiante constante', 1);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Isabel', 'Ramírez', 'isabel.ramirez@example.com', 20, '2025-05-04', true, 6, 'defaultPicture.jpg', 0.0, false, 'Isabel Ramírez - participación destacada',1 );
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Carmen', 'Delgado', 'carmen.delgado@example.com', 20, '2025-05-03', true, 6, 'defaultPicture.jpg', 0.0, true, 'Carmen Delgado - hermana de Natalia', 1);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Diego', 'Fuentes', 'diego.fuentes@example.com', 22, '2025-05-02', true, 6, 'defaultPicture.jpg', 0.0, false, 'Diego Fuentes - preparación B2', 1);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Patricia', 'Serrano', 'patricia.serrano@example.com', 21, '2025-05-01', true, 6, 'defaultPicture.jpg', 0.0, true, 'Patricia Serrano - inscrita con hermana', 1);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Raquel', 'Cano', 'raquel.cano@example.com', 9, '2025-04-30', true, 6, 'defaultPicture.jpg', 0.0, false, 'Raquel Cano - curso intensivo', 2);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Mario', 'López', 'mario.lopez@example.com', 23, '2025-04-29', true, 2, 'defaultPicture.jpg', 0.0, true, 'Mario López - hermano de Lucía',1);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Lucía', 'Martínez', 'lucia.martinez@example.com', 12, '2025-04-28', true, 2, 'defaultPicture.jpg', 0.0, false, 'Lucía Martínez - avanzada', 2);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Jorge', 'Castro', 'jorge.castro@example.com', 21, '2025-04-27', true, 3, 'defaultPicture.jpg', 0.0, true, 'Jorge Castro - familia en la academia', 2);
+INSERT INTO student (name, surname, email, age, registration_date, active, course_id, photo_path, average, has_a_sibling, alternative_text, fee_id) VALUES ('Elena', 'Ruiz', 'elena.ruiz@example.com', 20, '2025-04-26', true, 4, 'defaultPicture.jpg', 0.0, false, 'Elena Ruiz - estudiante regular', 2);
 
 
 INSERT INTO student_grades (STUDENT_ID, GRADES_KEY, GRADE) VALUES (1, 'SPEAKING', 8.5);
@@ -124,19 +127,6 @@ INSERT INTO fee (base_price, sibling_discount, early_registration_discount, fina
 INSERT INTO fee (base_price, sibling_discount, early_registration_discount, final_price, student_id) VALUES (60, 15, 5, 32.75, 13);
 INSERT INTO fee (base_price, sibling_discount, early_registration_discount, final_price, student_id) VALUES (60, 0, 0, 48.45, 14);
 
-UPDATE student SET fee_id = 1 WHERE ID = 1; 
-UPDATE student SET fee_id = 2 WHERE ID = 2; 
-UPDATE student SET fee_id = 3 WHERE ID = 3; 
-UPDATE student SET fee_id = 4 WHERE ID = 4; 
-UPDATE student SET fee_id = 5 WHERE ID = 5; 
-UPDATE student SET fee_id = 6 WHERE ID = 6; 
-UPDATE student SET fee_id = 7 WHERE ID = 7; 
-UPDATE student SET fee_id = 8 WHERE ID = 8; 
-UPDATE student SET fee_id = 9 WHERE ID = 9; 
-UPDATE student SET fee_id = 10 WHERE ID = 10; 
-UPDATE student SET fee_id = 11 WHERE ID = 11; 
-UPDATE student SET fee_id = 12 WHERE ID = 12; 
-UPDATE student SET fee_id = 13 WHERE ID = 13; 
-UPDATE student SET fee_id = 14 WHERE ID = 14; 
+
 
 

@@ -1,46 +1,49 @@
 package com.salesianostriana.dam.AdrianCaballeroTorrebejano.model;
 
-import java.time.LocalDate;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "fee")
+@ToString(exclude = "student") 
 public class Fee {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private double basePrice = 67;
-    private double siblingDiscount;
-    private double earlyRegistrationDiscount;
-    
-    private double finalPrice;
-    
-    
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private Student student;
-    
-    
+	private String name;
+	private double basePrice;
+	private double siblingDiscount;
+	private double earlyRegistrationDiscount;
+	private Long daysForDiscount;
 
+	private double finalPrice;
 
-    //helper methods
-   
-    
-    
+	@OneToMany(mappedBy = "fee", cascade = CascadeType.PERSIST)
+	private List<Student> students = new ArrayList<>();
+	
+
+	// helper methods
+	  public void addStudent(Student student) {
+	        students.add(student);
+	        student.setFee(this);  
+	    }
+
 }

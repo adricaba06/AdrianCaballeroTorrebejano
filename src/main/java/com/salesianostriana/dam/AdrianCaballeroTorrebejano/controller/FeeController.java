@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,7 +57,9 @@ public class FeeController {
 			}
 			averageGrade = studentService.calculateAverageGradeOfTheWholeAcademy(courseId);
 		}
-
+		
+		List<Fee> allFees = feeService.findAll();
+		
 		List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
 		List<Course> activeCourses = courseService.showActiveCourses();
 		List<Student> studentFromCourse = studentService.filterStudentsByCourseId(courseId);
@@ -83,7 +86,7 @@ public class FeeController {
 		    model.addAttribute("average", averageGrade);
 		}
 
-
+		model.addAttribute("fees", allFees);
 		model.addAttribute("course", course);
 		model.addAttribute("basePrice", feeService.roundTwoDecimals(feeSettingService.getCurrentSetting().getBasePrice()));
 		model.addAttribute("siblingDis", feeService.roundTwoDecimals(feeSettingService.getCurrentSetting().getSiblingDiscount()));
@@ -94,15 +97,20 @@ public class FeeController {
 	}
 
 	@PostMapping("/saveFeeData")
-	public String saveFeeData(Fee fee) {
+	public String saveFeeData(@ModelAttribute("fee") Fee fee) {
 		feeService.save(fee);
 		return "reports";
 
 	}
 
-	@GetMapping("showPricesForm")
-	public String showPricesForm(Model model) {
-		model.addAttribute("feePrices", feeSettingService.getCurrentSetting());
+	@GetMapping("showPricesForm/{id}")
+	public String showPricesForm(@PathVariable Long id, Model model) {
+		Optional<Fee> feeO = feeService.findById(id);
+		Fee fee = null;
+		if(feeO.isPresent()) {
+			fee = feeO.get();
+		}
+		model.addAttribute("fee", fee);
 		return "pricesForm";
 	}
 
@@ -124,7 +132,7 @@ public class FeeController {
 				newFee.setFinalPrice(0);
 			}
 			newFee.setId(student.getFee().getId());
-			newFee.setStudent(student);
+			newFee.addStudent(student);
 			feeService.save(newFee);
 			student.setFee(newFee);
 		}

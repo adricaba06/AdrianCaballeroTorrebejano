@@ -95,12 +95,9 @@ public class StudentController {
 		if (student != null && student.getCourse() != null && student.getCourse().getStartDate() != null
 				&& student.getRegistrationDate() != null) {
 			if (fee == null) {
-				fee = feeService.generateConvenientFee(student, daysUntilCourseStarts);
-				student.addFee(fee);
+				fee.addStudent(student);
 			} else {
-				fee = feeService.generateConvenientFee(student, daysUntilCourseStarts);
-				fee.setId(student.getFee().getId());
-				student.setFee(fee);
+				//TO DO 
 			}
 		}
 		
@@ -118,6 +115,7 @@ public class StudentController {
 		Student student = null;
 		int numOfStudents;
 		List<Course> courses = courseService.showActiveCourses();
+		List<Fee> fees = feeService.findAllFees();
 
 		numOfStudents = courses.size();
 		if (studentO.isPresent()) {
@@ -127,6 +125,7 @@ public class StudentController {
 		model.addAttribute("numS", numOfStudents);
 		model.addAttribute("student", student);
 		model.addAttribute("courses", courses);
+		model.addAttribute("fees", fees);
 		model.addAttribute("average", studentService.getAverageGrade(id));
 
 		return "student_detail";

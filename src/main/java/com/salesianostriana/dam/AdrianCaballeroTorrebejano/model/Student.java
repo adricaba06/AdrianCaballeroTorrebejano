@@ -23,6 +23,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.ToString.Exclude;
 
 @Data
@@ -30,6 +31,7 @@ import lombok.ToString.Exclude;
 @AllArgsConstructor
 @Entity
 @Table(name = "student")
+@ToString(exclude = "fee")
 public class Student implements Comparable<Student> {
 
 	@Id
@@ -39,7 +41,7 @@ public class Student implements Comparable<Student> {
 	private String name, surname, email, alternativeText;
 	private int age;
 	private LocalDate registrationDate;
-	
+
 	private boolean active = true;
 	@Column(name = "has_a_sibling")
 	private boolean hasASibling;
@@ -57,11 +59,10 @@ public class Student implements Comparable<Student> {
 	private Map<Grade, Double> grades = new HashMap<>();
 
 	private double average;
-	
-	@OneToOne
-	@Exclude
-	private Fee fee;
 
+	@ManyToOne
+	@JoinColumn(name = "fee_id")
+	private Fee fee;
 
 	// helper methods-----------------------------
 
@@ -89,13 +90,8 @@ public class Student implements Comparable<Student> {
 		return summary / grades.size();
 
 	}
-	
-	//-----------------------------------------------
-	
-	public void addFee(Fee fee) {
-	    this.fee = fee;
-	    fee.setStudent(this);
-	}
+
+	// -----------------------------------------------
 
 	// order
 	@Override
