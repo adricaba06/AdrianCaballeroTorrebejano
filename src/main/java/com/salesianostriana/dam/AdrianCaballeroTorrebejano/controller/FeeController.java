@@ -106,6 +106,12 @@ public class FeeController {
 		model.addAttribute("fee", fee);
 		return "pricesForm";
 	}
+	
+	@GetMapping("/showPricesForm")
+	public String showPricesForm(Model model) {
+	    model.addAttribute("fee", new Fee()); 
+	    return "pricesForm";
+	}
 
 	@PostMapping("/savePrices")
 	public String setPrices(@ModelAttribute("feePrices") Fee fee) {

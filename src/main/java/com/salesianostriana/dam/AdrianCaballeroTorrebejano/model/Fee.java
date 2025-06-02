@@ -3,7 +3,6 @@ package com.salesianostriana.dam.AdrianCaballeroTorrebejano.model;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +20,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @Table(name = "fee")
-@ToString(exclude = "student") 
+@ToString(exclude = "student")
 public class Fee {
 
 	@Id
@@ -38,22 +37,22 @@ public class Fee {
 
 	@OneToMany(mappedBy = "fee", cascade = CascadeType.PERSIST)
 	private List<Student> students = new ArrayList<>();
-	
 
 	// helper methods
-	
+
 	public double calculateFinalPrice() {
 		double base = basePrice;
+		double afterSiblingDiscount;
+		double afterEarlyDiscount;
 
-		double siblingDiscountAmount = base * (siblingDiscount / 100.0);
-		double earlyDiscountAmount = base * (earlyRegistrationDiscount / 100.0);
-
-		return base - siblingDiscountAmount - earlyDiscountAmount;
+		afterSiblingDiscount = base * (1 - siblingDiscount / 100.0);
+		afterEarlyDiscount = afterSiblingDiscount * (1 - earlyRegistrationDiscount / 100.0);
+		return Math.round(afterEarlyDiscount * 100.0) / 100.0;
 	}
-	
-	  public void addStudent(Student student) {
-	        students.add(student);
-	        student.setFee(this);  
-	    }
+
+	public void addStudent(Student student) {
+		students.add(student);
+		student.setFee(this);
+	}
 
 }

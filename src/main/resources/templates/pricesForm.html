@@ -41,6 +41,12 @@
                   </div>
 
                   <div class="col-md-6 text-center">
+                    <label class="form-label fw-bold">Nombre</label>
+                    <input type="text" th:field="*{name}"  class="form-control form-control-sm"
+                      placeholder="Cuota" />
+                  </div>
+
+                  <div class="col-md-6 text-center">
                     <label class="form-label fw-bold">Días de antelación para descuento</label>
                     <input type="number" th:field="*{daysForDiscount}" step="1" class="form-control form-control-sm"
                       placeholder="0" min="0" />
