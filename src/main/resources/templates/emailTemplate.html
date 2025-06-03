@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head th:fragment="commonHead">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <title>Notas del Estudiante</title>
+    <style>
+      body {
+        color: rgb(64, 46, 168);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 10px;
+      }
+      .container {
+        max-width: 700px;
+        margin-top: 50px;
+      }
+      .student-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .student-header h1 {
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 5px;
+      }
+      .student-header p {
+        font-size: 1.2rem;
+        opacity: 0.85;
+      }
+      .grades-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+      .grade-card {
+        flex: 1 1 120px;
+        background: white;
+        color: black;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        text-align: center;
+        font-weight: 600;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: default;
+      }
+      .grade-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+      }
+      .grade-name {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1.1px;
+      }
+      .grade-value {
+        font-size: 1rem;
+        font-weight: 800;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        margin: 0 auto;
+        color: white;
+      }
+
+      /* Colores para cada nota */
+      .grade-speaking {
+        background: #ff6f61;
+      }
+      .grade-writing {
+        background: #f7b733;
+      }
+      .grade-uoe {
+        background: #4caf50;
+      }
+      .grade-listening {
+        background: #2196f3;
+      }
+      .grade-reading {
+        background: #9c27b0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="student-header">
+        <h1>Hola, <span th:text="${student.name}">Estudiante</span>!</h1>
+        <p>Estas son las notas del curso de <strong th:text="${course.name}">Curso</strong>:</p>
+      </div>
+
+      <div class="grades-container">
+        <div class="grade-card">
+          <div class="grade-name">Speaking</div>
+          <div class="grade-value grade-speaking" th:text="${student.grades['SPEAKING']}">2</div>
+        </div>
+        <div class="grade-card">
+          <div class="grade-name">Writing</div>
+          <div class="grade-value grade-writing" th:text="${student.grades['WRITING']}">2</div>
+        </div>
+        <div class="grade-card">
+          <div class="grade-name">UoE</div>
+          <div class="grade-value grade-uoe" th:text="${student.grades['UOE']}">2</div>
+        </div>
+        <div class="grade-card">
+          <div class="grade-name">Listening</div>
+          <div class="grade-value grade-listening" th:text="${student.grades['LISTENING']}">2</div>
+        </div>
+        <div class="grade-card">
+          <div class="grade-name">Reading</div>
+          <div class="grade-value grade-reading" th:text="${student.grades['READING']}">2</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
