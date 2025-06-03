@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Course;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Email;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Fee;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Grade;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.CourseService;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.EmailService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.FeeService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.StudentService;
 
@@ -32,6 +34,8 @@ public class StudentController {
 	private CourseService courseService;
 	@Autowired
 	FeeService feeService;
+	@Autowired
+	EmailService emailService;
 
 	@GetMapping("/students")
 	public String showStudents(Model model, @RequestParam(name = "sort", required = false) String sortBy,
@@ -66,8 +70,7 @@ public class StudentController {
 
 	@PostMapping("/savestudent")
 	public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(required = false) Long courseId,
-			@RequestParam("file") MultipartFile pic,
-			@RequestParam("feeId") Long feeId,
+			@RequestParam("file") MultipartFile pic, @RequestParam("feeId") Long feeId,
 			@RequestParam(value = "existingPhoto", required = false) String existingPhoto,
 			@RequestParam(value = "resgDate", required = false) LocalDate registrationDate) {
 
@@ -75,14 +78,14 @@ public class StudentController {
 		Long daysUntilCourseStarts = 0L;
 
 		studentService.validateStudent(student, registrationDate);
-		
+
 		if (feeId != null) {
-	        Optional<Fee> feeO = feeService.findById(feeId);
-	        feeO.ifPresent(student::setFee);
-	    } else {
-	        student.setFee(null);
-	    }
-		
+			Optional<Fee> feeO = feeService.findById(feeId);
+			feeO.ifPresent(student::setFee);
+		} else {
+			student.setFee(null);
+		}
+
 		if (courseId != null) {
 			Optional<Course> courseO = courseService.findById(courseId);
 			if (courseO.isPresent()) {
@@ -165,6 +168,29 @@ public class StudentController {
 	public String deleteStudent(@PathVariable Long id) {
 		studentService.deleteStudent(id);
 		return "redirect:/students/archived";
+	}
+
+	@GetMapping("/sendEmail/{id}")
+	public String sendEmail(@PathVariable Long id, Model model) {
+		Email email;
+
+		Optional<Student> studentO = studentService.findById(id);
+		Student student = null;
+
+		if (studentO.isPresent()) {
+			student = studentO.get();
+		}
+
+		email = emailService.generateEmail(student);
+
+		if (email != null) {
+			emailService.sendEmail(email);
+		}
+		
+		model.addAttribute(student);
+
+		return "redirect:/courses/course/" + student.getCourse().getId();
+
 	}
 
 }

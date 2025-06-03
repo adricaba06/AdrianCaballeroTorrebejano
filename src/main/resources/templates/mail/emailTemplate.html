@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head th:replace="fragments/commonHead :: commonHead">
+    <title>email</title>
+    <meta name="description" content="envio de notas" />
+</head>
+
+<body>
+    <h1>Hi!</h1>
+    <h1 th:text="${student.name}">Notas del curso</h1>
+    <p>Estas son las notas del curso de <span th:text="${course.name}">Curso</span>:</p>
+    <table class="table table-borderless table-hover table-light">
+        <thead>
+            <tr>
+                <th>Speaking</th>
+                <th>Writing</th>
+                <th>Use of English</th>
+                <th>Listening</th>
+                <th>Reading</th>
+                <th>Nota Media</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Fila 1 -->
+            <tr th:if="${#lists.isEmpty(topOrLowestStudent)}">
+                <td colspan="9" class="text-center">
+                    No hay alumnos que mostrar
+                </td>
+            </tr>
+            <td th:text="${student.grades['WRITING']}">2</td>
+            <td th:text="${student.grades['SPEAKING']}">2</td>
+            <td th:text="${student.grades['UOE']}">2</td>
+            <td th:text="${student.grades['LISTENING']}">2</td>
+            <td th:text="${student.grades['READING']}">2</td>
+            <td>
+                <div class="progress" style="height: 20px">
+                    <div th:class="${student.average} >= 5 ? 'progress-bar progress-bar-striped progress-bar-animated bg-success' : 'progress-bar progress-bar-striped progress-bar-animated bg-secondary'"
+                        th:style="|width: ${(student.average * 10)}%|"
+                        th:text="|${#numbers.formatDecimal(student.average, 1, 1)} (${#numbers.formatDecimal(student.average * 10, 0, 0)}%)|"
+                        role="progressbar" aria-valuenow="${student.average * 10}" aria-valuemin="0"
+                        aria-valuemax="100"></div>
+                </div>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>
