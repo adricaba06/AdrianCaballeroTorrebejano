@@ -24,8 +24,8 @@
         <div class="row g-0">
           <div class="w-100 col-12">
             <div class="text-center py-4 bg-light">
-              <img th:src="@{'/pictures/' + ${student.photoPath}}" alt="Foto del estudiante"
-                class="rounded-circle shadow" style="width: 180px; height: 180px; object-fit: cover" />
+              <img th:src="${student.photoPath}" alt="Foto del estudiante" class="rounded-circle shadow"
+                style="width: 180px; height: 180px; object-fit: cover" />
             </div>
 
             <!-- formulario -->
@@ -69,9 +69,6 @@
                     th:selected="${student.fee != null and fee.id == student.fee.id}">
                   </option>
                 </select>
-
-
-
               </div>
 
               <div class="mb-3">
@@ -92,12 +89,20 @@
               </div>
 
               <div class="mb-3">
-                <label for="photoPath" class="form-label fw-bold">Actualizar foto</label>
-                <input type="file" id="photoPath" name="file" class="form-control" accept="image/*" />
-                <input type="hidden" name="existingPhoto" th:value="${student.photoPath}" />
+                <label for="photoPath" class="form-label fw-bold">Foto del Alumno</label>
+                <input type="text" id="photoPath" name="file" th:field="*{photoPath}" class="form-control"
+                  accept="image/*" />
               </div>
 
               <input type="hidden" name="resgDate" th:value="${registrationDate}" />
+
+              <div class="mb-3">
+                <label for="textoAlternativo" class="form-label">
+                  Edita texto alternativo
+                </label>
+                <input type="text" class="form-control" id="textoAlternativo" name="textoAlternativo"
+                  th:field="*{alternativeText}" placeholder="holakehace" required />
+              </div>
 
               <div class="form-group mb-3">
                 <label for="active" class="form-label">¿Está activo?</label>

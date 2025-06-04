@@ -30,19 +30,15 @@ public class EmailService {
     @Autowired
     private TemplateEngine templateEngine;
 
-    private final Locale locale = Locale.getDefault();
+    private final Locale locale = Locale.getDefault(); //idioma por defecto aparentemente
 
     public Email generateEmail(Student s) {
-        final Context ctx = new Context(locale);
+        final Context ctx = new Context(locale); //esto es el motor de plantilla, es decir el que pasa las variables a la plantilla como un model practicamente
 
         ctx.setVariable("student", s);
         ctx.setVariable("course", s.getCourse());
 
-        final String htmlContent = templateEngine.process("emailTemplate", ctx);
-
-        // Imprime el HTML generado para que puedas revisarlo en consola
-        System.out.println("HTML generado para el email:");
-        System.out.println(htmlContent);
+        final String htmlContent = templateEngine.process("emailTemplate", ctx); // esta es la plantilla
 
         Email email = new Email();
         email.setDestination(s.getEmail());
@@ -54,23 +50,19 @@ public class EmailService {
 
     public void sendEmail(Email email) {
         try {
-            MimeMessage mimeMessage = jms.createMimeMessage();
-            // El 'true' indica que se habilita multipart para adjuntos (aunque no tengas)
-            // UTF-8 para evitar problemas con caracteres especiales
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            MimeMessage mimeMessage = jms.createMimeMessage(); //esto es lo que me permite adjuntar archivos como el html, representa un correo completo
+     
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8"); //helper  me ayuda a configurarlo facilmente
 
             helper.setTo(email.getDestination());
             helper.setSubject(email.getSubject());
-            // El segundo parámetro true indica que el texto es HTML
+  
             helper.setText(email.getMessage(), true);
             helper.setFrom("adricaballero06@gmail.com");
 
             jms.send(mimeMessage);
 
-            System.out.println("Email enviado correctamente a: " + email.getDestination());
-
         } catch (Exception e) {
-            System.err.println("Error al enviar el email:");
             e.printStackTrace();
         }
     }

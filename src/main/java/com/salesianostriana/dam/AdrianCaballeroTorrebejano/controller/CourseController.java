@@ -56,7 +56,7 @@ public class CourseController {
 			course = courseO.get();
 		}
 		
-
+		List<Student> otherStudents = studentService.getListOfStudentsFromOtherClasses(id);
 		List<Student> filteredStudentList = studentService.filterStudentsByCourseId(id);
 		List<Student> maxOrMinStudents = studentService.filterMaxOrMinByParam(id, filter);
 		filteredStudentList.forEach((s) -> s.setAverage(s.getAverageGrade()));
@@ -72,6 +72,7 @@ public class CourseController {
 		model.addAttribute("course", course);
 		model.addAttribute("students", filteredStudentList);
 		model.addAttribute("topOrLowestStudent", maxOrMinStudents);
+		model.addAttribute("otherStudents", otherStudents);
 
 		return "curso";
 	}
@@ -106,6 +107,21 @@ public class CourseController {
 	public String reactivateCourse(@PathVariable Long id) {
 	    courseService.reactivateById(id);
 	    return "redirect:/courses/showArchiveCourses";
+	}
+	
+	@PostMapping("/course/changeStudentCourse")
+	public String changeStudentCourse(@RequestParam Long courseId, @RequestParam Long studentId) {
+		
+		Optional<Student> studentO = studentService.findById(studentId);
+		Student student = new Student();
+		
+		if(studentO.isPresent()) {
+			student = studentO.get();
+		}
+		
+		courseService.moveStudentsToAnotherCourse(courseId, student);
+		return "redirect:/courses/course/" + student.getCourse().getId();
+		
 	}
 
 }

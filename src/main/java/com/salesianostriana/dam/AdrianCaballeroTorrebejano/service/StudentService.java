@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.base.service.BaseService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.base.service.BaseServiceImpl;
+import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Course;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Grade;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.repository.StudentRepository;
@@ -40,10 +41,9 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 		List<Student> activeStudents;
 		activeStudents = findAll().stream().filter(Student::isActive).collect(Collectors.toList());
 		if (sortBy == null) {
-		    sortBy = "alfabe"; 
+			sortBy = "alfabe";
 		}
 
-		
 		switch (sortBy) {
 		case "date":
 			activeStudents.sort(Comparator.comparing(Student::getRegistrationDate));
@@ -64,10 +64,10 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 		default:
 			Collections.sort(activeStudents);
 		}
-		 if (!complete) {
-		        return activeStudents.stream().limit(8).collect(Collectors.toList());
-		    }
-		 
+		if (!complete) {
+			return activeStudents.stream().limit(8).collect(Collectors.toList());
+		}
+
 		return activeStudents;
 
 	}
@@ -134,6 +134,16 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 				.collect(Collectors.toList());
 
 	}
+	
+	public List<Student> getListOfStudentsFromOtherClasses(Long id){
+		return sr.findAllByCourseIdNot(id);
+	}
+	
+	public Student changeStudentCourse(Student student, Course course) {
+		student.setCourse(course);
+		return student;
+		
+	}
 
 	public List<Student> filterMaxOrMinByParam(Long id, String maxOrMin) {
 		List<Student> filteredStudent = null;
@@ -180,34 +190,9 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 		}
 	}
 
-	public void addProfilePicture(MultipartFile pic, String existingPhoto, Student student) {
-		byte[] bytesImg;
-		String absolutePath;
-		Path imageDirectory;
-		Path completePath;
-
-		if (!pic.isEmpty()) { // https://youtu.be/df67kmObW7M?si=d3cDkO18vU_Ni7wz
-
-			imageDirectory = Paths.get("src//main//resources//static/pictures"); // relative path
-			absolutePath = imageDirectory.toFile().getAbsolutePath();
-
-			// Now i need to know the bytes of the picture
-			try {
-				bytesImg = pic.getBytes();
-				completePath = Paths.get(absolutePath + "//" + pic.getOriginalFilename()); // specific path for the
-																							// field
-				Files.write(completePath, bytesImg); // this saves the files on the folder
-				student.setPhotoPath(pic.getOriginalFilename().replaceAll("^/+", ""));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		} else {
-			if (pic.isEmpty() || pic == null) {
-				student.setPhotoPath("defaultPicture.jpg");
-			} else {
-				student.setPhotoPath("existingPhoto");
-			}
+	public void addProfilePicture(Student student) {
+		if (student.getPhotoPath() == null || student.getPhotoPath().isEmpty()) {
+			student.setPhotoPath("https://i.pinimg.com/736x/d5/c8/9b/d5c89bbffb0336f8409e0c91b9cb1f09.jpg");
 		}
 	}
 
@@ -220,7 +205,12 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 		for (Student s : students) {
 			summary += s.getAverageGrade();
 		}
-		return (summary / totalOfStudents);
+
+		if (summary == 0) {
+			return 0;
+		} else {
+			return (summary / totalOfStudents);
+		}
 	}
 
 	public List<Student> listInactiveStudents() {

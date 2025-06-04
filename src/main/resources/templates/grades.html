@@ -25,7 +25,7 @@
             <div class="w-100 col-12">
               <div class="text-center py-4 bg-light">
                 <img
-                  th:src="@{'/pictures/' + ${student.photoPath}}"
+                  th:src="${student.photoPath}"
                   alt="Foto del estudiante"
                   class="rounded-circle shadow"
                   style="width: 180px; height: 180px; object-fit: cover"

@@ -50,7 +50,7 @@ public class StudentController {
 		} else {
 			students = studentService.filterActiveStudents(sortBy, complete);
 		}
-
+		List<Fee> fees = feeService.findAllFees();
 		List<Course> courses = courseService.findAll();
 		List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
 		List<Student> searchStudent = nameParam != null && !nameParam.isEmpty() ? studentService.findByName(nameParam)
@@ -62,6 +62,7 @@ public class StudentController {
 		model.addAttribute("activeStudents", activeStudents);
 		model.addAttribute("students", students);
 		model.addAttribute("courses", courses);
+		model.addAttribute("fees", fees);
 		model.addAttribute("fee", new Fee());
 
 		return "students";
@@ -70,8 +71,7 @@ public class StudentController {
 
 	@PostMapping("/savestudent")
 	public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(required = false) Long courseId,
-			@RequestParam("file") MultipartFile pic, @RequestParam("feeId") Long feeId,
-			@RequestParam(value = "existingPhoto", required = false) String existingPhoto,
+			@RequestParam("feeId") Long feeId,
 			@RequestParam(value = "resgDate", required = false) LocalDate registrationDate) {
 
 		LocalDate today = LocalDate.now();
@@ -99,7 +99,7 @@ public class StudentController {
 			daysUntilCourseStarts = 0L;
 		}
 
-		studentService.addProfilePicture(pic, existingPhoto, student);
+		studentService.addProfilePicture(student);
 		studentService.save(student);
 		return "redirect:/students";
 
@@ -170,6 +170,12 @@ public class StudentController {
 		return "redirect:/students/archived";
 	}
 
+	@PostMapping("student/deleteDirectWay/{id}")
+	public String deleteStudentDirectWay(@PathVariable Long id) {
+		studentService.deleteStudent(id);
+		return "students";
+	}
+
 	@GetMapping("/sendEmail/{id}")
 	public String sendEmail(@PathVariable Long id, Model model) {
 		Email email;
@@ -186,11 +192,26 @@ public class StudentController {
 		if (email != null) {
 			emailService.sendEmail(email);
 		}
-		
+
 		model.addAttribute(student);
 
 		return "redirect:/courses/course/" + student.getCourse().getId();
 
 	}
+
+	@PostMapping("/student/deactivate/{id}")
+	public String deactivatetudentDirectWay(@PathVariable Long id) {
+		Optional<Student> studentO = studentService.findById(id);
+		Student student = new Student();
+
+		if (studentO.isPresent()) {
+			student = studentO.get();
+			student.setActive(false);
+			studentService.save(student);
+		}
+		return "redirect:/students";
+
+	}
+	
 
 }

@@ -38,56 +38,63 @@ public class FeeController {
 	private CourseService courseService;
 
 	@GetMapping("/reports")
-	public String showReports(Model model, @RequestParam(name = "sort", required = false) String sortBy,
-			@RequestParam(required = false) String nameParam, @RequestParam(required = false) boolean complete,
-			@RequestParam(required = false) Long courseId) {
+	public String showReports(
+	    Model model,
+	    @RequestParam(name = "sort", required = false) String sortBy,
+	    @RequestParam(required = false) String nameParam,
+	    @RequestParam(required = false) boolean complete,
+	    @RequestParam(required = false) Long ocupacionCourseId,
+	    @RequestParam(required = false) Long mediaCourseId
+	) {
+	    double total = 0, ocupationPercent = 0, averageGrade = 0;
 
-		double total = 0, ocupationPercent = 0, averageGrade = 0;
+	    Course courseOcupacion = null;
+	    Course courseMedia = null;
 
-		Course course = null;
-	
-		if (courseId != null) {
-			ocupationPercent = Math.round(courseService.getPercentOfOcupation(courseId));
-			Optional<Course> courseO = courseService.findById(courseId);
-			if (courseO.isPresent()) {
-				course = courseO.get();
-			}
-			averageGrade = studentService.calculateAverageGradeOfTheWholeAcademy(courseId);
-		}
-		
-		List<Fee> allFees = feeService.findAll();
-		
-		List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
-		List<Course> activeCourses = courseService.showActiveCourses();
-		List<Student> studentFromCourse = studentService.filterStudentsByCourseId(courseId);
-		List<Student> searchStudent = nameParam != null && !nameParam.isEmpty()
-				? studentService.findByName(nameParam)
-				: new ArrayList<>();
-		total = feeService.calculateTotalEstimated(studentService.filterActiveStudents(sortBy, true));
+	    if (ocupacionCourseId != null) {
+	        ocupationPercent = Math.round(courseService.getPercentOfOcupation(ocupacionCourseId));
+	        Optional<Course> courseO = courseService.findById(ocupacionCourseId);
+	        if (courseO.isPresent()) {
+	            courseOcupacion = courseO.get();
+	        }
+	    }
 
-		model.addAttribute("complete", complete);
+	    if (mediaCourseId != null) {
+	        Optional<Course> courseO = courseService.findById(mediaCourseId);
+	        if (courseO.isPresent()) {
+	            courseMedia = courseO.get();
+	        }
+	        averageGrade = studentService.calculateAverageGradeOfTheWholeAcademy(mediaCourseId);
+	    }
 
-		model.addAttribute("searchStudent", searchStudent);
-		model.addAttribute("activeStudents", activeStudents);
-		model.addAttribute("activeCourses", activeCourses);
+	    List<Fee> allFees = feeService.findAll();
+	    List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
+	    List<Course> activeCourses = courseService.showActiveCourses();
+	    List<Student> studentFromCourse = studentService.filterStudentsByCourseId(ocupacionCourseId); // o null
+	    List<Student> searchStudent = nameParam != null && !nameParam.isEmpty()
+	            ? studentService.findByName(nameParam)
+	            : new ArrayList<>();
+	    total = feeService.calculateTotalEstimated(studentService.filterActiveStudents(sortBy, true));
 
-		model.addAttribute("fee", new Fee());
-		model.addAttribute("total", total);
+	    model.addAttribute("complete", complete);
+	    model.addAttribute("searchStudent", searchStudent);
+	    model.addAttribute("activeStudents", activeStudents);
+	    model.addAttribute("activeCourses", activeCourses);
+	    model.addAttribute("fee", new Fee());
+	    model.addAttribute("total", total);
+	    model.addAttribute("fees", allFees);
 
-		model.addAttribute("ocupationPercent", ocupationPercent);
-		
-		
-		if (studentFromCourse.isEmpty() || Double.isNaN(averageGrade) || Double.isInfinite(averageGrade)) {
-		    model.addAttribute("average", null);
-		} else {
-		    model.addAttribute("average", averageGrade);
-		}
+	    model.addAttribute("ocupationPercent", ocupationPercent);
+	    model.addAttribute("courseOcupacion", courseOcupacion);
 
-		model.addAttribute("fees", allFees);
-		model.addAttribute("course", course);
-		
-		return "reports";
+	  
+	    model.addAttribute("average", averageGrade);
+	    
+	    model.addAttribute("courseMedia", courseMedia);
+
+	    return "reports";
 	}
+
 
 	@PostMapping("/saveFeeData")
 	public String saveFeeData(@ModelAttribute("fee") Fee fee) {
