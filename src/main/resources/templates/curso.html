@@ -1,484 +1,780 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head th:replace="fragments/commonHead :: commonHead">
+    <title>Course details</title>
+    <meta name="description" content="Información del curso" />
+  </head>
 
-<head th:replace="fragments/commonHead :: commonHead">
-  <title>Course details</title>
-  <meta name="description" content="Información del curso" />
-</head>
+  <body>
+    <section th:replace="fragments/decorationNav :: decorationNav"></section>
+    <section>
+      <!-- Offcanvas solo visible en móvil -->
+      <div th:replace="fragments/offcanva :: offcanva"></div>
+    </section>
 
-<body>
-  <section th:replace="fragments/decorationNav :: decorationNav"></section>
-  <section>
-    <!-- Offcanvas solo visible en móvil -->
-    <div th:replace="fragments/offcanva :: offcanva"></div>
-  </section>
-
-  <!-- Modal editar curso -->
-  <div th:object="${course}" class="modal" id="EditCourse">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h2 class="modal-title">Editar Curso</h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-
-        <!-- Modal Body -->
-        <div class="modal-body">
-          <form th:action="@{/courses/newcourse}" method="post" th:object="${course}">
-            <input type="hidden" th:field="*{id}" />
-
-            <!-- Información del curso -->
-            <div class="mb-3">
-              <label class="form-label"><strong>Info</strong></label>
-              <div class="input-group">
-                <input type="text" class="form-control" th:field="*{name}" aria-label="Nombre" maxlength="20" />
-                <input type="text" class="form-control" th:field="*{description}" aria-label="Descripción"
-                  maxlength="50" />
-              </div>
-            </div>
-
-            <!-- Nivel de inglés -->
-            <div class="mb-3">
-              <label class="form-label fw-bold">Nivel</label>
-              <div>
-                <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" th:field="*{level}" value="A1"
-                    th:checked="${course.level == 'A1'}" />
-                  <label class="form-check-label" for="radioA1">A1</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" th:field="*{level}" value="A2"
-                    th:checked="${course.level == 'A2'}" />
-                  <label class="form-check-label" for="radioA2">A2</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" th:field="*{level}" value="B1"
-                    th:checked="${course.level == 'B1'}" />
-                  <label class="form-check-label" for="radioB1">B1</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" th:field="*{level}" value="B2"
-                    th:checked="${course.level == 'B2'}" />
-                  <label class="form-check-label" for="radioB2">B2</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" th:field="*{level}" value="C1"
-                    th:checked="${course.level == 'C1'}" />
-                  <label class="form-check-label" for="radioC1">C1</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                  <input type="radio" class="form-check-input" th:field="*{level}" value="C2"
-                    th:checked="${course.level == 'C2'}" />
-                  <label class="form-check-label" for="radioC2">C2</label>
-                </div>
-              </div>
-            </div>
-
-            <!-- Fechas -->
-            <div class="mb-3">
-              <label for="startDate" class="form-label fw-bold">Fecha inicial del curso:</label>
-              <input type="date" th:field="*{startDate}" class="form-control" required />
-            </div>
-
-            <div class="mb-3">
-              <label for="endDate" class="form-label fw-bold">Fecha de finalización del curso:</label>
-              <input type="date" th:field="*{endDate}" class="form-control" required />
-            </div>
-
-            <!-- Nombre del profesor/a -->
-            <div class="mb-3">
-              <label class="form-label"><strong>Nombre del profesor/a</strong></label>
-              <input type="text" class="form-control" th:field="*{teacher}" required placeholder="Nombre"
-                maxlength="50" />
-            </div>
-
-            <div class="mb-3">
-              <label for="capacidadClase" class="form-label fw-bold">
-                Modificar la capacidad de la clase
-              </label>
-              <input type="number" th:field="*{maxCapacity}" id="capacidadClase" class="form-control"
-                placeholder="Ingrese la capacidad de la clase" th:min="*{numOfStudents}" required
-                aria-label="Capacidad de la clase" />
-            </div>
-
-            <!-- Imagenes portada -->
-            <div class="mb-3">
-              <label class="form-label fw-bold">Modifique la imagen de portada:</label>
-              <div class="d-flex flex-wrap gap-3">
-                <!-- imagen 1 -->
-                <div>
-                  <input type="radio" th:field="*{imageUrl}" class="btn-check" id="cover1"
-                    th:value="'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png'"
-                    checked />
-                  <label class="btn btn-outline-primary" for="cover1">
-                    <img
-                      th:src="'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png'"
-                      alt="Cover 1" width="100" height="60" style="object-fit: cover" />
-                  </label>
-                </div>
-
-                <!-- magen 2 -->
-                <div>
-                  <input type="radio" th:field="*{imageUrl}" class="btn-check" id="cover2" required
-                    th:value="'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/1200px-Flag_of_the_United_Kingdom_%281-2%29.svg.png' " />
-                  <label class="btn btn-outline-primary" for="cover2">
-                    <img
-                      th:src=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/1200px-Flag_of_the_United_Kingdom_%281-2%29.svg.png' "
-                      alt="Cover 2" width="100" height="60" style="object-fit: cover" />
-                  </label>
-                </div>
-
-                <!-- imagen 3 -->
-                <div>
-                  <input type="radio" th:field="*{imageUrl}" class="btn-check" id="cover3" required
-                    th:value=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/1200px-Flag_of_Australia_%28converted%29.svg.png' " />
-                  <label class="btn btn-outline-primary" for="cover3">
-                    <img
-                      th:src=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/1200px-Flag_of_Australia_%28converted%29.svg.png' "
-                      alt="Cover 3" width="100" height="60" style="object-fit: cover" />
-                  </label>
-                </div>
-
-                <!-- imagen 4 -->
-                <div>
-                  <input type="radio" th:field="*{imageUrl}" class="btn-check" id="cover4" required
-                    th:value="'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Flag_of_Ireland.svg/1200px-Flag_of_Ireland.svg.png' " />
-                  <label class="btn btn-outline-primary" for="cover4">
-                    <img
-                      th:src=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Flag_of_Ireland.svg/1200px-Flag_of_Ireland.svg.png' "
-                      alt="Cover 4" width="100" height="60" style="object-fit: cover" />
-                  </label>
-                </div>
-
-                <!-- imagen 5 -->
-                <div>
-                  <input type="radio" th:field="*{imageUrl}" class="btn-check" id="cover5" required
-                    th:value=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/960px-Flag_of_Canada_%28Pantone%29.svg.png' " />
-                  <label class="btn btn-outline-primary" for="cover5">
-                    <img
-                      th:src=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/960px-Flag_of_Canada_%28Pantone%29.svg.png' "
-                      alt="Cover 5" width="100" height="60" style="object-fit: cover" />
-                  </label>
-                </div>
-
-                <!-- imagen 6 -->
-                <div>
-                  <input type="radio" th:field="*{imageUrl}" class="btn-check" id="cover6" required
-                    th:value=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Flag_of_Jamaica.svg/1200px-Flag_of_Jamaica.svg.png' " />
-                  <label class="btn btn-outline-primary" for="cover6">
-                    <img
-                      th:src=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Flag_of_Jamaica.svg/1200px-Flag_of_Jamaica.svg.png' "
-                      alt="Cover 6" width="100" height="60" style="object-fit: cover" />
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-outline-primary">
-                Guardar cambios
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="d-flex">
-    <!-- Aside -->
-    <aside class="d-none d-md-flex flex-column bg-light border-end text-primary p-3 vh-100">
-      <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
-    </aside>
-
-    <div class="flex flex-column container-fluid p-4">
-      <div class="w-100">
-        <div class="position-relative text-white rounded-3 overflow-hidden" style="height: 250px">
-          <!-- Imagen de fondo -->
-          <img th:src="@{${course.imageUrl}}" alt="Imagen del curso" class="w-100 h-100 position-absolute top-0 start-0"
-            style="object-fit: cover; z-index: 1" />
-
-          <!-- capa azul-->
-          <div class="position-absolute top-0 start-0 w-100 h-100 bg-primary-opacity" style="z-index: 1"></div>
-
-          <!-- contenifo -->
-          <div class="position-relative z-3 p-4 h-100 d-flex flex-column justify-content-between">
-            <div>
-              <h2 class="card-title fs-4 mb-1" th:text="${course.name}">
-                Clase CAE
-              </h2>
-              <h6 class="mb-2 text-white-50" th:text="${course.description}">
-                Grupo de Bachillerato
-              </h6>
-              <h3 class="fs-5" th:text="${course.level}">nivel</h3>
-            </div>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center">
-                <i class="bi bi-people-fill me-2 fs-4"></i>
-                <div class="d-flex flex-row">
-                  <h4 class="mb-0 fs-5" th:text="${course.numOfStudents}">
-                    15
-                  </h4>
-                  <h4>/</h4>
-                  <h4 class="mb-0 fs-5" th:text="${course.maxCapacity}"></h4>
-                </div>
-              </div>
-              <div class="d-flex gap-3">
-                <!-- icono de editar que abre el modal -->
-                <i class="bi bi-pencil-square fs-5 cursor-pointer" data-bs-toggle="modal" data-bs-target="#EditCourse"
-                  id="editarCurso1"></i>
-                <!-- icono de eliminar -->
-                <button type="button" class="bg-transparent border-0" data-bs-toggle="modal"
-                  data-bs-target="#archiveModal">
-                  <i class="bi bi-archive-fill fs-5 text-secondary cursor-pointer"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Modal de archivado -->
-      <div class="modal fade" id="archiveModal" tabindex="-1" aria-labelledby="archiveModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content rounded-4">
-            <!--modal header -->
-            <div class="modal-header bg-secondary text-white rounded-top-4">
-              <h5 class="modal-title" id="archiveModalLabel">
-                Confirmar archivado
-              </h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-
-            <!-- body -->
-            <div class="modal-body">
-              <p class="mb-3">
-                ¿Estás seguro/a de que quieres archivar este curso?
-              </p>
-
-              <div class="alert alert-warning" role="alert">
-                <span class="fw-bold">Nota:</span> Este curso se moverá al
-                apartado de archivados y dejará de ser visible para los
-                alumnos.
-              </div>
-            </div>
-
-            <!-- Pie del modal -->
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">
-                Cancelar
-              </button>
-              <form th:action="@{/courses/archiveCourse/{id}(id=${course.id})}" method="post" class="d-inline">
-                <input type="hidden" name="id" th:value="${course.id}" />
-                <button type="submit" class="btn btn-secondary">
-                  Sí, archivar
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <ul class="nav nav-tabs bg-light" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="info-tab" data-bs-toggle="tab" href="#info" role="tab" aria-controls="info"
-            aria-selected="true">
-            Info
-          </a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link" id="alumno-tab" data-bs-toggle="tab" href="#alumno" role="tab" aria-controls="alumno"
-            aria-selected="false">
-            Alumnos
-          </a>
-        </li>
-      </ul>
-
-      <!-- Envoltura pestañas-->
-      <div class="tab-content" id="myTabContent">
-        <!-- Pestaña Info -->
-        <div class="tab-pane fade show active bg-light p-3" id="info" role="tabpanel" aria-labelledby="info-tab">
-          <h2 class="text-primary fw-bold">
-            Profesor/a:
-            <span class="fw-normal" th:text="${course.teacher}"></span>
-          </h2>
-          <div class="mb-3">
-            <label for="fechaCurso" class="form-label"><strong>Fecha de inicio del curso</strong></label>
-            <input type="text" class="form-control" id="fechaCurso"
-              th:value="${#temporals.format(course.startDate, 'dd-MM-yyyy')}" readonly />
+    <!-- Modal editar curso -->
+    <div th:object="${course}" class="modal" id="EditCourse">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h2 class="modal-title">Editar Curso</h2>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
           </div>
 
-          <label for="fechaCurso" class="form-label"><strong>Fecha final del curso</strong></label>
-          <input type="text" class="form-control" id="fechaCurso"
-            th:value="${#temporals.format(course.endDate, 'dd-MM-yyyy')}" readonly />
+          <!-- Modal Body -->
+          <div class="modal-body">
+            <form
+              th:action="@{/courses/newcourse}"
+              method="post"
+              th:object="${course}"
+            >
+              <input type="hidden" th:field="*{id}" />
 
-          <div class="progress fw-bold fs-6" style="height: 40px">
-            <div class="progress-bar progress-bar-striped bg-primary progress-bar-animated"
-              th:style="|width: ${percent}%|" th:text="|Curso ${percent}% completado|">
-              Curso 60% completado
-            </div>
-          </div>
-
-          <div class="mt-3">
-            <p class="fw-bold">Estadística de notas</p>
-            <div class="progress w-100 fw-bold fs-6" style="height: 40px">
-              <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"
-                th:style="|width: ${passingS}%|" th:text="|${passingS}% Aprobados|"></div>
-              <div class="progress-bar bg-secondary progress-bar-striped progress-bar-animated"
-                th:style="|width: ${failingS}%|" th:text="|${failingS}% Suspensos|"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pestaña Alumnos -->
-        <div class="tab-pane fade bg-light p-3 overflow-auto" style="height: 50vh" id="alumno" role="tabpanel"
-          aria-labelledby="alumno-tab">
-          <!--Envoltorio para overflow-->
-          <div class="overflow-auto">
-            <h2>Lista y Notas</h2>
-            <div class="d-flex justify-content-between align-items-center mb-3 me-2">
-              <div class="dropdown mb-3">
-                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
-                  Filtrar...
-                </button>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a class="dropdown-item" th:href="@{/courses/course/{id}(id=${course.id}, filter='max')}">Alumno/a
-                      con mejor nota</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" th:href="@{/courses/course/{id}(id=${course.id}, filter='min')}">Alumno con
-                      peor nota</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" th:href="@{/courses/course/{id}(id=${course.id}, filter='all')}">Todos</a>
-                  </li>
-                </ul>
+              <!-- Información del curso -->
+              <div class="mb-3">
+                <label class="form-label"><strong>Info</strong></label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    th:field="*{name}"
+                    aria-label="Nombre"
+                    maxlength="20"
+                  />
+                  <input
+                    type="text"
+                    class="form-control"
+                    th:field="*{description}"
+                    aria-label="Descripción"
+                    maxlength="50"
+                  />
+                </div>
               </div>
-              <form th:action="@{/downloadPdf}" method="get">
-                <input type="hidden" name="courseId" th:value="${course.id}" />
-                <button class="btn btn-outline-primary" type="submit">Descargar Lista del curso</button>
-              </form>
-              <!-- Boton que abre el modal -->
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#studentsModal">
-                Añadir Alumno
-              </button>
 
-              <!-- Modal -->
-              <div class="modal fade" id="studentsModal" tabindex="-1" aria-labelledby="studentsModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                  <div class="modal-content">
+              <!-- Nivel de inglés -->
+              <div class="mb-3">
+                <label class="form-label fw-bold">Nivel</label>
+                <div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      th:field="*{level}"
+                      value="A1"
+                      th:checked="${course.level == 'A1'}"
+                    />
+                    <label class="form-check-label" for="radioA1">A1</label>
+                  </div>
 
-                    <!-- Encabezado del modal -->
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="studentsModalLabel">Alumnos</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      th:field="*{level}"
+                      value="A2"
+                      th:checked="${course.level == 'A2'}"
+                    />
+                    <label class="form-check-label" for="radioA2">A2</label>
+                  </div>
 
-                    <!-- Cuerpo del modal -->
-                    <div class="modal-body">
-                      <table class="table table-striped table-bordered">
-                        <thead class="table-primary">
-                          <tr>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Acciones</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr th:each="Otherstudent : ${otherStudents}">
-                            <td th:text="${Otherstudent.name}">Nombre</td>
-                            <td th:text="${Otherstudent.surname}">Apellido</td>
-                            <td>
-                              <form th:action="@{/course/changeStudentCourse}" method="get">
-                                <input type="hidden" name="courseId" th:value="${course.id}" />
-                                <input type="hidden" name="studentId" th:value="${Otherstudent.id}" />
-                                <button class="btn btn-outline-primary" type="submit">Añadir</button>
-                              </form>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      th:field="*{level}"
+                      value="B1"
+                      th:checked="${course.level == 'B1'}"
+                    />
+                    <label class="form-check-label" for="radioB1">B1</label>
+                  </div>
 
-                    <!-- Pie del modal -->
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      th:field="*{level}"
+                      value="B2"
+                      th:checked="${course.level == 'B2'}"
+                    />
+                    <label class="form-check-label" for="radioB2">B2</label>
+                  </div>
 
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      th:field="*{level}"
+                      value="C1"
+                      th:checked="${course.level == 'C1'}"
+                    />
+                    <label class="form-check-label" for="radioC1">C1</label>
+                  </div>
+
+                  <div class="form-check form-check-inline">
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      th:field="*{level}"
+                      value="C2"
+                      th:checked="${course.level == 'C2'}"
+                    />
+                    <label class="form-check-label" for="radioC2">C2</label>
                   </div>
                 </div>
               </div>
 
-            </div>
-            <div class="table-responsive">
-              <table class="table table-borderless table-hover table-light">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Email</th>
-                    <th>Speaking</th>
-                    <th>Writing</th>
-                    <th>Use of English</th>
-                    <th>Listening</th>
-                    <th>Reading</th>
-                    <th>Nota Media</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Fila 1 -->
-                  <tr th:if="${#lists.isEmpty(topOrLowestStudent)}">
-                    <td colspan="9" class="text-center">
-                      No hay alumnos que mostrar
-                    </td>
-                  </tr>
-                  <tr th:each="student : ${topOrLowestStudent}">
-                    <td th:text="${student.name}">2</td>
-                    <td th:text="${student.surname}">2</td>
-                    <td th:text="${student.email}">2</td>
-                    <td th:text="${student.grades['WRITING']}">2</td>
-                    <td th:text="${student.grades['SPEAKING']}">2</td>
-                    <td th:text="${student.grades['UOE']}">2</td>
-                    <td th:text="${student.grades['LISTENING']}">2</td>
-                    <td th:text="${student.grades['READING']}">2</td>
-                    <td>
-                      <div class="progress" style="height: 20px">
-                        <div
-                          th:class="${student.average} >= 5 ? 'progress-bar progress-bar-striped progress-bar-animated bg-success' : 'progress-bar progress-bar-striped progress-bar-animated bg-secondary'"
-                          th:style="|width: ${(student.average * 10)}%|"
-                          th:text="|${#numbers.formatDecimal(student.average, 1, 1)} (${#numbers.formatDecimal(student.average * 10, 0, 0)}%)|"
-                          role="progressbar" aria-valuenow="${student.average * 10}" aria-valuemin="0"
-                          aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                    <td>
-                      <a class="btn btn-outline-primary" th:href="@{/editGradesOfStudent/{id}(id=${student.id})}">
-                        <i class="bi bi-pencil-square"></i> Editar notas
-                      </a>
-                      <a class="btn btn-outline-primary" th:href="@{/sendEmail/{id}(id=${student.id})}">
-                        <i class="bi bi-envelope-fill"></i> Enviar notas
-                      </a>
+              <!-- Fechas -->
+              <div class="mb-3">
+                <label for="startDate" class="form-label fw-bold"
+                  >Fecha inicial del curso:</label
+                >
+                <input
+                  type="date"
+                  th:field="*{startDate}"
+                  class="form-control"
+                  required
+                />
+              </div>
 
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="mb-3">
+                <label for="endDate" class="form-label fw-bold"
+                  >Fecha de finalización del curso:</label
+                >
+                <input
+                  type="date"
+                  th:field="*{endDate}"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <!-- Nombre del profesor/a -->
+              <div class="mb-3">
+                <label class="form-label"
+                  ><strong>Nombre del profesor/a</strong></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{teacher}"
+                  required
+                  placeholder="Nombre"
+                  maxlength="50"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="capacidadClase" class="form-label fw-bold">
+                  Modificar la capacidad de la clase
+                </label>
+                <input
+                  type="number"
+                  th:field="*{maxCapacity}"
+                  id="capacidadClase"
+                  class="form-control"
+                  placeholder="Ingrese la capacidad de la clase"
+                  th:min="*{numOfStudents}"
+                  required
+                  aria-label="Capacidad de la clase"
+                />
+              </div>
+
+              <!-- Imagenes portada -->
+              <div class="mb-3">
+                <label class="form-label fw-bold"
+                  >Modifique la imagen de portada:</label
+                >
+                <div class="d-flex flex-wrap gap-3">
+                  <!-- imagen 1 -->
+                  <div>
+                    <input
+                      type="radio"
+                      th:field="*{imageUrl}"
+                      class="btn-check"
+                      id="cover1"
+                      th:value="'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png'"
+                      checked
+                    />
+                    <label class="btn btn-outline-primary" for="cover1">
+                      <img
+                        th:src="'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png'"
+                        alt="Cover 1"
+                        width="100"
+                        height="60"
+                        style="object-fit: cover"
+                      />
+                    </label>
+                  </div>
+
+                  <!-- magen 2 -->
+                  <div>
+                    <input
+                      type="radio"
+                      th:field="*{imageUrl}"
+                      class="btn-check"
+                      id="cover2"
+                      required
+                      th:value="'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/1200px-Flag_of_the_United_Kingdom_%281-2%29.svg.png' "
+                    />
+                    <label class="btn btn-outline-primary" for="cover2">
+                      <img
+                        th:src=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/1200px-Flag_of_the_United_Kingdom_%281-2%29.svg.png' "
+                        alt="Cover 2"
+                        width="100"
+                        height="60"
+                        style="object-fit: cover"
+                      />
+                    </label>
+                  </div>
+
+                  <!-- imagen 3 -->
+                  <div>
+                    <input
+                      type="radio"
+                      th:field="*{imageUrl}"
+                      class="btn-check"
+                      id="cover3"
+                      required
+                      th:value=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/1200px-Flag_of_Australia_%28converted%29.svg.png' "
+                    />
+                    <label class="btn btn-outline-primary" for="cover3">
+                      <img
+                        th:src=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/1200px-Flag_of_Australia_%28converted%29.svg.png' "
+                        alt="Cover 3"
+                        width="100"
+                        height="60"
+                        style="object-fit: cover"
+                      />
+                    </label>
+                  </div>
+
+                  <!-- imagen 4 -->
+                  <div>
+                    <input
+                      type="radio"
+                      th:field="*{imageUrl}"
+                      class="btn-check"
+                      id="cover4"
+                      required
+                      th:value="'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Flag_of_Ireland.svg/1200px-Flag_of_Ireland.svg.png' "
+                    />
+                    <label class="btn btn-outline-primary" for="cover4">
+                      <img
+                        th:src=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Flag_of_Ireland.svg/1200px-Flag_of_Ireland.svg.png' "
+                        alt="Cover 4"
+                        width="100"
+                        height="60"
+                        style="object-fit: cover"
+                      />
+                    </label>
+                  </div>
+
+                  <!-- imagen 5 -->
+                  <div>
+                    <input
+                      type="radio"
+                      th:field="*{imageUrl}"
+                      class="btn-check"
+                      id="cover5"
+                      required
+                      th:value=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/960px-Flag_of_Canada_%28Pantone%29.svg.png' "
+                    />
+                    <label class="btn btn-outline-primary" for="cover5">
+                      <img
+                        th:src=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Canada_%28Pantone%29.svg/960px-Flag_of_Canada_%28Pantone%29.svg.png' "
+                        alt="Cover 5"
+                        width="100"
+                        height="60"
+                        style="object-fit: cover"
+                      />
+                    </label>
+                  </div>
+
+                  <!-- imagen 6 -->
+                  <div>
+                    <input
+                      type="radio"
+                      th:field="*{imageUrl}"
+                      class="btn-check"
+                      id="cover6"
+                      required
+                      th:value=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Flag_of_Jamaica.svg/1200px-Flag_of_Jamaica.svg.png' "
+                    />
+                    <label class="btn btn-outline-primary" for="cover6">
+                      <img
+                        th:src=" 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Flag_of_Jamaica.svg/1200px-Flag_of_Jamaica.svg.png' "
+                        alt="Cover 6"
+                        width="100"
+                        height="60"
+                        style="object-fit: cover"
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Modal Footer -->
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-primary">
+                  Guardar cambios
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex">
+      <!-- Aside -->
+      <aside
+        class="d-none d-md-flex flex-column bg-light border-end text-primary p-3 vh-100"
+      >
+        <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
+      </aside>
+
+      <div class="flex flex-column container-fluid p-4">
+        <div class="w-100">
+          <div
+            class="position-relative text-white rounded-3 overflow-hidden"
+            style="height: 250px"
+          >
+            <!-- Imagen de fondo -->
+            <img
+              th:src="@{${course.imageUrl}}"
+              alt="Imagen del curso"
+              class="w-100 h-100 position-absolute top-0 start-0"
+              style="object-fit: cover; z-index: 1"
+            />
+
+            <!-- capa azul-->
+            <div
+              class="position-absolute top-0 start-0 w-100 h-100 bg-primary-opacity"
+              style="z-index: 1"
+            ></div>
+
+            <!-- contenifo -->
+            <div
+              class="position-relative z-3 p-4 h-100 d-flex flex-column justify-content-between"
+            >
+              <div>
+                <h2 class="card-title fs-4 mb-1" th:text="${course.name}">
+                  Clase CAE
+                </h2>
+                <h6 class="mb-2 text-white-50" th:text="${course.description}">
+                  Grupo de Bachillerato
+                </h6>
+                <h3 class="fs-5" th:text="${course.level}">nivel</h3>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-people-fill me-2 fs-4"></i>
+                  <div class="d-flex flex-row">
+                    <h4 class="mb-0 fs-5" th:text="${course.numOfStudents}">
+                      15
+                    </h4>
+                    <h4>/</h4>
+                    <h4 class="mb-0 fs-5" th:text="${course.maxCapacity}"></h4>
+                  </div>
+                </div>
+                <div class="d-flex gap-3">
+                  <!-- icono de editar que abre el modal -->
+                  <i
+                    class="bi bi-pencil-square fs-5 cursor-pointer"
+                    data-bs-toggle="modal"
+                    data-bs-target="#EditCourse"
+                    id="editarCurso1"
+                  ></i>
+                  <!-- icono de eliminar -->
+                  <button
+                    type="button"
+                    class="bg-transparent border-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#archiveModal"
+                  >
+                    <i
+                      class="bi bi-archive-fill fs-5 text-secondary cursor-pointer"
+                    ></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal de archivado -->
+        <div
+          class="modal fade"
+          id="archiveModal"
+          tabindex="-1"
+          aria-labelledby="archiveModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+              <!--modal header -->
+              <div class="modal-header bg-secondary text-white rounded-top-4">
+                <h5 class="modal-title" id="archiveModalLabel">
+                  Confirmar archivado
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                ></button>
+              </div>
+
+              <!-- body -->
+              <div class="modal-body">
+                <p class="mb-3">
+                  ¿Estás seguro/a de que quieres archivar este curso?
+                </p>
+
+                <div class="alert alert-warning" role="alert">
+                  <span class="fw-bold">Nota:</span> Este curso se moverá al
+                  apartado de archivados y dejará de ser visible para los
+                  alumnos.
+                </div>
+              </div>
+
+              <!-- Pie del modal -->
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <form
+                  th:action="@{/courses/archiveCourse/{id}(id=${course.id})}"
+                  method="post"
+                  class="d-inline"
+                >
+                  <input type="hidden" name="id" th:value="${course.id}" />
+                  <button type="submit" class="btn btn-secondary">
+                    Sí, archivar
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ul class="nav nav-tabs bg-light" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link active"
+              id="info-tab"
+              data-bs-toggle="tab"
+              href="#info"
+              role="tab"
+              aria-controls="info"
+              aria-selected="true"
+            >
+              Info
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link"
+              id="alumno-tab"
+              data-bs-toggle="tab"
+              href="#alumno"
+              role="tab"
+              aria-controls="alumno"
+              aria-selected="false"
+            >
+              Alumnos
+            </a>
+          </li>
+        </ul>
+
+        <!-- Envoltura pestañas-->
+        <div class="tab-content" id="myTabContent">
+          <!-- Pestaña Info -->
+          <div
+            class="tab-pane fade show active bg-light p-3"
+            id="info"
+            role="tabpanel"
+            aria-labelledby="info-tab"
+          >
+            <h2 class="text-primary fw-bold">
+              Profesor/a:
+              <span class="fw-normal" th:text="${course.teacher}"></span>
+            </h2>
+            <div class="mb-3">
+              <label for="fechaCurso" class="form-label"
+                ><strong>Fecha de inicio del curso</strong></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="fechaCurso"
+                th:value="${#temporals.format(course.startDate, 'dd-MM-yyyy')}"
+                readonly
+              />
+            </div>
+
+            <label for="fechaCurso" class="form-label"
+              ><strong>Fecha final del curso</strong></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="fechaCurso"
+              th:value="${#temporals.format(course.endDate, 'dd-MM-yyyy')}"
+              readonly
+            />
+
+            <div class="progress fw-bold fs-6" style="height: 40px">
+              <div
+                class="progress-bar progress-bar-striped bg-primary progress-bar-animated"
+                th:style="|width: ${percent}%|"
+                th:text="|Curso ${percent}% completado|"
+              >
+                Curso 60% completado
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <p class="fw-bold">Estadística de notas</p>
+              <div class="progress w-100 fw-bold fs-6" style="height: 40px">
+                <div
+                  class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+                  th:style="|width: ${passingS}%|"
+                  th:text="|${passingS}% Aprobados|"
+                ></div>
+                <div
+                  class="progress-bar bg-secondary progress-bar-striped progress-bar-animated"
+                  th:style="|width: ${failingS}%|"
+                  th:text="|${failingS}% Suspensos|"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pestaña Alumnos -->
+          <div
+            class="tab-pane fade bg-light p-3 overflow-auto"
+            style="height: 50vh"
+            id="alumno"
+            role="tabpanel"
+            aria-labelledby="alumno-tab"
+          >
+            <!--Envoltorio para overflow-->
+            <div class="overflow-auto">
+              <h2>Lista y Notas</h2>
+              <div class="d-flex justify-content-start">
+                <div class="dropdown mb-3">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                  >
+                    Filtrar...
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        th:href="@{/courses/course/{id}(id=${course.id}, filter='max')}"
+                        >Alumno/a con mejor nota</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        th:href="@{/courses/course/{id}(id=${course.id}, filter='min')}"
+                        >Alumno con peor nota</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        th:href="@{/courses/course/{id}(id=${course.id}, filter='all')}"
+                        >Todos</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <div class="d-flex justify-content-end align-items-center mb-3 ms-2 gap-3">
+                  <form th:action="@{/downloadPdf}" method="get">
+                    <input
+                      type="hidden"
+                      name="courseId"
+                      th:value="${course.id}"
+                    />
+                    <button class="btn btn-outline-primary" type="submit">
+                      Descargar Lista del curso
+                    </button>
+                  </form>
+                  <!-- Boton que abre el modal -->
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#studentsModal"
+                  >
+                    Añadir Alumno
+                  </button>
+                </div>
+
+                <!-- Modal -->
+                <div
+                  class="modal fade"
+                  id="studentsModal"
+                  tabindex="-1"
+                  aria-labelledby="studentsModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <!-- Encabezado del modal -->
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="studentsModalLabel">
+                          Alumnos
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Cerrar"
+                        ></button>
+                      </div>
+
+                      <!-- Cuerpo del modal -->
+                      <div class="modal-body">
+                        <table
+                          class="table table-borderless table-hover table-light"
+                        >
+                          <thead class="table-primary">
+                            <tr>
+                              <th>Nombre</th>
+                              <th>Apellido</th>
+                              <th>Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr th:each="Otherstudent : ${otherStudents}">
+                              <td th:text="${Otherstudent.name}">Nombre</td>
+                              <td th:text="${Otherstudent.surname}">
+                                Apellido
+                              </td>
+                              <td>
+                                <form
+                                  th:action="@{/courses/course/changeStudentCourse}"
+                                  method="POST"
+                                >
+                                  <input
+                                    type="hidden"
+                                    name="courseId"
+                                    th:value="${course.id}"
+                                  />
+                                  <input
+                                    type="hidden"
+                                    name="studentId"
+                                    th:value="${Otherstudent.id}"
+                                  />
+                                  <button
+                                    class="btn btn-outline-primary"
+                                    type="submit"
+                                  >
+                                    Añadir
+                                  </button>
+                                </form>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <!-- Pie del modal -->
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Cerrar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-borderless table-hover table-light">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Apellidos</th>
+                      <th>Email</th>
+                      <th>Speaking</th>
+                      <th>Writing</th>
+                      <th>Use of English</th>
+                      <th>Listening</th>
+                      <th>Reading</th>
+                      <th>Nota Media</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Fila 1 -->
+                    <tr th:if="${#lists.isEmpty(topOrLowestStudent)}">
+                      <td colspan="9" class="text-center">
+                        No hay alumnos que mostrar
+                      </td>
+                    </tr>
+                    <tr th:each="student : ${topOrLowestStudent}">
+                      <td th:text="${student.name}">2</td>
+                      <td th:text="${student.surname}">2</td>
+                      <td th:text="${student.email}">2</td>
+                      <td th:text="${student.grades['WRITING']}">2</td>
+                      <td th:text="${student.grades['SPEAKING']}">2</td>
+                      <td th:text="${student.grades['UOE']}">2</td>
+                      <td th:text="${student.grades['LISTENING']}">2</td>
+                      <td th:text="${student.grades['READING']}">2</td>
+                      <td>
+                        <div class="progress" style="height: 20px">
+                          <div
+                            th:class="${student.average} >= 5 ? 'progress-bar progress-bar-striped progress-bar-animated bg-success' : 'progress-bar progress-bar-striped progress-bar-animated bg-secondary'"
+                            th:style="|width: ${(student.average * 10)}%|"
+                            th:text="|${#numbers.formatDecimal(student.average, 1, 1)} (${#numbers.formatDecimal(student.average * 10, 0, 0)}%)|"
+                            role="progressbar"
+                            aria-valuenow="${student.average * 10}"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                          ></div>
+                        </div>
+                      </td>
+                      <td>
+                        <a
+                          class="btn btn-outline-primary"
+                          th:href="@{/editGradesOfStudent/{id}(id=${student.id})}"
+                        >
+                          <i class="bi bi-pencil-square"></i> Editar notas
+                        </a>
+                        <a
+                          class="btn btn-outline-primary"
+                          th:href="@{/sendEmail/{id}(id=${student.id})}"
+                        >
+                          <i class="bi bi-envelope-fill"></i> Enviar notas
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <section th:replace="fragments/footer :: footer"></section>
-</body>
-
+    <section th:replace="fragments/footer :: footer"></section>
+  </body>
 </html>
