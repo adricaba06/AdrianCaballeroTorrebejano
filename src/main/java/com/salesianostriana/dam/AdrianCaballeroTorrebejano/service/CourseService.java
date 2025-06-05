@@ -91,6 +91,7 @@ public class CourseService extends BaseServiceImpl<Course, Long, CourseRepositor
 		}
 	}
 	
+	
 	public void moveStudentsToAnotherCourse(Long newCourseId, Student student) {
 		Optional<Course> newCourseO = cr.findById(newCourseId);
 

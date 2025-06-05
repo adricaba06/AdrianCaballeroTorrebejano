@@ -14,15 +14,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Course;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Fee;
-import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.FeeSetting;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.CourseService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.FeeService;
-import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.FeeSettingService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.StudentService;
 
 @Controller
@@ -48,8 +44,8 @@ public class FeeController {
 	) {
 	    double total = 0, ocupationPercent = 0, averageGrade = 0;
 
-	    Course courseOcupacion = null;
-	    Course courseMedia = null;
+	    Course courseOcupacion = new Course();
+	    Course courseMedia = new Course();
 
 	    if (ocupacionCourseId != null) {
 	        ocupationPercent = Math.round(courseService.getPercentOfOcupation(ocupacionCourseId));
@@ -67,7 +63,7 @@ public class FeeController {
 	        averageGrade = studentService.calculateAverageGradeOfTheWholeAcademy(mediaCourseId);
 	    }
 
-	    List<Fee> allFees = feeService.findAll();
+	    List<Fee> allFees = feeService.findAllFeesExceptDefault();
 	    List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
 	    List<Course> activeCourses = courseService.showActiveCourses();
 	    List<Student> studentFromCourse = studentService.filterStudentsByCourseId(ocupacionCourseId); // o null
@@ -125,5 +121,23 @@ public class FeeController {
 		feeService.save(fee);
 		return "redirect:/reports";
 	}
+	
+	@PostMapping("/deleteFee/{id}")
+	public String deleteFee(@PathVariable Long id) {
+		Optional<Fee> feeO = feeService.findById(id);
+		Fee fee = new Fee();
+		
+		if(feeO.isPresent()) {
+			fee = feeO.get();
+		}
+		
+		feeService.changeFee(id);
+		
+		
+		feeService.delete(fee);
+		return "redirect:/reports";
+		
+	}
+	
 
 }

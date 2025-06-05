@@ -14,6 +14,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,39 +41,69 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 				.collect(Collectors.toList());
 	}
 
-	public List<Student> filterActiveStudents(String sortBy, boolean complete) {
-		List<Student> activeStudents;
-		activeStudents = findAll().stream().filter(Student::isActive).collect(Collectors.toList());
-		if (sortBy == null) {
-			sortBy = "alfabe";
+	/*
+	 * public List<Student> filterActiveStudents(String sortBy, boolean complete) {
+	 * List<Student> activeStudents; activeStudents =
+	 * findAll().stream().filter(Student::isActive).collect(Collectors.toList()); if
+	 * (sortBy == null) { sortBy = "alfabe"; }
+	 * 
+	 * switch (sortBy) { case "date":
+	 * activeStudents.sort(Comparator.comparing(Student::getRegistrationDate));
+	 * break;
+	 * 
+	 * case "alfabeDes":
+	 * activeStudents.sort(Comparator.comparing(Student::getName).reversed());
+	 * break;
+	 * 
+	 * case "grades":
+	 * activeStudents.sort(Comparator.comparing(Student::getAverageGrade)); break;
+	 * 
+	 * case "alfabe": Collections.sort(activeStudents); break;
+	 * 
+	 * default: Collections.sort(activeStudents); } if (!complete) { return
+	 * activeStudents.stream().limit(8).collect(Collectors.toList()); }
+	 * 
+	 * return activeStudents;
+	 * 
+	 * }
+	 */
+
+	// he refactorizado el metodo
+	public Page<Student> filterActiveStudents(Pageable page, String sortBy, boolean ascending) {
+		Sort sort;
+
+	
+		if (sortBy == null || sortBy.isBlank()) {
+			sortBy = "name"; 
 		}
 
 		switch (sortBy) {
 		case "date":
-			activeStudents.sort(Comparator.comparing(Student::getRegistrationDate));
+			sort = Sort.by("registrationDate");
 			break;
-
-		case "alfabeDes":
-			activeStudents.sort(Comparator.comparing(Student::getName).reversed());
+		case "email":
+			sort = Sort.by("email");
 			break;
-
-		case "grades":
-			activeStudents.sort(Comparator.comparing(Student::getAverageGrade));
+		case "name":
+			sort = Sort.by("name"); 
 			break;
-
-		case "alfabe":
-			Collections.sort(activeStudents);
-			break;
-
+		case "surname":
 		default:
-			Collections.sort(activeStudents);
-		}
-		if (!complete) {
-			return activeStudents.stream().limit(8).collect(Collectors.toList());
+			sort = Sort.by("surname");
+			break;
 		}
 
-		return activeStudents;
+		if (!ascending) {
+			sort = sort.descending();
+		}
 
+		Pageable sortedPageable = PageRequest.of(page.getPageNumber(), 7, sort);
+
+		return sr.findByActiveTrue(sortedPageable);
+	}
+
+	public Page<Student> filterActiveStudents(Pageable pageable) {
+		return sr.findAll(pageable);
 	}
 
 	public double getAverageGrade(Long id) {
@@ -134,15 +168,15 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 				.collect(Collectors.toList());
 
 	}
-	
-	public List<Student> getListOfStudentsFromOtherClasses(Long id){
+
+	public List<Student> getListOfStudentsFromOtherClasses(Long id) {
 		return sr.findAllByCourseIdNot(id);
 	}
-	
+
 	public Student changeStudentCourse(Student student, Course course) {
 		student.setCourse(course);
 		return student;
-		
+
 	}
 
 	public List<Student> filterMaxOrMinByParam(Long id, String maxOrMin) {

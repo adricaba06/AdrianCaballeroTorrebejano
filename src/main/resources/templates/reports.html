@@ -184,67 +184,109 @@
               </div>
             </div>
 
+            <nav aria-label="Navegación de páginas">
+              <ul class="pagination justify-content-start">
+
+                <!-- Anterior -->
+                <li class="page-item" th:classappend="${!page.hasPrevious()} ? 'disabled'">
+                  <a class="page-link"
+                    th:href="@{/students(page=${page.number - 1}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}">
+                    Anterior
+                  </a>
+                </li>
+
+                <!-- Números -->
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                  th:classappend="${i == page.number} ? 'active'">
+                  <a class="page-link"
+                    th:href="@{/students(page=${i}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}"
+                    th:text="${i + 1}">1</a>
+                </li>
+
+                <!-- Siguiente -->
+                <li class="page-item" th:classappend="${!page.hasNext()} ? 'disabled'">
+                  <a class="page-link"
+                    th:href="@{/students(page=${page.number + 1}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}">
+                    Siguiente
+                  </a>
+                </li>
+
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
+  </div>
 
-      <!-- Precios -->
-      <section class="container mt-4">
-        <p th:if="${#lists.isEmpty(fees)}">No hay cuotas.</p>
+  <!-- Precios -->
+  <section class="container mt-4">
+    <p th:if="${#lists.isEmpty(fees)}">No hay cuotas.</p>
+    <div class="d-flex align-items-center mb-3">
+      <h2 class="text-primary">Precios</h2>
+      <button type="button" class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
+        data-bs-toggle="collapse" data-bs-target="#precios" aria-expanded="true" aria-controls="precios">
+        <i class="bi bi-caret-down fs-4"></i>
+      </button>
+      <a th:href="@{/showPricesForm}" class="btn btn-outline-primary mb-2">
+        Crear
+      </a>
+    </div>
+    <div th:if="${!#lists.isEmpty(fees)}"></div>
 
-        <div th:if="${!#lists.isEmpty(fees)}">
-          <div class="d-flex align-items-center mb-3">
-            <h2 class="text-primary">Precios</h2>
-            <button type="button"
-              class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
-              data-bs-toggle="collapse" data-bs-target="#precios" aria-expanded="true" aria-controls="precios">
-              <i class="bi bi-caret-down fs-4"></i>
-            </button>
+    <div id="precios" class="collapse show bg-light p-4 rounded-3">
+      <div th:each="fee : ${fees}" class="border rounded p-3 bg-white mb-3">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <h2 th:text="${fee.name}"></h2>
+            <h6 class="mb-1">Precio de la cuota</h6>
+            <p class="mb-0" th:text="${fee.basePrice} + ' € / mes'">
+              60 € / mes
+            </p>
           </div>
 
-          <div id="precios" class="collapse show bg-light p-4 rounded-3">
-            <a th:href="@{/showPricesForm}" class="btn btn-outline-primary mb-2">
-              Crear
-            </a>
-            <div th:each="fee : ${fees}" class="border rounded p-3 bg-white mb-3">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <h2 th:text="${fee.name}"></h2>
-                  <h6 class="mb-1">Precio de la cuota</h6>
-                  <p class="mb-0" th:text="${fee.basePrice} + ' € / mes'">
-                    60 € / mes
-                  </p>
-                </div>
+          <div class="col-md-6">
+            <h6 class="mb-1">Días de antelación para descuento</h6>
+            <p class="mb-0" th:text="${fee.daysForDiscount} + ' dias'">
+              4 dias
+            </p>
+          </div>
 
-                <div class="col-md-6">
-                  <h6 class="mb-1">Días de antelación para descuento</h6>
-                  <p class="mb-0" th:text="${fee.daysForDiscount} + ' dias'">
-                    4 dias
-                  </p>
-                </div>
+          <div class="col-md-6">
+            <h6 class="mb-1">Descuento por hermano (%)</h6>
+            <p class="mb-0" th:text="${fee.siblingDiscount} + ' % de descuento'">
+              10% de descuento
+            </p>
+          </div>
 
-                <div class="col-md-6">
-                  <h6 class="mb-1">Descuento por hermano (%)</h6>
-                  <p class="mb-0" th:text="${fee.siblingDiscount} + ' % de descuento'">
-                    10% de descuento
-                  </p>
-                </div>
-
-                <div class="col-md-6">
-                  <h6 class="mb-1">Descuento por inscripción temprana (%)</h6>
-                  <p class="mb-0" th:text="${fee.earlyRegistrationDiscount} + ' % de descuento'">
-                    15% de descuento
-                  </p>
-                </div>
-              </div>
-              <div class="text-end mt-4">
-                <a th:href="@{'/showPricesForm/' + ${fee.id}}" class="btn btn-outline-primary" role="button">Editar</a>
-              </div>
-            </div>
+          <div class="col-md-6">
+            <h6 class="mb-1">Descuento por inscripción temprana (%)</h6>
+            <p class="mb-0" th:text="${fee.earlyRegistrationDiscount} + ' % de descuento'">
+              15% de descuento
+            </p>
           </div>
         </div>
-      </section>
-    </main>
+        <div class="d-flex ms-2">
+
+          <div class="text-end mt-4">
+            <form th:action="@{'/showPricesForm/' + ${fee.id}}" method="get">
+              <button type="submit" class="btn btn-outline-primary">Editar</button>
+            </form>
+          </div>
+
+          <div class="text-end mt-4">
+            <form th:action="@{'/deleteFee/' + ${fee.id}}" method="post">
+              <button type="submit" class="btn btn-outline-primary"
+                onsubmit="return confirm('¿Seguro que quieres borrar esta cuota? Recuerda que este cambio no se puede deshacer');">Borrar</button>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+  </main>
   </div>
   <section th:replace="fragments/footer :: footer"></section>
 </body>

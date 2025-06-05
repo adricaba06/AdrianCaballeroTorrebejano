@@ -2,9 +2,13 @@ package com.salesianostriana.dam.AdrianCaballeroTorrebejano.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 
@@ -21,4 +25,11 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	
 	@Query("SELECT s FROM Student s WHERE s.course.id <> :courseId")
     List<Student> findAllByCourseIdNot(@Param("courseId") Long courseId);
+	
+	@Query("SELECT s FROM Student s WHERE s.fee.id = :feeId")
+	List<Student> findAllByFeeId(@Param("feeId") Long feeId);
+
+	Page<Student> findByActiveTrue(Pageable paginacion);
+	
+	
 }                                 

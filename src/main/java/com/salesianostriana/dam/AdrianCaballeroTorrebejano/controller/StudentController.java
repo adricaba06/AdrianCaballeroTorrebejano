@@ -1,11 +1,15 @@
 package com.salesianostriana.dam.AdrianCaballeroTorrebejano.controller;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,36 +42,46 @@ public class StudentController {
 	EmailService emailService;
 
 	@GetMapping("/students")
-	public String showStudents(Model model, @RequestParam(name = "sort", required = false) String sortBy,
-			@RequestParam(required = false) String nameParam, @RequestParam(required = false) boolean complete) {
+	public String showStudents(
+	        Model model,
+	        @RequestParam(name = "sort", required = false) String sortBy,
+	        @RequestParam(required = false) String nameParam,
+	        @RequestParam(defaultValue = "true") boolean ascending,
+	        Pageable pageable) {
 
-		model.addAttribute("complete", complete);
-		model.addAttribute("student", new Student());
+	    model.addAttribute("student", new Student());
 
-		List<Student> students;
-		if (nameParam != null && !nameParam.isEmpty()) {
-			students = studentService.findByName(nameParam);
-		} else {
-			students = studentService.filterActiveStudents(sortBy, complete);
-		}
-		List<Fee> fees = feeService.findAllFees();
-		List<Course> courses = courseService.findAll();
-		List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
-		List<Student> searchStudent = nameParam != null && !nameParam.isEmpty() ? studentService.findByName(nameParam)
-				: new ArrayList<>();
+	    List<Student> students;
 
-		students.stream().forEach((s) -> s.setAverage(studentService.getAverageGrade(s.getId())));
 
-		model.addAttribute("searchStudent", searchStudent);
-		model.addAttribute("activeStudents", activeStudents);
-		model.addAttribute("students", students);
-		model.addAttribute("courses", courses);
-		model.addAttribute("fees", fees);
-		model.addAttribute("fee", new Fee());
+	    if (nameParam != null && !nameParam.isEmpty()) {
+	        students = studentService.findByName(nameParam);
+	    } else {
+	       
+	        Page<Student> page = studentService.filterActiveStudents(pageable, sortBy, ascending);
+	        students = page.getContent();
+	        model.addAttribute("page", page); 
+	    }
 
-		return "students";
+	    students.forEach(s -> s.setAverage(studentService.getAverageGrade(s.getId())));
 
+	    List<Fee> fees = feeService.findAllFees();
+	    List<Course> courses = courseService.findAll();
+
+	    model.addAttribute("students", students);
+	    model.addAttribute("courses", courses);
+	    model.addAttribute("fees", fees);
+	    model.addAttribute("fee", new Fee());
+	    
+	    model.addAttribute("sortBy", sortBy); 
+	    model.addAttribute("ascending", ascending);
+	    model.addAttribute("nameParam", nameParam);
+	    model.addAttribute("size", pageable.getPageSize()); 
+	    model.addAttribute("currentPage", pageable.getPageNumber());
+
+	    return "students";
 	}
+
 
 	@PostMapping("/savestudent")
 	public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(required = false) Long courseId,
@@ -173,7 +187,7 @@ public class StudentController {
 	@PostMapping("student/deleteDirectWay/{id}")
 	public String deleteStudentDirectWay(@PathVariable Long id) {
 		studentService.deleteStudent(id);
-		return "students";
+		return "redirect:/students";
 	}
 
 	@GetMapping("/sendEmail/{id}")

@@ -57,33 +57,35 @@
           <!-- Tabla de alumnos -->
           <div class="tab-pane fade show active p-3" id="vistaTabla" role="tabpanel">
             <div class="d-flex">
-              <div class="dropdown mb-3">
-                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
-                  Ordenar Por
-                </button>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a class="dropdown-item"
-                      th:href="@{|/students?page=${page}&complete=${complete}&sort=alfabe|}">(A-Z)</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item"
-                      th:href="@{|/students?page=${page}&complete=${complete}&sort=alfabeDes|}">(Z-A)</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item"
-                      th:href="@{|/students?page=${page}&complete=${complete}&sort=grades|}">Ordenar por nota (mayor a
-                      menor)
-                      <i class="bi bi-arrow-up"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item"
-                      th:href="@{|/students?page=${page}&complete=${complete}&sort=date|}">Ordenar por fecha de registro
-                      <i class="bi bi-arrow-down"></i>
-                    </a>
-                  </li>
-                </ul>
+              <div class="btn-group mb-3" role="group">
+                <a class="btn btn-outline-primary"
+                  th:href="@{/students(sort='name', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
+                  th:classappend="${sort == 'name'} ? 'active'">Nombre</a>
+
+                <a class="btn btn-outline-primary"
+                  th:href="@{/students(sort='surname', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
+                  th:classappend="${sort == 'surname'} ? 'active'">Apellido</a>
+
+                <a class="btn btn-outline-primary"
+                  th:href="@{/students(sort='date', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
+                  th:classappend="${sort == 'date'} ? 'active'">Fecha</a>
+
+                <a class="btn btn-outline-primary"
+                  th:href="@{/students(sort='email', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
+                  th:classappend="${sort == 'email'} ? 'active'">email</a>
+              </div>
+
+
+              <div class="d-flex align-items-center gap-2 mb-3 ms-2">
+                <a th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=true)}"
+                  class="btn btn-outline-primary" th:classappend="${ascending != null and ascending} ? 'active' : ''">
+                  <i class="bi bi-arrow-up-short"></i>
+                </a>
+
+                <a th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=false)}"
+                  class="btn btn-outline-primary" th:classappend="${ascending != null and !ascending} ? 'active' : ''">
+                  <i class="bi bi-arrow-down-short"></i>
+                </a>
               </div>
 
               <div class="input-group mb-3 ms-3 d-md-none">
@@ -111,7 +113,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:each="student : ${searchStudent.isEmpty()  ? activeStudents : searchStudent}">
+                  <tr th:each="student : ${students}">
                     <td th:text="${student.name}">John</td>
                     <td th:text="${student.surname}">Doe</td>
                     <td th:text="${student.email}">john@example.com</td>
@@ -145,44 +147,87 @@
                           <i class="bi bi-archive-fill"></i></i>
                         </button>
                       </form>
-
-
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <a th:href="@{/students(complete=${complete} ? false : true)}" class="btn btn-outline-primary mt-3 w-100"
-              type="button" th:text="${complete} ? 'Mostrar menos' : 'Mostrar más'">
-            </a>
+
+            <div th:if="${page != null && page.totalPages > 1}">
+              <div class="mb-2">
+                <small>
+                  Página <strong th:text="${page.number + 1}"></strong> de
+                  <strong th:text="${page.totalPages}"></strong>
+                </small>
+              </div>
+
+              <nav aria-label="Navegación de páginas">
+                <ul class="pagination justify-content-start">
+
+                  <!-- Anterior -->
+                  <li class="page-item" th:classappend="${!page.hasPrevious()} ? 'disabled'">
+                    <a class="page-link"
+                      th:href="@{/students(page=${page.number - 1}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}">
+                      Anterior
+                    </a>
+                  </li>
+
+                  <!-- Números -->
+                  <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                    th:classappend="${i == page.number} ? 'active'">
+                    <a class="page-link"
+                      th:href="@{/students(page=${i}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}"
+                      th:text="${i + 1}">1</a>
+                  </li>
+
+                  <!-- Siguiente -->
+                  <li class="page-item" th:classappend="${!page.hasNext()} ? 'disabled'">
+                    <a class="page-link"
+                      th:href="@{/students(page=${page.number + 1}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}">
+                      Siguiente
+                    </a>
+                  </li>
+
+                </ul>
+              </nav>
+            </div>
+
+
+
           </div>
           <!-- Vista de tarjetas -->
           <div class="tab-pane fade show p-3" id="vistaTarjeta" role="tabpanel" aria-labelledby="tarjeta">
-            <div class="dropdown mb-3">
-              <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
-                Ordenar Por
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" th:href="@{|/students?sort=alfabe|}">(A-Z)</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" th:href="@{|/students?sort=alfabeDes|}">(Z-A)</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" th:href="@{|/students?sort=grades|}">Ordenar por nota (mayor a menor)<i
-                      class="bi bi-arrow-up"></i></a>
-                </li>
-                <li>
-                  <a class="dropdown-item" th:href="@{|/students?sort=date|}">Ordenar por fecha de registro<i
-                      class="bi bi-arrow-down"></i></a>
-                </li>
-              </ul>
+            <div class="btn-group mb-3" role="group">
+              <a class="btn btn-outline-primary"
+                th:href="@{/students(sort='name', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
+                th:classappend="${sort == 'name'} ? 'active'">Nombre</a>
+
+              <a class="btn btn-outline-primary"
+                th:href="@{/students(sort='surname', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
+                th:classappend="${sort == 'surname'} ? 'active'">Apellido</a>
+
+              <a class="btn btn-outline-primary"
+                th:href="@{/students(sort='date', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
+                th:classappend="${sort == 'date'} ? 'active'">Fecha</a>
+
+              <a class="btn btn-outline-primary"
+                th:href="@{/students(sort='email', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
+                th:classappend="${sort == 'email'} ? 'active'">email</a>
+            </div>
+            <div class="d-flex align-items-center gap-2 mb-3 ms-2">
+              <a th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=true)}"
+                class="btn btn-outline-primary" th:classappend="${ascending != null and ascending} ? 'active' : ''">
+                <i class="bi bi-arrow-up-short"></i>
+              </a>
+
+              <a th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=false)}"
+                class="btn btn-outline-primary" th:classappend="${ascending != null and !ascending} ? 'active' : ''">
+                <i class="bi bi-arrow-down-short"></i>
+              </a>
             </div>
             <section class="d-flex flex-wrap">
               <!-- tajeta 1 -->
-              <div class="card m-4" style="width: 400px"
-                th:each="student : ${searchStudent.isEmpty()  ? activeStudents : searchStudent}">
+              <div class="card m-4" style="width: 400px" th:each="student : ${students}">
                 <img th:src="${student.photoPath}" alt="Foto del estudiante" class="card-img-top object-fit-cover"
                   width="500" height="300" />
 
@@ -210,14 +255,60 @@
                   </p>
 
                   <div class="d-flex gap-2">
-                    <a th:href="@{/student/{id}(id = ${student.id})}" class="text-decoration-none"><i
-                        class="bi bi-pencil-square"></i>
-                    </a>
+                    <div class="d-flex gap-2">
+                      <a th:href="@{/student/{id}(id = ${student.id})}" class="btn btn-secondary btn-sm"><i
+                          class="bi bi-pencil-fill"></i>
+                      </a>
+                    </div>
+
+                    <form th:action="@{/student/deleteDirectWay/{id}(id=${student.id})}" method="post"
+                      onsubmit="return confirm('¿Estás seguro de que deseas eliminar este estudiante?');">
+                      <button type="submit" class="btn btn-secondary btn-sm" title="Eliminar">
+                        <i class="bi bi-trash3-fill"></i>
+                      </button>
+                    </form>
+
+                    <form th:action="@{/student/deactivate/{id}(id=${student.id})}" method="post"
+                      onsubmit="return confirm('¿Estás seguro de que deseas desactivar este estudiante?');">
+                      <button type="submit" class="btn btn-secondary btn-sm" title="archivar">
+                        <i class="bi bi-archive-fill"></i></i>
+                      </button>
+                    </form>
                   </div>
                 </div>
               </div>
               <!-- tajeta 1 -->
             </section>
+            <div th:if="${page != null}">
+              <div class="mb-2">
+                <small>Página <strong th:text="${page.number + 1}"></strong> de <strong
+                    th:text="${page.totalPages}"></strong></small>
+              </div>
+
+              <nav aria-label="Navegación de páginas"> <!-- https://getbootstrap.com/docs/5.3/components/pagination/ -->
+                <ul class="pagination justify-content-sart">
+
+                  <li class="page-item" th:classappend="${!page.hasPrevious()} ? 'disabled'">
+                    <a class="page-link"
+                      th:href="@{/students(page=${page.number - 1}, size=${page.size}, sort=${sort}, ascending=${ascending})}"
+                      tabindex="-1" aria-disabled="true">Anterior</a>
+                  </li>
+
+                  <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                    th:classappend="${i == page.number} ? 'active'">
+                    <a class="page-link"
+                      th:href="@{/students(page=${i}, size=${page.size}, sort=${sort}, ascending=${ascending})}"
+                      th:text="${i + 1}">1</a>
+                  </li>
+
+                  <li class="page-item" th:classappend="${!page.hasNext()} ? 'disabled'">
+                    <a class="page-link"
+                      th:href="@{/students(page=${page.number + 1}, size=${page.size}, sort=${sort}, ascending=${ascending})}">Siguiente</a>
+                  </li>
+
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
       </main>
