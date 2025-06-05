@@ -1,294 +1,467 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head th:replace="fragments/commonHead :: commonHead">
+    <title>Reports</title>
+    <meta name="description" content="Calculos y estadisticas" />
+  </head>
 
-<head th:replace="fragments/commonHead :: commonHead">
-  <title>Reports</title>
-  <meta name="description" content="Calculos y estadisticas" />
-</head>
+  <body>
+    <section>
+      <!-- Offcanvas solo visible en móvil -->
+      <div th:replace="fragments/offcanva :: offcanva"></div>
+    </section>
 
-<body>
-  <section>
-    <!-- Offcanvas solo visible en móvil -->
-    <div th:replace="fragments/offcanva :: offcanva"></div>
-  </section>
+    <section th:replace="fragments/decorationNav :: decorationNav"></section>
 
-  <section th:replace="fragments/decorationNav :: decorationNav"></section>
-
-  <div class="d-flex flex-column flex-md-row">
-    <aside class="d-none d-md-flex flex-column bg-light border-end text-primary p-3 vh-100">
-      <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
-      <div class="dropdown mb-3">
-        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
-          Ordenar Por
-        </button>
-        <ul class="dropdown-menu">
-          <li>
-            <a class="dropdown-item" th:href="@{/reports(page=${page}, complete=${complete}, sort='alfabe')}">(A-Z)</a>
-          </li>
-          <li>
-            <a class="dropdown-item"
-              th:href="@{/reports(page=${page}, complete=${complete}, sort='alfabeDes')}">(Z-A)</a>
-          </li>
-          <li>
-            <a class="dropdown-item" th:href="@{/reports(page=${page}, complete=${complete}, sort='grades')}">Ordenar
-              por nota (mayor a menor) <i class="bi bi-arrow-up"></i></a>
-          </li>
-          <li>
-            <a class="dropdown-item" th:href="@{/reports(page=${page}, complete=${complete}, sort='date')}">Ordenar por
-              fecha de registro <i class="bi bi-arrow-down"></i></a>
-          </li>
-        </ul>
-      </div>
-    </aside>
-
-    <main class="container-fluid flex-fill overflow-auto vh-100">
-      <div class="container mt-4">
-        <div class="d-flex align-items-center mb-3">
-          <h2 class="text-primary">Ingresos Estimados</h2>
-          <button type="button" class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
-            data-bs-toggle="collapse" data-bs-target="#ingresosEstimados">
-            <i class="bi bi-caret-down fs-4"></i>
+    <div class="d-flex flex-column flex-md-row">
+      <aside
+        class="d-none d-md-flex flex-column bg-light border-end text-primary p-3 vh-100"
+      >
+        <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
+        <div class="dropdown mb-3">
+          <button
+            type="button"
+            class="btn btn-outline-primary dropdown-toggle"
+            data-bs-toggle="dropdown"
+          >
+            Ordenar Por
           </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a
+                class="dropdown-item"
+                th:href="@{/reports(page=${page}, complete=${complete}, sort='alfabe')}"
+                >(A-Z)</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                th:href="@{/reports(page=${page}, complete=${complete}, sort='alfabeDes')}"
+                >(Z-A)</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                th:href="@{/reports(page=${page}, complete=${complete}, sort='grades')}"
+                >Ordenar por nota (mayor a menor) <i class="bi bi-arrow-up"></i
+              ></a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                th:href="@{/reports(page=${page}, complete=${complete}, sort='date')}"
+                >Ordenar por fecha de registro <i class="bi bi-arrow-down"></i
+              ></a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="container-fluid flex-fill overflow-auto vh-100">
+        <div class="container mt-4">
+          <div class="d-flex align-items-center mb-3">
+            <h2 class="text-primary">Ingresos Estimados</h2>
+            <button
+              type="button"
+              class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
+              data-bs-toggle="collapse"
+              data-bs-target="#ingresosEstimados"
+            >
+              <i class="bi bi-caret-down fs-4"></i>
+            </button>
+          </div>
+
+          <div id="ingresosEstimados" class="collapse show">
+            <div class="input-group mb-3 ms-3">
+              <form
+                th:action="@{/reports}"
+                method="get"
+                class="input-group mb-3"
+              >
+                <input
+                  type="text"
+                  id="search"
+                  name="nameParam"
+                  class="form-control border-start-0"
+                  placeholder="Buscar alumno..."
+                />
+                <button type="submit" class="input-group-text">
+                  <i class="bi bi-search ms-2"></i>
+                </button>
+              </form>
+            </div>
+            <div class="bg-light table-responsive p-4 rounded-3">
+              <div class="d-flex">
+                <!-- Botones de orden -->
+                <div>
+                  <a
+                    class="btn btn-outline-primary w-auto"
+                    th:href="@{/reports(sort='name', ascending=${ascending}, page=0, size=${page.size})}"
+                    th:classappend="${sortBy == 'name'} ? 'active'"
+                    >Nombre</a
+                  >
+
+                  <a
+                    class="btn btn-outline-primary w-auto"
+                    th:href="@{/reports(sort='surname', ascending=${ascending}, page=0, size=${page.size})}"
+                    th:classappend="${sortBy == 'surname'} ? 'active'"
+                    >Apellido</a
+                  >
+                </div>
+
+                <!-- Botones de orden ascendente / descendente -->
+                <div class="d-flex align-items-center gap-2 mb-3 ms-2">
+                  <a
+                    th:href="@{/reports(page=${page.number}, size=${page.size}, sort=${sort}, ascending=true, nameParam=${nameParam})}"
+                    class="btn btn-outline-primary"
+                    th:classappend="${ascending != null and ascending} ? 'active' : ''"
+                  >
+                    <i class="bi bi-arrow-up-short"></i>
+                  </a>
+
+                  <a
+                    th:href="@{/reports(page=${page.number}, size=${page.size}, sort=${sort}, ascending=false, nameParam=${nameParam})}"
+                    class="btn btn-outline-primary"
+                    th:classappend="${ascending != null and !ascending} ? 'active' : ''"
+                  >
+                    <i class="bi bi-arrow-down-short"></i>
+                  </a>
+                </div>
+              </div>
+
+              <table class="table table-hover table-light">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Cantidad/mes</th>
+                    <th>Descuento por hermano</th>
+                    <th>Descuento por Antelación</th>
+                    <th>Curso</th>
+                    <th>Precio Total a Pagar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="student : ${students}">
+                    <td th:text="${student.name}">John</td>
+                    <td th:text="${student.surname}">Doe</td>
+                    <td
+                      th:text="${student.fee != null ? student.fee.basePrice + ' €' : 'Sin cuota'}"
+                    ></td>
+                    <td
+                      th:text="${student.hasASibling and student.fee != null ? student.fee.siblingDiscount + ' %' : 'No tiene hermano/a'}"
+                    ></td>
+                    <td
+                      th:text="${student.fee != null ? student.fee.earlyRegistrationDiscount + ' %' : '0 %'}"
+                    ></td>
+                    <td th:text="${student.course.name}">Curso 1</td>
+                    <td
+                      th:text="${student.fee.calculateFinalPrice != null ? student.fee.calculateFinalPrice + ' €' : '---'}"
+                    ></td>
+                  </tr>
+                </tbody>
+              </table>
+              <nav aria-label="Navegación de páginas">
+                <ul class="pagination justify-content-start">
+                  <!-- Anterior -->
+                  <li
+                    class="page-item"
+                    th:classappend="${!page.hasPrevious()} ? 'disabled'"
+                  >
+                    <a
+                      class="page-link"
+                      th:href="@{/reports(page=${page.number - 1}, size=${page.size}, sort=${sortBy}, ascending=${ascending})}"
+                    >
+                      Anterior
+                    </a>
+                  </li>
+
+                  <!-- Números -->
+                  <li
+                    class="page-item"
+                    th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                    th:classappend="${i == page.number} ? 'active'"
+                  >
+                    <a
+                      class="page-link"
+                      th:href="@{/reports(page=${i}, size=${page.size}, sort=${sortBy}, ascending=${ascending})}"
+                      th:text="${i + 1}"
+                    >
+                    </a>
+                  </li>
+
+                  <!-- Siguiente -->
+                  <li
+                    class="page-item"
+                    th:classappend="${!page.hasNext()} ? 'disabled'"
+                  >
+                    <a
+                      class="page-link"
+                      th:href="@{/reports(page=${page.number + 1}, size=${page.size}, sort=${sortBy}, ascending=${ascending})}"
+                    >
+                      Siguiente
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              <h2
+                th:text="'Total Estimado: ' + ${#numbers.formatDecimal(total, 1, 'COMMA', 2, 'POINT')} + ' €'"
+              ></h2>
+            </div>
+          </div>
         </div>
 
-        <div id="ingresosEstimados" class="collapse show">
-          <div class="input-group mb-3 ms-3">
-            <form th:action="@{/reports}" method="get" class="input-group mb-3">
-              <input type="text" id="search" name="nameParam" class="form-control border-start-0"
-                placeholder="Buscar alumno..." />
-              <button type="submit" class="input-group-text">
-                <i class="bi bi-search ms-2"></i>
-              </button>
-            </form>
+        <!-- Estadística -->
+        <div class="container mt-4">
+          <div class="d-flex align-items-center mb-3">
+            <h2 class="text-primary">Estadísticas</h2>
+            <button
+              type="button"
+              class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
+              data-bs-toggle="collapse"
+              data-bs-target="#estadisticas"
+            >
+              <i class="bi bi-caret-down fs-4"></i>
+            </button>
           </div>
-          <div class="bg-light table-responsive p-4 rounded-3">
-            <table class="table table-hover table-light">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Apellido</th>
-                  <th>Cantidad/mes</th>
-                  <th>Descuento por hermano</th>
-                  <th>Descuento por Antelación</th>
-                  <th>Curso</th>
-                  <th>Precio Total a Pagar</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="student : ${searchStudent.isEmpty() ? activeStudents : searchStudent}">
-                  <td th:text="${student.name}">John</td>
-                  <td th:text="${student.surname}">Doe</td>
-                  <td th:text="${student.fee != null ? student.fee.basePrice + ' €' : 'Sin cuota'}"></td>
-                  <td
-                    th:text="${student.hasASibling and student.fee != null ? student.fee.siblingDiscount + ' %' : 'No tiene hermano/a'}">
-                  </td>
-                  <td th:text="${student.fee != null ? student.fee.earlyRegistrationDiscount + ' %' : '0 %'}"></td>
-                  <td th:text="${student.course.name}">Curso 1</td>
-                  <td
-                    th:text="${student.fee.calculateFinalPrice != null ? student.fee.calculateFinalPrice + ' €' : '---'}">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <a th:href="@{/reports(complete=${complete} ? false : true)}" class="btn btn-outline-primary mt-3 w-100"
-              type="button" th:text="${complete} ? 'Mostrar menos' : 'Mostrar más'">
+
+          <div id="estadisticas" class="collapse show">
+            <div class="d-flex flex-column flex-md-row gap-3">
+              <!-- Primer bloque: Ocupación -->
+              <div
+                class="bg-light p-4 rounded-3 flex-grow-1"
+                style="min-height: 200px"
+              >
+                <label for="cursoFilterOcupacion" class="form-label"
+                  >Ocupación</label
+                >
+                <form method="get" th:action="@{/reports}">
+                  <select
+                    class="form-select"
+                    id="cursoFilterOcupacion"
+                    name="ocupacionCourseId"
+                  >
+                    <option
+                      th:if="${activeCourses == null or #lists.isEmpty(activeCourses)}"
+                      disabled
+                    >
+                      No hay cursos creados
+                    </option>
+                    <option
+                      th:each="course : ${activeCourses}"
+                      th:value="${course.id}"
+                      th:text="${course.name}"
+                      th:selected="${course.id == param.ocupacionCourseId}"
+                    ></option>
+                  </select>
+
+                  <button
+                    type="submit"
+                    class="btn btn-outline-primary mt-3 w-100"
+                  >
+                    Comprobar
+                  </button>
+                </form>
+
+                <h2
+                  th:if="${courseOcupacion != null}"
+                  th:text="${courseOcupacion.name}"
+                ></h2>
+                <h2 th:if="${courseOcupacion == null}" class="text-muted">
+                  Selecciona un curso
+                </h2>
+
+                <div class="progress fw-bold fs-6 mt-3" style="height: 40px">
+                  <div
+                    th:if="${courseOcupacion != null}"
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    th:classappend="${ocupationPercent > 85} ? ' bg-secondary' : ' bg-primary'"
+                    th:style="'width:' + ${ocupationPercent} + '%'"
+                  >
+                    <span th:text="${ocupationPercent} + '%'">0%</span>
+                  </div>
+                  <div
+                    th:if="${courseOcupacion == null}"
+                    class="progress-bar bg-light text-muted d-flex justify-content-center align-items-center"
+                    style="width: 100%; height: 100%"
+                  >
+                    Sin datos
+                  </div>
+                </div>
+              </div>
+
+              <!-- Segundo bloque -->
+              <div
+                class="bg-light p-4 rounded-3 flex-grow-1"
+                style="min-height: 200px"
+              >
+                <label for="courseAverage" class="form-label"
+                  >Nota Media de Curso</label
+                >
+                <form method="get" th:action="@{/reports}">
+                  <select
+                    class="form-select"
+                    id="courseAverage"
+                    name="mediaCourseId"
+                  >
+                    <option
+                      th:if="${activeCourses == null or #lists.isEmpty(activeCourses)}"
+                      disabled
+                    >
+                      No hay cursos creados
+                    </option>
+                    <option
+                      th:each="course : ${activeCourses}"
+                      th:if="${course.id != 1}"
+                      th:value="${course.id}"
+                      th:text="${course.name}"
+                      th:selected="${course.id == param.mediaCourseId}"
+                    ></option>
+                  </select>
+
+                  <button
+                    type="submit"
+                    class="btn btn-outline-primary mt-3 w-100"
+                  >
+                    Comprobar
+                  </button>
+                </form>
+
+                <h2
+                  th:if="${courseMedia != null}"
+                  th:text="${courseMedia.name}"
+                ></h2>
+                <h2 th:if="${courseMedia == null}" class="text-muted">
+                  Selecciona un curso
+                </h2>
+
+                <div class="progress fw-bold fs-6 mt-3" style="height: 40px">
+                  <div
+                    th:if="${average != null}"
+                    class="progress-bar progress-bar-striped progress-bar-animated"
+                    th:classappend="${average < 5} ? ' bg-secondary' : ' bg-primary'"
+                    th:style="'width:' + (${average} * 10) + '%'"
+                  >
+                    <span
+                      th:text="${#numbers.formatDecimal(average, 1, 2)}"
+                    ></span>
+                  </div>
+
+                  <div
+                    th:if="${average == null}"
+                    class="progress-bar bg-light text-muted d-flex justify-content-center align-items-center"
+                    style="width: 100%; height: 100%"
+                  >
+                    Sin datos
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Precios -->
+        <section class="container mt-4">
+          <p th:if="${#lists.isEmpty(fees)}">No hay cuotas.</p>
+
+          <div class="d-flex align-items-center mb-3">
+            <h2 class="text-primary">Precios</h2>
+            <button
+              type="button"
+              class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
+              data-bs-toggle="collapse"
+              data-bs-target="#precios"
+              aria-expanded="true"
+              aria-controls="precios"
+            >
+              <i class="bi bi-caret-down fs-4"></i>
+            </button>
+            <a
+              th:href="@{/showPricesForm}"
+              class="btn btn-outline-primary mb-2"
+            >
+              Crear
             </a>
-            <h2 th:text="'Total Estimado: ' + ${#numbers.formatDecimal(total, 1, 'COMMA', 2, 'POINT')} + ' €'"></h2>
           </div>
-        </div>
-      </div>
 
-      <!-- Estadística -->
-      <div class="container mt-4">
-        <div class="d-flex align-items-center mb-3">
-          <h2 class="text-primary">Estadísticas</h2>
-          <button type="button" class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
-            data-bs-toggle="collapse" data-bs-target="#estadisticas">
-            <i class="bi bi-caret-down fs-4"></i>
-          </button>
-        </div>
+          <div th:if="${!#lists.isEmpty(fees)}">
+            <div id="precios" class="collapse show bg-light p-4 rounded-3">
+              <div
+                th:each="fee : ${fees}"
+                class="border rounded p-3 bg-white mb-3"
+              >
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <h2 th:text="${fee.name}"></h2>
+                    <h6 class="mb-1">Precio de la cuota</h6>
+                    <p class="mb-0" th:text="${fee.basePrice} + ' € / mes'">
+                      60 € / mes
+                    </p>
+                  </div>
 
-        <div id="estadisticas" class="collapse show">
-          <div class="d-flex flex-column flex-md-row gap-3">
+                  <div class="col-md-6">
+                    <h6 class="mb-1">Días de antelación para descuento</h6>
+                    <p class="mb-0" th:text="${fee.daysForDiscount} + ' días'">
+                      4 días
+                    </p>
+                  </div>
 
-            <!-- Primer bloque: Ocupación -->
-            <div class="bg-light p-4 rounded-3 flex-grow-1" style="min-height: 200px">
-              <label for="cursoFilterOcupacion" class="form-label">Ocupación</label>
-              <form method="get" th:action="@{/reports}">
-                <select class="form-select" id="cursoFilterOcupacion" name="ocupacionCourseId">
-                  <option th:if="${activeCourses == null or #lists.isEmpty(activeCourses)}" disabled>
-                    No hay cursos creados
-                  </option>
-                  <option th:each="course : ${activeCourses}" th:value="${course.id}" th:text="${course.name}"
-                    th:selected="${course.id == param.ocupacionCourseId}"></option>
-                </select>
+                  <div class="col-md-6">
+                    <h6 class="mb-1">Descuento por hermano (%)</h6>
+                    <p
+                      class="mb-0"
+                      th:text="${fee.siblingDiscount} + ' % de descuento'"
+                    >
+                      10% de descuento
+                    </p>
+                  </div>
 
-                <button type="submit" class="btn btn-outline-primary mt-3 w-100">
-                  Comprobar
-                </button>
-              </form>
-
-              <h2 th:if="${courseOcupacion != null}" th:text="${courseOcupacion.name}"></h2>
-              <h2 th:if="${courseOcupacion == null}" class="text-muted">
-                Selecciona un curso
-              </h2>
-
-              <div class="progress fw-bold fs-6 mt-3" style="height: 40px">
-                <div th:if="${courseOcupacion != null}" class="progress-bar progress-bar-striped progress-bar-animated"
-                  th:classappend="${ocupationPercent > 85} ? ' bg-secondary' : ' bg-primary'"
-                  th:style="'width:' + ${ocupationPercent} + '%'">
-                  <span th:text="${ocupationPercent} + '%'">0%</span>
-                </div>
-                <div th:if="${courseOcupacion == null}"
-                  class="progress-bar bg-light text-muted d-flex justify-content-center align-items-center"
-                  style="width: 100%; height: 100%">
-                  Sin datos
-                </div>
-              </div>
-            </div>
-
-            <!-- Segundo bloque -->
-            <div class="bg-light p-4 rounded-3 flex-grow-1" style="min-height: 200px">
-              <label for="courseAverage" class="form-label">Nota Media de Curso</label>
-              <form method="get" th:action="@{/reports}">
-                <select class="form-select" id="courseAverage" name="mediaCourseId">
-                  <option th:if="${activeCourses == null or #lists.isEmpty(activeCourses)}" disabled>
-                    No hay cursos creados
-                  </option>
-                  <option th:each="course : ${activeCourses}" th:if="${course.id != 1}" th:value="${course.id}"
-                    th:text="${course.name}" th:selected="${course.id == param.mediaCourseId}"></option>
-                </select>
-
-                <button type="submit" class="btn btn-outline-primary mt-3 w-100">
-                  Comprobar
-                </button>
-              </form>
-
-              <h2 th:if="${courseMedia != null}" th:text="${courseMedia.name}"></h2>
-              <h2 th:if="${courseMedia == null}" class="text-muted">
-                Selecciona un curso
-              </h2>
-
-              <div class="progress fw-bold fs-6 mt-3" style="height: 40px">
-                <div th:if="${average != null}" class="progress-bar progress-bar-striped progress-bar-animated"
-                  th:classappend="${average < 5} ? ' bg-secondary' : ' bg-primary'"
-                  th:style="'width:' + (${average} * 10) + '%'">
-                  <span th:text="${#numbers.formatDecimal(average, 1, 2)}"></span>
+                  <div class="col-md-6">
+                    <h6 class="mb-1">Descuento por inscripción temprana (%)</h6>
+                    <p
+                      class="mb-0"
+                      th:text="${fee.earlyRegistrationDiscount} + ' % de descuento'"
+                    >
+                      15% de descuento
+                    </p>
+                  </div>
                 </div>
 
-                <div th:if="${average == null}"
-                  class="progress-bar bg-light text-muted d-flex justify-content-center align-items-center"
-                  style="width: 100%; height: 100%">
-                  Sin datos
+                <div class="d-flex ms-2">
+                  <div class="text-end mt-4 me-2">
+                    <form
+                      th:action="@{'/showPricesForm/' + ${fee.id}}"
+                      method="get"
+                    >
+                      <button type="submit" class="btn btn-outline-primary">
+                        Editar
+                      </button>
+                    </form>
+                  </div>
+
+                  <div class="text-end mt-4">
+                    <form
+                      th:action="@{'/deleteFee/' + ${fee.id}}"
+                      method="post"
+                      onsubmit="return confirm('¿Seguro que quieres borrar esta cuota? Recuerda que este cambio no se puede deshacer');"
+                    >
+                      <button type="submit" class="btn btn-outline-primary">
+                        Borrar
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
-
-            <nav aria-label="Navegación de páginas">
-              <ul class="pagination justify-content-start">
-
-                <!-- Anterior -->
-                <li class="page-item" th:classappend="${!page.hasPrevious()} ? 'disabled'">
-                  <a class="page-link"
-                    th:href="@{/students(page=${page.number - 1}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}">
-                    Anterior
-                  </a>
-                </li>
-
-                <!-- Números -->
-                <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-                  th:classappend="${i == page.number} ? 'active'">
-                  <a class="page-link"
-                    th:href="@{/students(page=${i}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}"
-                    th:text="${i + 1}">1</a>
-                </li>
-
-                <!-- Siguiente -->
-                <li class="page-item" th:classappend="${!page.hasNext()} ? 'disabled'">
-                  <a class="page-link"
-                    th:href="@{/students(page=${page.number + 1}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}">
-                    Siguiente
-                  </a>
-                </li>
-
-              </ul>
-            </nav>
           </div>
-        </div>
-      </div>
-  </div>
-
-  <!-- Precios -->
-  <section class="container mt-4">
-    <p th:if="${#lists.isEmpty(fees)}">No hay cuotas.</p>
-    <div class="d-flex align-items-center mb-3">
-      <h2 class="text-primary">Precios</h2>
-      <button type="button" class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center ms-5"
-        data-bs-toggle="collapse" data-bs-target="#precios" aria-expanded="true" aria-controls="precios">
-        <i class="bi bi-caret-down fs-4"></i>
-      </button>
-      <a th:href="@{/showPricesForm}" class="btn btn-outline-primary mb-2">
-        Crear
-      </a>
+        </section>
+      </main>
+      <!-- Cierre de <main> que faltaba -->
     </div>
-    <div th:if="${!#lists.isEmpty(fees)}"></div>
+    <!-- Cierre de <div class="d-flex flex-column flex-md-row"> -->
 
-    <div id="precios" class="collapse show bg-light p-4 rounded-3">
-      <div th:each="fee : ${fees}" class="border rounded p-3 bg-white mb-3">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <h2 th:text="${fee.name}"></h2>
-            <h6 class="mb-1">Precio de la cuota</h6>
-            <p class="mb-0" th:text="${fee.basePrice} + ' € / mes'">
-              60 € / mes
-            </p>
-          </div>
-
-          <div class="col-md-6">
-            <h6 class="mb-1">Días de antelación para descuento</h6>
-            <p class="mb-0" th:text="${fee.daysForDiscount} + ' dias'">
-              4 dias
-            </p>
-          </div>
-
-          <div class="col-md-6">
-            <h6 class="mb-1">Descuento por hermano (%)</h6>
-            <p class="mb-0" th:text="${fee.siblingDiscount} + ' % de descuento'">
-              10% de descuento
-            </p>
-          </div>
-
-          <div class="col-md-6">
-            <h6 class="mb-1">Descuento por inscripción temprana (%)</h6>
-            <p class="mb-0" th:text="${fee.earlyRegistrationDiscount} + ' % de descuento'">
-              15% de descuento
-            </p>
-          </div>
-        </div>
-        <div class="d-flex ms-2">
-
-          <div class="text-end mt-4">
-            <form th:action="@{'/showPricesForm/' + ${fee.id}}" method="get">
-              <button type="submit" class="btn btn-outline-primary">Editar</button>
-            </form>
-          </div>
-
-          <div class="text-end mt-4">
-            <form th:action="@{'/deleteFee/' + ${fee.id}}" method="post">
-              <button type="submit" class="btn btn-outline-primary"
-                onsubmit="return confirm('¿Seguro que quieres borrar esta cuota? Recuerda que este cambio no se puede deshacer');">Borrar</button>
-
-            </form>
-          </div>
-
-        </div>
-      </div>
-    </div>
-    </div>
-  </section>
-  </main>
-  </div>
-  <section th:replace="fragments/footer :: footer"></section>
-</body>
-
+    <section th:replace="fragments/footer :: footer"></section>
+  </body>
 </html>

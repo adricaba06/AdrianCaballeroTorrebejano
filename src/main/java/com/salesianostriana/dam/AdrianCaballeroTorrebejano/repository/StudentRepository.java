@@ -23,8 +23,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	@Query("SELECT s FROM Student s WHERE s.active = false")
 	List<Student> findInactiveStudents();
 	
-	@Query("SELECT s FROM Student s WHERE s.course.id <> :courseId")
-    List<Student> findAllByCourseIdNot(@Param("courseId") Long courseId);
+	@Query("SELECT s FROM Student s WHERE s.course.id <> :courseId AND s.active = true")
+	Page<Student> findAllByCourseIdNotAndActiveTrue(@Param("courseId") Long courseId, Pageable pageable);
 	
 	@Query("SELECT s FROM Student s WHERE s.fee.id = :feeId")
 	List<Student> findAllByFeeId(@Param("feeId") Long feeId);

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,63 +36,69 @@ public class FeeController {
 	private CourseService courseService;
 
 	@GetMapping("/reports")
-	public String showReports(
-	    Model model,
-	    @RequestParam(name = "sort", required = false) String sortBy,
-	    @RequestParam(required = false) String nameParam,
-	    @RequestParam(required = false) boolean complete,
-	    @RequestParam(required = false) Long ocupacionCourseId,
-	    @RequestParam(required = false) Long mediaCourseId
-	) {
-	    double total = 0, ocupationPercent = 0, averageGrade = 0;
+	public String showReports(Model model, @RequestParam(name = "sort", required = false) String sortBy,
+			@RequestParam(required = false) String nameParam, @RequestParam(defaultValue = "true") boolean ascending,
+			Pageable pageable, @RequestParam(required = false) Long ocupacionCourseId,
+			@RequestParam(required = false) Long mediaCourseId) {
+		
+		double total = 0, ocupationPercent = 0, averageGrade = 0;
 
-	    Course courseOcupacion = new Course();
-	    Course courseMedia = new Course();
+		Course courseOcupacion = new Course();
+		Course courseMedia = new Course();
+		List<Student> students;
 
-	    if (ocupacionCourseId != null) {
-	        ocupationPercent = Math.round(courseService.getPercentOfOcupation(ocupacionCourseId));
-	        Optional<Course> courseO = courseService.findById(ocupacionCourseId);
-	        if (courseO.isPresent()) {
-	            courseOcupacion = courseO.get();
-	        }
+
+	    if (nameParam != null && !nameParam.isEmpty()) {
+	        students = studentService.findByName(nameParam);
+	    } else {
+	       
+	        Page<Student> page = studentService.filterActiveStudents(pageable, sortBy, ascending);
+	        students = page.getContent();
+	        model.addAttribute("page", page); 
 	    }
 
-	    if (mediaCourseId != null) {
-	        Optional<Course> courseO = courseService.findById(mediaCourseId);
-	        if (courseO.isPresent()) {
-	            courseMedia = courseO.get();
-	        }
-	        averageGrade = studentService.calculateAverageGradeOfTheWholeAcademy(mediaCourseId);
-	    }
+		if (ocupacionCourseId != null) {
+			ocupationPercent = Math.round(courseService.getPercentOfOcupation(ocupacionCourseId));
+			Optional<Course> courseO = courseService.findById(ocupacionCourseId);
+			if (courseO.isPresent()) {
+				courseOcupacion = courseO.get();
+			}
+		}
+		
 
-	    List<Fee> allFees = feeService.findAllFeesExceptDefault();
-	    List<Student> activeStudents = studentService.filterActiveStudents(sortBy, complete);
-	    List<Course> activeCourses = courseService.showActiveCourses();
-	    List<Student> studentFromCourse = studentService.filterStudentsByCourseId(ocupacionCourseId); // o null
-	    List<Student> searchStudent = nameParam != null && !nameParam.isEmpty()
-	            ? studentService.findByName(nameParam)
-	            : new ArrayList<>();
-	    total = feeService.calculateTotalEstimated(studentService.filterActiveStudents(sortBy, true));
+		if (mediaCourseId != null) {
+			Optional<Course> courseO = courseService.findById(mediaCourseId);
+			if (courseO.isPresent()) {
+				courseMedia = courseO.get();
+			}
+		}
 
-	    model.addAttribute("complete", complete);
-	    model.addAttribute("searchStudent", searchStudent);
-	    model.addAttribute("activeStudents", activeStudents);
-	    model.addAttribute("activeCourses", activeCourses);
-	    model.addAttribute("fee", new Fee());
-	    model.addAttribute("total", total);
-	    model.addAttribute("fees", allFees);
+		List<Fee> allFees = feeService.findAllFeesExceptDefault();
+		List<Course> activeCourses = courseService.showActiveCourses();
+		total = feeService.calculateTotalEstimated(students);
+		
+		averageGrade = studentService.calculateAverageGradeOfTheWholeAcademy(mediaCourseId);
 
-	    model.addAttribute("ocupationPercent", ocupationPercent);
-	    model.addAttribute("courseOcupacion", courseOcupacion);
+		model.addAttribute("students", students);
+		model.addAttribute("activeCourses", activeCourses);
+		model.addAttribute("fee", new Fee());
+		model.addAttribute("total", total);
+		model.addAttribute("fees", allFees);
 
-	  
-	    model.addAttribute("average", averageGrade);
-	    
-	    model.addAttribute("courseMedia", courseMedia);
+		model.addAttribute("ocupationPercent", ocupationPercent);
+		model.addAttribute("courseOcupacion", courseOcupacion);
+		model.addAttribute("average", averageGrade);
+		model.addAttribute("courseMedia", courseMedia);
+		
+		model.addAttribute("sortBy", sortBy); 
+	    model.addAttribute("ascending", ascending);
+	    model.addAttribute("nameParam", nameParam);
+	    model.addAttribute("size", pageable.getPageSize()); 
+	    model.addAttribute("currentPage", pageable.getPageNumber());
 
-	    return "reports";
+
+		return "reports";
 	}
-
 
 	@PostMapping("/saveFeeData")
 	public String saveFeeData(@ModelAttribute("fee") Fee fee) {
@@ -103,17 +111,17 @@ public class FeeController {
 	public String showPricesForm(@PathVariable Long id, Model model) {
 		Optional<Fee> feeO = feeService.findById(id);
 		Fee fee = null;
-		if(feeO.isPresent()) {
+		if (feeO.isPresent()) {
 			fee = feeO.get();
 		}
 		model.addAttribute("fee", fee);
 		return "pricesForm";
 	}
-	
+
 	@GetMapping("/showPricesForm")
 	public String showPricesForm(Model model) {
-	    model.addAttribute("fee", new Fee()); 
-	    return "pricesForm";
+		model.addAttribute("fee", new Fee());
+		return "pricesForm";
 	}
 
 	@PostMapping("/savePrices")
@@ -121,23 +129,21 @@ public class FeeController {
 		feeService.save(fee);
 		return "redirect:/reports";
 	}
-	
+
 	@PostMapping("/deleteFee/{id}")
 	public String deleteFee(@PathVariable Long id) {
 		Optional<Fee> feeO = feeService.findById(id);
 		Fee fee = new Fee();
-		
-		if(feeO.isPresent()) {
+
+		if (feeO.isPresent()) {
 			fee = feeO.get();
 		}
-		
+
 		feeService.changeFee(id);
-		
-		
+
 		feeService.delete(fee);
 		return "redirect:/reports";
-		
+
 	}
-	
 
 }

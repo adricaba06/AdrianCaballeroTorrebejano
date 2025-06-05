@@ -1,423 +1,672 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head th:replace="fragments/commonHead :: commonHead">
+    <title>Students</title>
+    <meta name="description" content="Lista de estudiantes" />
+  </head>
 
-<head th:replace="fragments/commonHead :: commonHead">
-  <title>Students</title>
-  <meta name="description" content="Lista de estudiantes" />
-</head>
-
-<body>
-  <section th:replace="fragments/decorationNav :: decorationNav"></section>
-  <section>
-    <!-- Offcanvas solo visible en móvil -->
-    <div th:replace="fragments/offcanva :: offcanva"></div>
-  </section>
-  <div class="container-fluid">
-    <div class="row">
-      <!-- aaside-->
-      <aside class="col-md-2 d-none d-md-block bg-light border-end p-3 vh-100 align-items-center">
-        <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
-        <button type="button" class="btn btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#NewStudent">
-          Añadir Alumno
-        </button>
-
-        <form th:action="@{/students}" method="get" class="input-group mb-3">
-          <input type="text" id="search" name="nameParam" class="form-control border-start-0"
-            placeholder="Buscar alumno..." />
-          <button type="submit" class="input-group-text">
-            <i class="bi bi-search ms-2"></i>
+  <body>
+    <section th:replace="fragments/decorationNav :: decorationNav"></section>
+    <section>
+      <!-- Offcanvas solo visible en móvil -->
+      <div th:replace="fragments/offcanva :: offcanva"></div>
+    </section>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- aaside-->
+        <aside
+          class="col-md-2 d-none d-md-block bg-light border-end p-3 vh-100 align-items-center"
+        >
+          <ul th:replace="fragments/ul-aside :: ul-aside"></ul>
+          <button
+            type="button"
+            class="btn btn-outline-primary mt-3"
+            data-bs-toggle="modal"
+            data-bs-target="#NewStudent"
+          >
+            Añadir Alumno
           </button>
-        </form>
-      </aside>
 
-      <!-- Contenedor de l tabla -->
-      <main class="col-md-10 p-4 overflow-auto vh-100">
-        <section>
-          <div class="d-flex">
-            <h2 class="text-primary">Alumnos</h2>
-            <i class="bi bi-person fs-4 mt-1 text-primary"></i>
-          </div>
-        </section>
-        <ul class="nav nav-tabs" id="pestaniaVistas" role="tablist">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="pestaniaVistas" data-bs-toggle="tab" href="#vistaTabla" role="tab"
-              aria-controls="info" aria-selected="true">
-              Vista de tabla
-            </a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link" id="pestaniaVistas" data-bs-toggle="tab" href="#vistaTarjeta" role="tab"
-              aria-controls="tarjeta" aria-selected="false">
-              Vista de tarjetas
-            </a>
-          </li>
-        </ul>
+          <form th:action="@{/students}" method="get" class="input-group mb-3">
+            <input
+              type="text"
+              id="search"
+              name="nameParam"
+              class="form-control border-start-0"
+              placeholder="Buscar alumno..."
+            />
+            <button type="submit" class="input-group-text">
+              <i class="bi bi-search ms-2"></i>
+            </button>
+          </form>
+        </aside>
 
-        <div class="tab-content" id="myTabContent">
-          <!-- Tabla de alumnos -->
-          <div class="tab-pane fade show active p-3" id="vistaTabla" role="tabpanel">
+        <!-- Contenedor de l tabla -->
+        <main class="col-md-10 p-4 overflow-auto vh-100">
+          <section>
             <div class="d-flex">
-              <div class="btn-group mb-3" role="group">
-                <a class="btn btn-outline-primary"
-                  th:href="@{/students(sort='name', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
-                  th:classappend="${sort == 'name'} ? 'active'">Nombre</a>
+              <h2 class="text-primary">Alumnos</h2>
+              <i class="bi bi-person fs-4 mt-1 text-primary"></i>
+            </div>
+          </section>
+          <ul class="nav nav-tabs" id="pestaniaVistas" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link active"
+                id="pestaniaVistas"
+                data-bs-toggle="tab"
+                href="#vistaTabla"
+                role="tab"
+                aria-controls="info"
+                aria-selected="true"
+              >
+                Vista de tabla
+              </a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link"
+                id="pestaniaVistas"
+                data-bs-toggle="tab"
+                href="#vistaTarjeta"
+                role="tab"
+                aria-controls="tarjeta"
+                aria-selected="false"
+              >
+                Vista de tarjetas
+              </a>
+            </li>
+          </ul>
 
-                <a class="btn btn-outline-primary"
-                  th:href="@{/students(sort='surname', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
-                  th:classappend="${sort == 'surname'} ? 'active'">Apellido</a>
+          <div class="tab-content" id="myTabContent">
+            <!-- Tabla de alumnos -->
+            <div
+              class="tab-pane fade show active p-3"
+              id="vistaTabla"
+              role="tabpanel"
+            >
+              <div
+                class="tab-pane fade show active p-3"
+                id="vistaTabla"
+                role="tabpanel"
+              >
+                <div class="d-flex">
+                  <!-- Botones de orden -->
+                  <div>
+                    <a
+                      class="btn btn-outline-primary w-auto"
+                      th:href="@{/students(sort='name', ascending=${ascending}, page=0, size=${page.size})}"
+                      th:classappend="${sortBy == 'name'} ? 'active'"
+                      >Nombre</a
+                    >
 
-                <a class="btn btn-outline-primary"
-                  th:href="@{/students(sort='date', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
-                  th:classappend="${sort == 'date'} ? 'active'">Fecha</a>
+                    <a
+                      class="btn btn-outline-primary w-auto"
+                      th:href="@{/students(sort='surname', ascending=${ascending}, page=0, size=${page.size})}"
+                      th:classappend="${sortBy == 'surname'} ? 'active'"
+                      >Apellido</a
+                    >
 
-                <a class="btn btn-outline-primary"
-                  th:href="@{/students(sort='email', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
-                  th:classappend="${sort == 'email'} ? 'active'">email</a>
+                    <a
+                      class="btn btn-outline-primary w-auto"
+                      th:href="@{/students(sort='email', ascending=${ascending}, page=0, size=${page.size})}"
+                      th:classappend="${sortBy == 'email'} ? 'active'"
+                      >Email</a
+                    >
+
+                    <a
+                      class="btn btn-outline-primary w-auto"
+                      th:href="@{/students(sort='date', ascending=${ascending}, page=0, size=${page.size})}"
+                      th:classappend="${sortBy == 'date'} ? 'active'"
+                      >Fecha</a
+                    >
+                  </div>
+
+                  <!-- Botones de orden ascendente / descendente -->
+                  <div class="d-flex align-items-center gap-2 mb-3 ms-2">
+                    <a
+                      th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=true, nameParam=${nameParam})}"
+                      class="btn btn-outline-primary"
+                      th:classappend="${ascending != null and ascending} ? 'active' : ''"
+                    >
+                      <i class="bi bi-arrow-up-short"></i>
+                    </a>
+
+                    <a
+                      th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=false, nameParam=${nameParam})}"
+                      class="btn btn-outline-primary"
+                      th:classappend="${ascending != null and !ascending} ? 'active' : ''"
+                    >
+                      <i class="bi bi-arrow-down-short"></i>
+                    </a>
+                  </div>
+                </div>
               </div>
 
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Apellidos</th>
+                      <th>Email</th>
+                      <th>Curso</th>
+                      <th>Fecha de registro</th>
+                      <th>Nota media</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="student : ${students}">
+                      <td th:text="${student.name}">John</td>
+                      <td th:text="${student.surname}">Doe</td>
+                      <td th:text="${student.email}">john@example.com</td>
 
-              <div class="d-flex align-items-center gap-2 mb-3 ms-2">
-                <a th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=true)}"
-                  class="btn btn-outline-primary" th:classappend="${ascending != null and ascending} ? 'active' : ''">
-                  <i class="bi bi-arrow-up-short"></i>
-                </a>
+                      <td
+                        th:text="${student.course != null ? student.course.name : 'Sin Asignar'}"
+                      >
+                        Curso no asignado
+                      </td>
 
-                <a th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=false)}"
-                  class="btn btn-outline-primary" th:classappend="${ascending != null and !ascending} ? 'active' : ''">
-                  <i class="bi bi-arrow-down-short"></i>
-                </a>
+                      <td
+                        th:text="${#temporals.format(student.registrationDate, 'dd/MM/yyyy')}"
+                      ></td>
+
+                      <td
+                        th:text="${#numbers.formatDecimal(student.average, 1, 'COMMA', 2, 'POINT')}"
+                      >
+                        5
+                      </td>
+                      <td class="d-flex justify-content-center gap-2">
+                        <div class="d-flex gap-2">
+                          <a
+                            th:href="@{/student/{id}(id = ${student.id})}"
+                            class="btn btn-secondary btn-sm"
+                            ><i class="bi bi-pencil-fill"></i>
+                          </a>
+                        </div>
+
+                        <form
+                          th:action="@{/student/deleteDirectWay/{id}(id=${student.id})}"
+                          method="post"
+                          onsubmit="return confirm('¿Estás seguro de que deseas eliminar este estudiante?');"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-secondary btn-sm"
+                            title="Eliminar"
+                          >
+                            <i class="bi bi-trash3-fill"></i>
+                          </button>
+                        </form>
+
+                        <form
+                          th:action="@{/student/deactivate/{id}(id=${student.id})}"
+                          method="post"
+                          onsubmit="return confirm('¿Estás seguro de que deseas desactivar este estudiante?');"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-secondary btn-sm"
+                            title="archivar"
+                          >
+                            <i class="bi bi-archive-fill"></i>
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
-              <div class="input-group mb-3 ms-3 d-md-none">
-                <form th:action="@{/students}" method="get" class="input-group mb-3">
-                  <input type="text" id="search" name="nameParam" class="form-control border-start-0"
-                    placeholder="Buscar alumno..." />
-                  <button type="submit" class="input-group-text">
-                    <i class="bi bi-search ms-2"></i>
-                  </button>
-                </form>
+              <div th:if="${page != null && page.totalPages > 1}">
+                <div class="mb-2">
+                  <small>
+                    Página <strong th:text="${page.number + 1}"></strong> de
+                    <strong th:text="${page.totalPages}"></strong>
+                  </small>
+                </div>
+
+                <nav aria-label="Navegación de páginas">
+                  <ul class="pagination justify-content-start">
+                    <!-- Anterior -->
+                    <li
+                      class="page-item"
+                      th:classappend="${!page.hasPrevious()} ? 'disabled'"
+                    >
+                      <a
+                        class="page-link"
+                        th:href="@{/students(page=${page.number - 1}, size=${page.size}, sort=${sortBy}, ascending=${ascending})}"
+                      >
+                        Anterior
+                      </a>
+                    </li>
+
+                    <!-- Números -->
+                    <li
+                      class="page-item"
+                      th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                      th:classappend="${i == page.number} ? 'active'"
+                    >
+                      <a
+                        class="page-link"
+                        th:href="@{/students(page=${i}, size=${page.size}, sort=${sortBy}, ascending=${ascending})}"
+                        th:text="${i + 1}"
+                      >
+                      </a>
+                    </li>
+
+                    <!-- Siguiente -->
+                    <li
+                      class="page-item"
+                      th:classappend="${!page.hasNext()} ? 'disabled'"
+                    >
+                      <a
+                        class="page-link"
+                        th:href="@{/students(page=${page.number + 1}, size=${page.size}, sort=${sortBy}, ascending=${ascending})}"
+                      >
+                        Siguiente
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
               </div>
             </div>
+            <!-- Vista de tarjetas -->
+            <div
+              class="tab-pane fade show p-3"
+              id="vistaTarjeta"
+              role="tabpanel"
+              aria-labelledby="tarjeta"
+            >
+              <div class="d-flex">
+                <!-- Botones de orden -->
+                <div>
+                  <a
+                    class="btn btn-outline-primary w-auto"
+                    th:href="@{/students(sort='name', ascending=${ascending}, page=0, size=${page.size})}"
+                    th:classappend="${sortBy == 'name'} ? 'active'"
+                    >Nombre</a
+                  >
 
-            <div class="table-responsive">
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Email</th>
-                    <th>Curso</th>
-                    <th>Fecha de registro</th>
-                    <th>Nota media</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr th:each="student : ${students}">
-                    <td th:text="${student.name}">John</td>
-                    <td th:text="${student.surname}">Doe</td>
-                    <td th:text="${student.email}">john@example.com</td>
+                  <a
+                    class="btn btn-outline-primary w-auto"
+                    th:href="@{/students(sort='surname', ascending=${ascending}, page=0, size=${page.size})}"
+                    th:classappend="${sortBy == 'surname'} ? 'active'"
+                    >Apellido</a
+                  >
 
-                    <td th:text="${student.course != null ? student.course.name : 'Sin Asignar'}">
-                      Curso no asignado
-                    </td>
+                  <a
+                    class="btn btn-outline-primary w-auto"
+                    th:href="@{/students(sort='email', ascending=${ascending}, page=0, size=${page.size})}"
+                    th:classappend="${sortBy == 'email'} ? 'active'"
+                    >Email</a
+                  >
 
-                    <td th:text="${#temporals.format(student.registrationDate, 'dd/MM/yyyy')}"></td>
+                  <a
+                    class="btn btn-outline-primary w-auto"
+                    th:href="@{/students(sort='date', ascending=${ascending}, page=0, size=${page.size})}"
+                    th:classappend="${sortBy == 'date'} ? 'active'"
+                    >Fecha</a
+                  >
+                </div>
 
-                    <td th:text="${#numbers.formatDecimal(student.average, 1, 'COMMA', 2, 'POINT')}">
-                      5
-                    </td>
-                    <td class="d-flex justify-content-center gap-2">
+                <!-- Botones de orden ascendente / descendente -->
+                <div class="d-flex align-items-center gap-2 mb-3 ms-2">
+                  <a
+                    th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=true, nameParam=${nameParam})}"
+                    class="btn btn-outline-primary"
+                    th:classappend="${ascending != null and ascending} ? 'active' : ''"
+                  >
+                    <i class="bi bi-arrow-up-short"></i>
+                  </a>
+
+                  <a
+                    th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=false, nameParam=${nameParam})}"
+                    class="btn btn-outline-primary"
+                    th:classappend="${ascending != null and !ascending} ? 'active' : ''"
+                  >
+                    <i class="bi bi-arrow-down-short"></i>
+                  </a>
+                </div>
+              </div>
+              <section class="d-flex flex-wrap">
+                <!-- tajeta 1 -->
+                <div
+                  class="card m-4"
+                  style="width: 400px"
+                  th:each="student : ${students}"
+                >
+                  <img
+                    th:src="${student.photoPath}"
+                    alt="Foto del estudiante"
+                    class="card-img-top object-fit-cover"
+                    width="500"
+                    height="300"
+                  />
+
+                  <div class="card-body">
+                    <h4 th:text="${student.name}" class="card-title">John</h4>
+                    <h4 th:text="${student.surname}" class="card-title">
+                      Pork
+                    </h4>
+                    <p>
+                      <span class="fw-bold">Email: </span>
+                      <span th:text="${student.email}"></span>
+                    </p>
+                    <p>
+                      <span class="fw-bold">Curso: </span>
+                      <span
+                        th:text="${student.course?.name} ?: 'Sin curso'"
+                      ></span>
+                    </p>
+                    <p>
+                      <span class="fw-bold">Fecha de inscripción: </span>
+                      <span
+                        th:text="${#temporals.format(student.registrationDate, 'dd/MM/yyyy')}"
+                      ></span>
+                    </p>
+
+                    <p>
+                      <span class="fw-bold">Nota media: </span>
+                      <span
+                        th:text="${#numbers.formatDecimal(student.average, 1, 'COMMA', 2, 'POINT')}"
+                        >5</span
+                      >
+                    </p>
+
+                    <div class="d-flex gap-2">
                       <div class="d-flex gap-2">
-                        <a th:href="@{/student/{id}(id = ${student.id})}" class="btn btn-secondary btn-sm"><i
-                            class="bi bi-pencil-fill"></i>
+                        <a
+                          th:href="@{/student/{id}(id = ${student.id})}"
+                          class="btn btn-secondary btn-sm"
+                          ><i class="bi bi-pencil-fill"></i>
                         </a>
                       </div>
 
-                      <form th:action="@{/student/deleteDirectWay/{id}(id=${student.id})}" method="post"
-                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este estudiante?');">
-                        <button type="submit" class="btn btn-secondary btn-sm" title="Eliminar">
+                      <form
+                        th:action="@{/student/deleteDirectWay/{id}(id=${student.id})}"
+                        method="post"
+                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este estudiante?');"
+                      >
+                        <button
+                          type="submit"
+                          class="btn btn-secondary btn-sm"
+                          title="Eliminar"
+                        >
                           <i class="bi bi-trash3-fill"></i>
                         </button>
                       </form>
 
-                      <form th:action="@{/student/deactivate/{id}(id=${student.id})}" method="post"
-                        onsubmit="return confirm('¿Estás seguro de que deseas desactivar este estudiante?');">
-                        <button type="submit" class="btn btn-secondary btn-sm" title="archivar">
-                          <i class="bi bi-archive-fill"></i></i>
+                      <form
+                        th:action="@{/student/deactivate/{id}(id=${student.id})}"
+                        method="post"
+                        onsubmit="return confirm('¿Estás seguro de que deseas desactivar este estudiante?');"
+                      >
+                        <button
+                          type="submit"
+                          class="btn btn-secondary btn-sm"
+                          title="archivar"
+                        >
+                          <i class="bi bi-archive-fill"></i>
                         </button>
                       </form>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div th:if="${page != null && page.totalPages > 1}">
-              <div class="mb-2">
-                <small>
-                  Página <strong th:text="${page.number + 1}"></strong> de
-                  <strong th:text="${page.totalPages}"></strong>
-                </small>
-              </div>
-
-              <nav aria-label="Navegación de páginas">
-                <ul class="pagination justify-content-start">
-
-                  <!-- Anterior -->
-                  <li class="page-item" th:classappend="${!page.hasPrevious()} ? 'disabled'">
-                    <a class="page-link"
-                      th:href="@{/students(page=${page.number - 1}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}">
-                      Anterior
-                    </a>
-                  </li>
-
-                  <!-- Números -->
-                  <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-                    th:classappend="${i == page.number} ? 'active'">
-                    <a class="page-link"
-                      th:href="@{/students(page=${i}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}"
-                      th:text="${i + 1}">1</a>
-                  </li>
-
-                  <!-- Siguiente -->
-                  <li class="page-item" th:classappend="${!page.hasNext()} ? 'disabled'">
-                    <a class="page-link"
-                      th:href="@{/students(page=${page.number + 1}, size=${page.size}, sort=${sort}, ascending=${ascending}, nameParam=${nameParam})}">
-                      Siguiente
-                    </a>
-                  </li>
-
-                </ul>
-              </nav>
-            </div>
-
-
-
-          </div>
-          <!-- Vista de tarjetas -->
-          <div class="tab-pane fade show p-3" id="vistaTarjeta" role="tabpanel" aria-labelledby="tarjeta">
-            <div class="btn-group mb-3" role="group">
-              <a class="btn btn-outline-primary"
-                th:href="@{/students(sort='name', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
-                th:classappend="${sort == 'name'} ? 'active'">Nombre</a>
-
-              <a class="btn btn-outline-primary"
-                th:href="@{/students(sort='surname', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
-                th:classappend="${sort == 'surname'} ? 'active'">Apellido</a>
-
-              <a class="btn btn-outline-primary"
-                th:href="@{/students(sort='date', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
-                th:classappend="${sort == 'date'} ? 'active'">Fecha</a>
-
-              <a class="btn btn-outline-primary"
-                th:href="@{/students(sort='email', ascending=${ascending}, page=0, size=${pageSize}, nameParam=${nameParam})}"
-                th:classappend="${sort == 'email'} ? 'active'">email</a>
-            </div>
-            <div class="d-flex align-items-center gap-2 mb-3 ms-2">
-              <a th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=true)}"
-                class="btn btn-outline-primary" th:classappend="${ascending != null and ascending} ? 'active' : ''">
-                <i class="bi bi-arrow-up-short"></i>
-              </a>
-
-              <a th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=false)}"
-                class="btn btn-outline-primary" th:classappend="${ascending != null and !ascending} ? 'active' : ''">
-                <i class="bi bi-arrow-down-short"></i>
-              </a>
-            </div>
-            <section class="d-flex flex-wrap">
-              <!-- tajeta 1 -->
-              <div class="card m-4" style="width: 400px" th:each="student : ${students}">
-                <img th:src="${student.photoPath}" alt="Foto del estudiante" class="card-img-top object-fit-cover"
-                  width="500" height="300" />
-
-                <div class="card-body">
-                  <h4 th:text="${student.name}" class="card-title">John</h4>
-                  <h4 th:text="${student.surname}" class="card-title">
-                    Pork
-                  </h4>
-                  <p>
-                    <span class="fw-bold">Email: </span>
-                    <span th:text="${student.email}"></span>
-                  </p>
-                  <p>
-                    <span class="fw-bold">Curso: </span>
-                    <span th:text="${student.course?.name} ?: 'Sin curso'"></span>
-                  </p>
-                  <p>
-                    <span class="fw-bold">Fecha de inscripción: </span>
-                    <span th:text="${#temporals.format(student.registrationDate, 'dd/MM/yyyy')}"></span>
-                  </p>
-
-                  <p>
-                    <span class="fw-bold">Nota media: </span>
-                    <span th:text="${#numbers.formatDecimal(student.average, 1, 'COMMA', 2, 'POINT')}">5</span>
-                  </p>
-
-                  <div class="d-flex gap-2">
-                    <div class="d-flex gap-2">
-                      <a th:href="@{/student/{id}(id = ${student.id})}" class="btn btn-secondary btn-sm"><i
-                          class="bi bi-pencil-fill"></i>
-                      </a>
                     </div>
-
-                    <form th:action="@{/student/deleteDirectWay/{id}(id=${student.id})}" method="post"
-                      onsubmit="return confirm('¿Estás seguro de que deseas eliminar este estudiante?');">
-                      <button type="submit" class="btn btn-secondary btn-sm" title="Eliminar">
-                        <i class="bi bi-trash3-fill"></i>
-                      </button>
-                    </form>
-
-                    <form th:action="@{/student/deactivate/{id}(id=${student.id})}" method="post"
-                      onsubmit="return confirm('¿Estás seguro de que deseas desactivar este estudiante?');">
-                      <button type="submit" class="btn btn-secondary btn-sm" title="archivar">
-                        <i class="bi bi-archive-fill"></i></i>
-                      </button>
-                    </form>
                   </div>
                 </div>
+                <!-- tajeta 1 -->
+              </section>
+              <div th:if="${page != null}">
+                <div class="mb-2">
+                  <small
+                    >Página <strong th:text="${page.number + 1}"></strong> de
+                    <strong th:text="${page.totalPages}"></strong
+                  ></small>
+                </div>
+
+                <nav aria-label="Navegación de páginas">
+                  <ul class="pagination justify-content-start">
+                    <!-- Anterior -->
+                    <li
+                      class="page-item"
+                      th:classappend="${!page.hasPrevious()} ? 'disabled'"
+                    >
+                      <a
+                        class="page-link"
+                        th:href="@{/students(page=${page.number - 1}, size=${page.size}, sort=${sortBy}, ascending=${ascending})}"
+                      >
+                        Anterior
+                      </a>
+                    </li>
+
+                    <!-- Números -->
+                    <li
+                      class="page-item"
+                      th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                      th:classappend="${i == page.number} ? 'active'"
+                    >
+                      <a
+                        class="page-link"
+                        th:href="@{/students(page=${i}, size=${page.size}, sort=${sortBy}, ascending=${ascending})}"
+                        th:text="${i + 1}"
+                      >
+                      </a>
+                    </li>
+
+                    <!-- Siguiente -->
+                    <li
+                      class="page-item"
+                      th:classappend="${!page.hasNext()} ? 'disabled'"
+                    >
+                      <a
+                        class="page-link"
+                        th:href="@{/students(page=${page.number + 1}, size=${page.size}, sort=${sortBy}, ascending=${ascending})}"
+                      >
+                        Siguiente
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
               </div>
-              <!-- tajeta 1 -->
-            </section>
-            <div th:if="${page != null}">
-              <div class="mb-2">
-                <small>Página <strong th:text="${page.number + 1}"></strong> de <strong
-                    th:text="${page.totalPages}"></strong></small>
-              </div>
-
-              <nav aria-label="Navegación de páginas"> <!-- https://getbootstrap.com/docs/5.3/components/pagination/ -->
-                <ul class="pagination justify-content-sart">
-
-                  <li class="page-item" th:classappend="${!page.hasPrevious()} ? 'disabled'">
-                    <a class="page-link"
-                      th:href="@{/students(page=${page.number - 1}, size=${page.size}, sort=${sort}, ascending=${ascending})}"
-                      tabindex="-1" aria-disabled="true">Anterior</a>
-                  </li>
-
-                  <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-                    th:classappend="${i == page.number} ? 'active'">
-                    <a class="page-link"
-                      th:href="@{/students(page=${i}, size=${page.size}, sort=${sort}, ascending=${ascending})}"
-                      th:text="${i + 1}">1</a>
-                  </li>
-
-                  <li class="page-item" th:classappend="${!page.hasNext()} ? 'disabled'">
-                    <a class="page-link"
-                      th:href="@{/students(page=${page.number + 1}, size=${page.size}, sort=${sort}, ascending=${ascending})}">Siguiente</a>
-                  </li>
-
-                </ul>
-              </nav>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
-  </div>
 
-  <!-- Modal nuevo alumno -->
-  <section>
-    <div class="modal fade" id="NewStudent" tabindex="-1" aria-labelledby="NewStudentLabel">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h2 class="modal-title" id="NewStudentLabel">Nuevo Alumno</h2>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
+    <!-- Modal nuevo alumno -->
+    <section>
+      <div
+        class="modal fade"
+        id="NewStudent"
+        tabindex="-1"
+        aria-labelledby="NewStudentLabel"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h2 class="modal-title" id="NewStudentLabel">Nuevo Alumno</h2>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
 
-          <!-- Modal Body -->
-          <form th:action="@{/savestudent}" th:object="${student}" method="POST" class="p-4"
-            enctype="multipart/form-data">
-            <div class="mb-3">
-              <label class="form-label fw-bold">Nombre del Alumno</label>
-              <div class="input-group">
-                <input type="text" name="nombre" th:field="*{name}" class="form-control" required placeholder="Nombre"
-                  aria-label="Nombre" maxlength="50" />
-                <input type="text" name="apellido" th:field="*{surname}" class="form-control" placeholder="Apellido"
-                  aria-label="Apellido" maxlength="50" required />
+            <!-- Modal Body -->
+            <form
+              th:action="@{/savestudent}"
+              th:object="${student}"
+              method="POST"
+              class="p-4"
+              enctype="multipart/form-data"
+            >
+              <div class="mb-3">
+                <label class="form-label fw-bold">Nombre del Alumno</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    name="nombre"
+                    th:field="*{name}"
+                    class="form-control"
+                    required
+                    placeholder="Nombre"
+                    aria-label="Nombre"
+                    maxlength="50"
+                  />
+                  <input
+                    type="text"
+                    name="apellido"
+                    th:field="*{surname}"
+                    class="form-control"
+                    placeholder="Apellido"
+                    aria-label="Apellido"
+                    maxlength="50"
+                    required
+                  />
+                </div>
               </div>
-            </div>
 
-            <!-- Correo del alumno -->
-            <div class="mb-3">
-              <label for="correoAlumno" class="form-label fw-bold">Correo</label>
-              <input type="email" id="correoAlumno" name="correoAlumno" th:field="*{email}" class="form-control"
-                required placeholder="Correo del alumno" />
-            </div>
-
-            <div class="mb-3">
-              <label for="ageStudent" class="form-label fw-bold">Age</label>
-              <input type="number" id="ageStudent" name="ageStudent" th:field="*{age}" class="form-control" required
-                placeholder="Student's age" min="1" max="140" />
-            </div>
-
-            Cursos
-            <div class="mb-3">
-              <label for="course" class="form-label"></label>
-              <select id="course" name="courseId" required class="form-select">
-                <option value="" disabled selected>Select a course</option>
-                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}">
-                  Class
-                </option>
-              </select>
-            </div>
-
-            <div class="mb-3">
-              <label for="photoPath" class="form-label fw-bold">Foto del Alumno</label>
-              <input type="text" id="photoPath" name="file" th:field="*{photoPath}" class="form-control"
-                accept="image/*" />
-            </div>
-
-            <!-- Tipo de cuota -->
-            <div class="mb-3">
-              <label for="MatriculaEdad" class="form-label"><strong>Info para Cuota</strong></label>
+              <!-- Correo del alumno -->
+              <div class="mb-3">
+                <label for="correoAlumno" class="form-label fw-bold"
+                  >Correo</label
+                >
+                <input
+                  type="email"
+                  id="correoAlumno"
+                  name="correoAlumno"
+                  th:field="*{email}"
+                  class="form-control"
+                  required
+                  placeholder="Correo del alumno"
+                />
+              </div>
 
               <div class="mb-3">
-                <label class="form-label fw-bold">Cuota</label>
-                <select name="feeId" class="form-select">
-                  <option value="" disabled selected>Seleccione el tipo de cuota</option>
-                  <option th:if="${#lists.isEmpty(fees)}" disabled>No hay cuotas creadas</option>
-                  <option th:each="fee : ${fees}" th:value="${fee.id}" th:text="${fee.name}"
-                    th:selected="${student.fee != null and fee.id == student.fee.id}">
+                <label for="ageStudent" class="form-label fw-bold">Age</label>
+                <input
+                  type="number"
+                  id="ageStudent"
+                  name="ageStudent"
+                  th:field="*{age}"
+                  class="form-control"
+                  required
+                  placeholder="Student's age"
+                  min="1"
+                  max="140"
+                />
+              </div>
+
+              Cursos
+              <div class="mb-3">
+                <label for="course" class="form-label"></label>
+                <select
+                  id="course"
+                  name="courseId"
+                  required
+                  class="form-select"
+                >
+                  <option value="" disabled selected>Select a course</option>
+                  <option
+                    th:each="course : ${courses}"
+                    th:value="${course.id}"
+                    th:text="${course.name}"
+                  >
+                    Class
                   </option>
                 </select>
               </div>
 
-              <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="hermano" name="tieneHermano"
-                  th:field="*{hasASibling}" />
-                <label class="form-check-label" for="hermano">Tiene un hermano/a en la academia</label>
+              <div class="mb-3">
+                <label for="photoPath" class="form-label fw-bold"
+                  >Foto del Alumno</label
+                >
+                <input
+                  type="text"
+                  id="photoPath"
+                  name="file"
+                  th:field="*{photoPath}"
+                  class="form-control"
+                  accept="image/*"
+                />
               </div>
-            </div>
 
-            <div class="mb-3">
-              <label for="textoAlternativo" class="form-label">
-                Añade texto alternativo
-              </label>
-              <input type="text" class="form-control" id="textoAlternativo" name="textoAlternativo"
-                th:field="*{alternativeText}" placeholder="Por ejemplo: el alumno tiene un hermano ya inscrito"
-                required />
-            </div>
+              <!-- Tipo de cuota -->
+              <div class="mb-3">
+                <label for="MatriculaEdad" class="form-label"
+                  ><strong>Info para Cuota</strong></label
+                >
 
-            <button type="submit" class="btn btn-outline-primary">
-              Crear
-            </button>
-          </form>
-          <!-- Modal Footer -->
-          <div class="modal-footer"></div>
+                <div class="mb-3">
+                  <label class="form-label fw-bold">Cuota</label>
+                  <select name="feeId" class="form-select">
+                    <option value="" disabled selected>
+                      Seleccione el tipo de cuota
+                    </option>
+                    <option th:if="${#lists.isEmpty(fees)}" disabled>
+                      No hay cuotas creadas
+                    </option>
+                    <option
+                      th:each="fee : ${fees}"
+                      th:value="${fee.id}"
+                      th:text="${fee.name}"
+                      th:selected="${student.fee != null and fee.id == student.fee.id}"
+                    ></option>
+                  </select>
+                </div>
+
+                <div class="mb-3 form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="hermano"
+                    name="tieneHermano"
+                    th:field="*{hasASibling}"
+                  />
+                  <label class="form-check-label" for="hermano"
+                    >Tiene un hermano/a en la academia</label
+                  >
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="textoAlternativo" class="form-label">
+                  Añade texto alternativo
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="textoAlternativo"
+                  name="textoAlternativo"
+                  th:field="*{alternativeText}"
+                  placeholder="Por ejemplo: el alumno tiene un hermano ya inscrito"
+                  required
+                />
+              </div>
+
+              <button type="submit" class="btn btn-outline-primary">
+                Crear
+              </button>
+            </form>
+            <!-- Modal Footer -->
+            <div class="modal-footer"></div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Botón flotante para agregar alumno -->
-  <button type="button"
-    class="btn btn-primary btn-lg rounded-circle border-0 position-fixed d-md-none bottom-0 end-0 mb-5 me-3"
-    data-bs-toggle="modal" data-bs-target="#NewStudent">
-    +
-  </button>
-  <section th:replace="fragments/footer :: footer"></section>
-</body>
-
+    <!-- Botón flotante para agregar alumno -->
+    <button
+      type="button"
+      class="btn btn-primary btn-lg rounded-circle border-0 position-fixed d-md-none bottom-0 end-0 mb-5 me-3"
+      data-bs-toggle="modal"
+      data-bs-target="#NewStudent"
+    >
+      +
+    </button>
+    <section th:replace="fragments/footer :: footer"></section>
+  </body>
 </html>

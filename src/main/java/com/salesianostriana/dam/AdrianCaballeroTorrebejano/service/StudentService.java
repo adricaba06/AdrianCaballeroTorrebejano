@@ -101,6 +101,39 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 
 		return sr.findByActiveTrue(sortedPageable);
 	}
+	
+	public Page<Student> filterActiveStudentsFromOtherCourses(Pageable page, String sortBy, boolean ascending, Long courseId) {
+	    Sort sort;
+
+	    if (sortBy == null || sortBy.isBlank()) {
+	        sortBy = "name";
+	    }
+
+	    switch (sortBy) {
+	        case "date":
+	            sort = Sort.by("registrationDate");
+	            break;
+	        case "email":
+	            sort = Sort.by("email");
+	            break;
+	        case "name":
+	            sort = Sort.by("name");
+	            break;
+	        case "surname":
+	        default:
+	            sort = Sort.by("surname");
+	            break;
+	    }
+
+	    if (!ascending) {
+	        sort = sort.descending();
+	    }
+
+	    Pageable sortedPageable = PageRequest.of(page.getPageNumber(), 7, sort);
+
+	    return sr.findAllByCourseIdNotAndActiveTrue(courseId, sortedPageable);
+	}
+
 
 	public Page<Student> filterActiveStudents(Pageable pageable) {
 		return sr.findAll(pageable);
@@ -169,9 +202,6 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 
 	}
 
-	public List<Student> getListOfStudentsFromOtherClasses(Long id) {
-		return sr.findAllByCourseIdNot(id);
-	}
 
 	public Student changeStudentCourse(Student student, Course course) {
 		student.setCourse(course);

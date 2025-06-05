@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,7 +49,13 @@ public class CourseController {
 
 	@GetMapping("/course/{id}")
 	public String viewCourse(@PathVariable Long id, @RequestParam(name = "filter", required = false) String filter,
-			Model model) {
+			Model model,
+		    @RequestParam(name = "sort", required = false) String sortBy,
+		    @RequestParam(name = "ascending", defaultValue = "true") boolean ascending,
+		    @RequestParam(name = "courseId", required = false) Long courseId,
+		    @RequestParam(required = false) String nameParam,
+		    Pageable pageable
+) {
 		double percent, percentOfPassingStudents, percentOfFailingStudents;
 
 		Optional<Course> courseO = courseService.findById(id);
@@ -56,7 +64,7 @@ public class CourseController {
 			course = courseO.get();
 		}
 		
-		List<Student> otherStudents = studentService.getListOfStudentsFromOtherClasses(id);
+		Page<Student> otherStudents = studentService.filterActiveStudentsFromOtherCourses(pageable, sortBy, ascending, id);
 		List<Student> filteredStudentList = studentService.filterStudentsByCourseId(id);
 		List<Student> maxOrMinStudents = studentService.filterMaxOrMinByParam(id, filter);
 		filteredStudentList.forEach((s) -> s.setAverage(s.getAverageGrade()));
@@ -73,6 +81,12 @@ public class CourseController {
 		model.addAttribute("students", filteredStudentList);
 		model.addAttribute("topOrLowestStudent", maxOrMinStudents);
 		model.addAttribute("otherStudents", otherStudents);
+		
+		model.addAttribute("sortBy", sortBy); 
+	    model.addAttribute("ascending", ascending);
+	    model.addAttribute("nameParam", nameParam);
+	    model.addAttribute("size", pageable.getPageSize()); 
+	    model.addAttribute("currentPage", pageable.getPageNumber());
 
 		return "curso";
 	}
