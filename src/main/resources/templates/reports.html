@@ -95,39 +95,42 @@
             <div class="bg-light table-responsive p-4 rounded-3">
               <div class="d-flex">
                 <!-- Botones de orden -->
-                <div>
-                  <a
-                    class="btn btn-outline-primary w-auto"
-                    th:href="@{/reports(sort='name', ascending=${ascending}, page=0, size=${page.size})}"
-                    th:classappend="${sortBy == 'name'} ? 'active'"
-                    >Nombre</a
-                  >
+                <div class="d-flex">
+                  <!-- Botones de orden -->
+                  <div>
+                    <a
+                      class="btn btn-outline-primary w-auto"
+                      th:href="@{/reports(sort='name', ascending=${ascending}, page=0, size=${page.size})}"
+                      th:classappend="${sortBy == 'name'} ? 'active'"
+                      >Nombre</a
+                    >
 
-                  <a
-                    class="btn btn-outline-primary w-auto"
-                    th:href="@{/reports(sort='surname', ascending=${ascending}, page=0, size=${page.size})}"
-                    th:classappend="${sortBy == 'surname'} ? 'active'"
-                    >Apellido</a
-                  >
-                </div>
+                    <a
+                      class="btn btn-outline-primary w-auto"
+                      th:href="@{/reports(sort='surname', ascending=${ascending}, page=0, size=${page.size})}"
+                      th:classappend="${sortBy == 'surname'} ? 'active'"
+                      >Apellido</a
+                    >
+                  </div>
 
-                <!-- Botones de orden ascendente / descendente -->
-                <div class="d-flex align-items-center gap-2 mb-3 ms-2">
-                  <a
-                    th:href="@{/reports(page=${page.number}, size=${page.size}, sort=${sort}, ascending=true, nameParam=${nameParam})}"
-                    class="btn btn-outline-primary"
-                    th:classappend="${ascending != null and ascending} ? 'active' : ''"
-                  >
-                    <i class="bi bi-arrow-up-short"></i>
-                  </a>
+                  <!-- Botones de orden ascendente / descendente -->
+                  <div class="d-flex align-items-center gap-2 mb-3 ms-2">
+                    <a
+                      th:href="@{/reports(page=${page.number}, size=${page.size}, sort=${sortBy ?: 'name'}, ascending=true, nameParam=${nameParam})}"
+                      class="btn btn-outline-primary"
+                      th:classappend="${ascending != null and ascending} ? 'active' : ''"
+                    >
+                      <i class="bi bi-arrow-up-short"></i>
+                    </a>
 
-                  <a
-                    th:href="@{/reports(page=${page.number}, size=${page.size}, sort=${sort}, ascending=false, nameParam=${nameParam})}"
-                    class="btn btn-outline-primary"
-                    th:classappend="${ascending != null and !ascending} ? 'active' : ''"
-                  >
-                    <i class="bi bi-arrow-down-short"></i>
-                  </a>
+                    <a
+                      th:href="@{/reports(page=${page.number}, size=${page.size}, sort=${sortBy ?: 'name'}, ascending=false, nameParam=${nameParam})}"
+                      class="btn btn-outline-primary"
+                      th:classappend="${ascending != null and !ascending} ? 'active' : ''"
+                    >
+                      <i class="bi bi-arrow-down-short"></i>
+                    </a>
+                  </div>
                 </div>
               </div>
 

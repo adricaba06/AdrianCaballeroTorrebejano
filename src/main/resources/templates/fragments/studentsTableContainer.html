@@ -7,7 +7,7 @@
         th:hx-get="@{/courses/course/{id}(id=${course.id}, sort='name', ascending=${ascending}, page=0, size=${size}, nameParam=${nameParam})}"
         hx-target="#studentsTableContainer"
         hx-swap="innerHTML"
-		hx-headers='{"HX-Request": "true"}'
+        hx-headers='{"HX-Request": "true"}'
         th:classappend="${sortBy == 'name'} ? 'active' : ''"
       >
         Nombre
@@ -79,4 +79,47 @@
       </tr>
     </tbody>
   </table>
+  <nav aria-label="Navegación de páginas">
+    <ul class="pagination justify-content-start">
+      <li
+        class="page-item"
+        th:classappend="${!otherStudents.hasPrevious()} ? 'disabled'"
+      >
+        <a
+          class="page-link"
+          th:hx-get="@{/courses/course/{id}(id=${course.id}, page=${otherStudents.number - 1}, size=${size}, sort=${sortBy != null ? sortBy : 'name'}, ascending=${ascending}, nameParam=${nameParam})}"
+          hx-target="#studentsTableContainer"
+          hx-swap="innerHTML"
+          >Anterior</a
+        >
+      </li>
+
+      <li
+        class="page-item"
+        th:each="i : ${#numbers.sequence(0, otherStudents.totalPages - 1)}"
+        th:classappend="${i == otherStudents.number} ? 'active'"
+      >
+        <a
+          class="page-link"
+          th:hx-get="@{/courses/course/{id}(id=${course.id}, page=${i}, size=${size}, sort=${sortBy != null ? sortBy : 'name'}, ascending=${ascending}, nameParam=${nameParam})}"
+          hx-target="#studentsTableContainer"
+          hx-swap="innerHTML"
+          th:text="${i + 1}"
+        ></a>
+      </li>
+
+      <li
+        class="page-item"
+        th:classappend="${!otherStudents.hasNext()} ? 'disabled'"
+      >
+        <a
+          class="page-link"
+          th:hx-get="@{/courses/course/{id}(id=${course.id}, page=${otherStudents.number + 1}, size=${size}, sort=${sortBy != null ? sortBy : 'name'}, ascending=${ascending}, nameParam=${nameParam})}"
+          hx-target="#studentsTableContainer"
+          hx-swap="innerHTML"
+          >Siguiente</a
+        >
+      </li>
+    </ul>
+  </nav>
 </div>
