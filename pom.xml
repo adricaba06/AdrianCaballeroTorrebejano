@@ -90,6 +90,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+			<dependency>
+				<groupId>io.github.wimdeblauwe</groupId>
+				<artifactId>htmx-spring-boot</artifactId>
+				<version>4.0.1</version>
+			</dependency>
+
 	</dependencies>
 
 	<build>

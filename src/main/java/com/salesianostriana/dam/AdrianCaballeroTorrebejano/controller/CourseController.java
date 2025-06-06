@@ -1,6 +1,5 @@
 package com.salesianostriana.dam.AdrianCaballeroTorrebejano.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,8 +21,10 @@ import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.CourseService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.StudentService;
 
-import jakarta.persistence.EntityNotFoundException;
+import io.micrometer.common.util.StringUtils;
+import lombok.extern.java.Log;
 
+@Log
 @Controller
 @RequestMapping("/courses")
 public class CourseController {
@@ -47,6 +49,7 @@ public class CourseController {
 		return "redirect:/courses/dashboard";
 	}
 
+	
 	@GetMapping("/course/{id}")
 	public String viewCourse(@PathVariable Long id, @RequestParam(name = "filter", required = false) String filter,
 			Model model,
@@ -54,8 +57,8 @@ public class CourseController {
 		    @RequestParam(name = "ascending", defaultValue = "true") boolean ascending,
 		    @RequestParam(name = "courseId", required = false) Long courseId,
 		    @RequestParam(required = false) String nameParam,
-		    Pageable pageable
-) {
+		    Pageable pageable,
+		    @RequestHeader(value = "HX-Request", required = false) String hxRequest) {
 		double percent, percentOfPassingStudents, percentOfFailingStudents;
 
 		Optional<Course> courseO = courseService.findById(id);
@@ -82,12 +85,21 @@ public class CourseController {
 		model.addAttribute("topOrLowestStudent", maxOrMinStudents);
 		model.addAttribute("otherStudents", otherStudents);
 		
-		model.addAttribute("sortBy", sortBy); 
+		//model.addAttribute("sortBy", (sortBy != null) ? sortBy : "name"); 
+		model.addAttribute("sortBy", sortBy);
 	    model.addAttribute("ascending", ascending);
 	    model.addAttribute("nameParam", nameParam);
 	    model.addAttribute("size", pageable.getPageSize()); 
 	    model.addAttribute("currentPage", pageable.getPageNumber());
-
+	    
+	    if (StringUtils.isNotEmpty(hxRequest)) {
+	    	log.info("devuelve fragmento");
+	    	model.addAttribute("mostrarModal", true);
+//	    	return "curso";
+	    	return "fragments/studentsTableContainer :: studentsTableContainer";
+	    }
+	    model.addAttribute("mostrarModal",false);
+	    log.info("Devuelve plantilla completa");
 		return "curso";
 	}
 

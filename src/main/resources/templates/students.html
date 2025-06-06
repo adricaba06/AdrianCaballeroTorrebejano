@@ -125,7 +125,7 @@
                   <!-- Botones de orden ascendente / descendente -->
                   <div class="d-flex align-items-center gap-2 mb-3 ms-2">
                     <a
-                      th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=true, nameParam=${nameParam})}"
+                      th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sortBy ?: 'name'}, ascending=true, nameParam=${nameParam})}"
                       class="btn btn-outline-primary"
                       th:classappend="${ascending != null and ascending} ? 'active' : ''"
                     >
@@ -133,7 +133,7 @@
                     </a>
 
                     <a
-                      th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sort}, ascending=false, nameParam=${nameParam})}"
+                      th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sortBy ?: 'name'}, ascending=false, nameParam=${nameParam})}"
                       class="btn btn-outline-primary"
                       th:classappend="${ascending != null and !ascending} ? 'active' : ''"
                     >

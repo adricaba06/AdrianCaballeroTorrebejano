@@ -1,0 +1,127 @@
+<div id="studentsTableContainer" th:fragment="studentsTableContainer">
+	<!-- Filtros, tabla y paginación aquí -->
+	<div class="modal fade" id="studentsModal" tabindex="-1" aria-labelledby="studentsModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<!-- Encabezado -->
+				<div class="modal-header">
+					<h5 class="modal-title" id="studentsModalLabel">Alumnos</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+				</div>
+
+				<!-- 		hx:get="@{/courses/course/{id}(id=${course.id}, sort='name', ascending=${ascending}, page=0, size=${size}, nameParam=${nameParam})}"
+-->
+
+				<!-- Cuerpo -->
+				<div class="modal-body">
+					<div class="d-flex flex-wrap gap-2 mb-3">
+						<!-- Botones de orden -->
+						<div class="btn-group" role="group">
+							<a class="btn btn-outline-primary" hx:get="/courses/course/6?sort=surname&page=0&size=10"
+								hx-target="#studentsTableContainer" hx-swap="innerHTML"
+								th:classappend="${sortBy == 'name'} ? 'active' : ''">
+								Nombre
+							</a>
+							<a class="btn btn-outline-primary"
+								th:hx-get="@{/courses/course/{id}(id=${course.id}, sort='surname', ascending=${ascending}, page=0, size=${size}, nameParam=${nameParam})}"
+								hx-target="#studentsTableContainer" hx-swap="innerHTML" hx-headers='{"HX-Request": "active"}'
+								th:classappend="${sortBy == 'surname'} ? 'active' : ''">
+								Apellido
+							</a>
+						</div>
+
+						<!-- Orden asc/desc -->
+						<div class="d-flex align-items-center gap-2 ms-2">
+							<a class="btn btn-outline-primary"
+								th:hx-get="@{/courses/course/{id}(id=${course.id}, sort=${sortBy ?: 'name'}, ascending=true, page=${currentPage}, size=${size}, nameParam=${nameParam})}"
+								hx-target="#studentsTableContainer" hx-swap="innerHTML"
+								th:classappend="${ascending} ? 'active' : ''">
+
+								<i class="bi bi-arrow-up-short"></i>
+							</a>
+							<a class="btn btn-outline-primary"
+								th:hx-get="@{/courses/course/{id}(id=${course.id}, sort=${sortBy ?: 'name'}, ascending=false, page=${currentPage}, size=${size}, nameParam=${nameParam})}"
+								hx-target="#studentsTableContainer" hx-swap="innerHTML"
+								th:classappend="${!ascending} ? 'active' : ''">
+								<i class="bi bi-arrow-down-short"></i>
+							</a>
+						</div>
+					</div>
+
+					<!-- Tabla -->
+					<table class="table table-borderless table-hover table-light">
+						<thead class="table-primary">
+							<tr>
+								<th>Nombre</th>
+								<th>Apellido</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="Otherstudent : ${otherStudents}">
+								<td th:text="${Otherstudent.name}">Nombre</td>
+								<td th:text="${Otherstudent.surname}">Apellido</td>
+								<td>
+									<form class="add-student-form" th:action="@{/courses/course/changeStudentCourse}"
+										method="POST">
+										<input type="hidden" name="courseId" th:value="${course.id}" />
+										<input type="hidden" name="studentId" th:value="${Otherstudent.id}" />
+										<button class="btn btn-outline-primary" type="submit">
+											Añadir
+										</button>
+									</form>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<!-- Paginación -->
+					<nav aria-label="Navegación de páginas">
+						<ul class="pagination justify-content-start">
+							<li class="page-item" th:classappend="${!otherStudents.hasPrevious()} ? 'disabled'">
+								<a class="page-link"
+									th:hx-get="@{/course/{id}(id=${course.id}, page=${otherStudents.number - 1}, size=${size}, sort=${sortBy != null ? sortBy : 'name'}, ascending=${ascending}, nameParam=${nameParam})}"
+									hx-target="#studentsTableContainer" hx-swap="innerHTML">Anterior</a>
+							</li>
+
+							<li class="page-item" th:each="i : ${#numbers.sequence(0, otherStudents.totalPages - 1)}"
+								th:classappend="${i == otherStudents.number} ? 'active'">
+								<a class="page-link"
+									th:hx-get="@{/courses/course/{id}(id=${course.id}, page=${i}, size=${size}, sort=${sortBy != null ? sortBy : 'name'}, ascending=${ascending}, nameParam=${nameParam})}"
+									hx-target="#studentsTableContainer" hx-swap="innerHTML" th:text="${i + 1}"></a>
+							</li>
+
+							<li class="page-item" th:classappend="${!otherStudents.hasNext()} ? 'disabled'">
+								<a class="page-link"
+									th:hx-get="@{/courses/course/{id}(id=${course.id}, page=${otherStudents.number + 1}, size=${size}, sort=${sortBy != null ? sortBy : 'name'}, ascending=${ascending}, nameParam=${nameParam})}"
+									hx-target="#studentsTableContainer" hx-swap="innerHTML">Siguiente</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+
+				<!-- Footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+						Cerrar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	document.addEventListener('DOMContentLoaded', function () {
+
+
+		document.addEventListener('hide.bs.modal', function (event) {
+			if (document.activeElement) {
+				document.activeElement.blur();
+			}
+		});
+
+	});
+
+</script>
