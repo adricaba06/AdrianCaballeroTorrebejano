@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,22 +42,23 @@ public class FeeController {
 			@RequestParam(required = false) String nameParam, @RequestParam(defaultValue = "true") boolean ascending,
 			Pageable pageable, @RequestParam(required = false) Long ocupacionCourseId,
 			@RequestParam(required = false) Long mediaCourseId) {
-		
+
 		double total = 0, ocupationPercent = 0, averageGrade = 0;
 
 		Course courseOcupacion = new Course();
 		Course courseMedia = new Course();
 		List<Student> students;
 
-
-	    if (nameParam != null && !nameParam.isEmpty()) {
-	        students = studentService.findByName(nameParam);
-	    } else {
-	       
-	        Page<Student> page = studentService.filterActiveStudents(pageable, sortBy, ascending);
-	        students = page.getContent();
-	        model.addAttribute("page", page); 
-	    }
+		if (nameParam != null && !nameParam.isEmpty()) {
+			students = studentService.findByName(nameParam);
+			Page<Student> fakePage = new PageImpl<>(students,
+					PageRequest.of(0, students.size() == 0 ? 1 : students.size()), students.size());
+			model.addAttribute("page", fakePage);
+		} else {
+			Page<Student> page = studentService.filterActiveStudents(pageable, sortBy, ascending);
+			students = page.getContent();
+			model.addAttribute("page", page);
+		}
 
 		if (ocupacionCourseId != null) {
 			ocupationPercent = Math.round(courseService.getPercentOfOcupation(ocupacionCourseId));
@@ -64,7 +67,6 @@ public class FeeController {
 				courseOcupacion = courseO.get();
 			}
 		}
-		
 
 		if (mediaCourseId != null) {
 			Optional<Course> courseO = courseService.findById(mediaCourseId);
@@ -76,7 +78,7 @@ public class FeeController {
 		List<Fee> allFees = feeService.findAllFeesExceptDefault();
 		List<Course> activeCourses = courseService.showActiveCourses();
 		total = feeService.calculateTotalEstimated(students);
-		
+
 		averageGrade = studentService.calculateAverageGradeOfTheWholeAcademy(mediaCourseId);
 
 		model.addAttribute("students", students);
@@ -89,13 +91,12 @@ public class FeeController {
 		model.addAttribute("courseOcupacion", courseOcupacion);
 		model.addAttribute("average", averageGrade);
 		model.addAttribute("courseMedia", courseMedia);
-		
-		model.addAttribute("sortBy", sortBy); 
-	    model.addAttribute("ascending", ascending);
-	    model.addAttribute("nameParam", nameParam);
-	    model.addAttribute("size", pageable.getPageSize()); 
-	    model.addAttribute("currentPage", pageable.getPageNumber());
 
+		model.addAttribute("sortBy", sortBy);
+		model.addAttribute("ascending", ascending);
+		model.addAttribute("nameParam", nameParam);
+		model.addAttribute("size", pageable.getPageSize());
+		model.addAttribute("currentPage", pageable.getPageNumber());
 
 		return "reports";
 	}

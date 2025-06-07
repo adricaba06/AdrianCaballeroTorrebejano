@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -56,11 +58,16 @@ public class StudentController {
 
 	    if (nameParam != null && !nameParam.isEmpty()) {
 	        students = studentService.findByName(nameParam);
+	        Page<Student> fakePage = new PageImpl<>(
+	            students,
+	            PageRequest.of(0, students.size() == 0 ? 1 : students.size()),
+	            students.size()
+	        );
+	        model.addAttribute("page", fakePage);
 	    } else {
-	       
 	        Page<Student> page = studentService.filterActiveStudents(pageable, sortBy, ascending);
 	        students = page.getContent();
-	        model.addAttribute("page", page); 
+	        model.addAttribute("page", page);
 	    }
 
 	    students.forEach(s -> s.setAverage(studentService.getAverageGrade(s.getId())));
