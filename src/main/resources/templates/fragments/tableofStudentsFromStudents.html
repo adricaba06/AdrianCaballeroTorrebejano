@@ -1,0 +1,75 @@
+<div th:fragment="tableofStudents">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Email</th>
+        <th>Curso</th>
+        <th>Fecha de registro</th>
+        <th>Nota media</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="student : ${students}">
+        <td th:text="${student.name}">John</td>
+        <td th:text="${student.surname}">Doe</td>
+        <td th:text="${student.email}">john@example.com</td>
+
+        <td
+          th:text="${student.course != null ? student.course.name : 'Sin Asignar'}"
+        >
+          Curso no asignado
+        </td>
+
+        <td
+          th:text="${#temporals.format(student.registrationDate, 'dd/MM/yyyy')}"
+        ></td>
+
+        <td
+          th:text="${#numbers.formatDecimal(student.average, 1, 'COMMA', 2, 'POINT')}"
+        >
+          5
+        </td>
+        <td class="d-flex justify-content-center gap-2">
+          <div class="d-flex gap-2">
+            <a
+              th:href="@{/student/{id}(id = ${student.id})}"
+              class="btn btn-secondary btn-sm"
+              ><i class="bi bi-pencil-fill"></i>
+            </a>
+          </div>
+
+          <form
+            th:action="@{/student/deleteDirectWay/{id}(id=${student.id})}"
+            method="post"
+            onsubmit="return confirm('¿Estás seguro de que deseas eliminar este estudiante?');"
+          >
+            <button
+              type="submit"
+              class="btn btn-secondary btn-sm"
+              title="Eliminar"
+            >
+              <i class="bi bi-trash3-fill"></i>
+            </button>
+          </form>
+
+          <form
+            th:action="@{/student/deactivate/{id}(id=${student.id})}"
+            method="post"
+            onsubmit="return confirm('¿Estás seguro de que deseas desactivar este estudiante?');"
+          >
+            <button
+              type="submit"
+              class="btn btn-secondary btn-sm"
+              title="archivar"
+            >
+              <i class="bi bi-archive-fill"></i>
+            </button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -25,6 +25,8 @@ import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.CourseService
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.FeeService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.StudentService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class FeeController {
 
@@ -41,7 +43,7 @@ public class FeeController {
 	public String showReports(Model model, @RequestParam(name = "sort", required = false) String sortBy,
 			@RequestParam(required = false) String nameParam, @RequestParam(defaultValue = "true") boolean ascending,
 			Pageable pageable, @RequestParam(required = false) Long ocupacionCourseId,
-			@RequestParam(required = false) Long mediaCourseId) {
+			@RequestParam(required = false) Long mediaCourseId, HttpServletRequest request) {
 
 		double total = 0, ocupationPercent = 0, averageGrade = 0;
 
@@ -78,20 +80,24 @@ public class FeeController {
 		List<Fee> allFees = feeService.findAllFeesExceptDefault();
 		List<Course> activeCourses = courseService.showActiveCourses();
 		total = feeService.calculateTotalEstimated(students);
-
 		averageGrade = studentService.calculateAverageGradeOfTheWholeAcademy(mediaCourseId);
 
+		// 👉 Importante para HTMX: retornar solo el fragmento si es una petición HTMX
+		if ("true".equalsIgnoreCase(request.getHeader("HX-Request"))) {
+			model.addAttribute("students", students); // 👈 asegúrate de agregar esto antes del return
+			return "fragments/bodyOfTableReports :: reportTable";
+		}
+
+		// Atributos para la vista completa
 		model.addAttribute("students", students);
 		model.addAttribute("activeCourses", activeCourses);
 		model.addAttribute("fee", new Fee());
 		model.addAttribute("total", total);
 		model.addAttribute("fees", allFees);
-
 		model.addAttribute("ocupationPercent", ocupationPercent);
 		model.addAttribute("courseOcupacion", courseOcupacion);
 		model.addAttribute("average", averageGrade);
 		model.addAttribute("courseMedia", courseMedia);
-
 		model.addAttribute("sortBy", sortBy);
 		model.addAttribute("ascending", ascending);
 		model.addAttribute("nameParam", nameParam);

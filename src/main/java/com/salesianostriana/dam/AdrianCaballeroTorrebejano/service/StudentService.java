@@ -72,9 +72,8 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 	public Page<Student> filterActiveStudents(Pageable page, String sortBy, boolean ascending) {
 		Sort sort;
 
-	
 		if (sortBy == null || sortBy.isBlank()) {
-			sortBy = "name"; 
+			sortBy = "name";
 		}
 
 		switch (sortBy) {
@@ -85,7 +84,7 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 			sort = Sort.by("email");
 			break;
 		case "name":
-			sort = Sort.by("name"); 
+			sort = Sort.by("name");
 			break;
 		case "surname":
 		default:
@@ -101,39 +100,39 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 
 		return sr.findByActiveTrue(sortedPageable);
 	}
-	
-	public Page<Student> filterActiveStudentsFromOtherCourses(Pageable page, String sortBy, boolean ascending, Long courseId) {
-	    Sort sort;
 
-	    if (sortBy == null || sortBy.isBlank()) {
-	        sortBy = "name";
-	    }
+	public Page<Student> filterActiveStudentsFromOtherCourses(Pageable page, String sortBy, boolean ascending,
+			Long courseId) {
+		Sort sort;
 
-	    switch (sortBy) {
-	        case "date":
-	            sort = Sort.by("registrationDate");
-	            break;
-	        case "email":
-	            sort = Sort.by("email");
-	            break;
-	        case "name":
-	            sort = Sort.by("name");
-	            break;
-	        case "surname":
-	        default:
-	            sort = Sort.by("surname");
-	            break;
-	    }
+		if (sortBy == null || sortBy.isBlank()) {
+			sortBy = "name";
+		}
 
-	    if (!ascending) {
-	        sort = sort.descending();
-	    }
+		switch (sortBy) {
+		case "date":
+			sort = Sort.by("registrationDate");
+			break;
+		case "email":
+			sort = Sort.by("email");
+			break;
+		case "name":
+			sort = Sort.by("name");
+			break;
+		case "surname":
+		default:
+			sort = Sort.by("surname");
+			break;
+		}
 
-	    Pageable sortedPageable = PageRequest.of(page.getPageNumber(), 7, sort);
+		if (!ascending) {
+			sort = sort.descending();
+		}
 
-	    return sr.findAllByCourseIdNotAndActiveTrue(courseId, sortedPageable);
+		Pageable sortedPageable = PageRequest.of(page.getPageNumber(), 7, sort);
+
+		return sr.findAllByCourseIdNotAndActiveTrue(courseId, sortedPageable);
 	}
-
 
 	public Page<Student> filterActiveStudents(Pageable pageable) {
 		return sr.findAll(pageable);
@@ -150,8 +149,12 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 	}
 
 	public List<Student> findByName(String name) {
-		return sr.findByStudentsNameAndSurname(name);
+	    if (name == null || name.isBlank()) {
+	        return List.of();
+	    }
 
+	    String likeParam = "%" + name.toLowerCase().trim() + "%";
+	    return sr.findByStudentsNameAndSurname(likeParam);
 	}
 
 	public double getPassPercent(Long id) {
@@ -201,7 +204,6 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 				.collect(Collectors.toList());
 
 	}
-
 
 	public Student changeStudentCourse(Student student, Course course) {
 		student.setCourse(course);

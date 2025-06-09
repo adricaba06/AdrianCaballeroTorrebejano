@@ -12,7 +12,7 @@ public class MainController {
         return "cover";
     }
 
-    @GetMapping("/aboutUs")
+    @GetMapping("main/aboutUs")
     public String about() {
         return "aboutUs"; 
     }

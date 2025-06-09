@@ -1,6 +1,5 @@
 package com.salesianostriana.dam.AdrianCaballeroTorrebejano.controller;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +31,8 @@ import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.EmailService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.FeeService;
 import com.salesianostriana.dam.AdrianCaballeroTorrebejano.service.StudentService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class StudentController {
 
@@ -42,27 +44,24 @@ public class StudentController {
 	FeeService feeService;
 	@Autowired
 	EmailService emailService;
-
+	
 	@GetMapping("/students")
 	public String showStudents(
-	        Model model,
-	        @RequestParam(name = "sort", required = false) String sortBy,
-	        @RequestParam(required = false) String nameParam,
-	        @RequestParam(defaultValue = "true") boolean ascending,
-	        Pageable pageable) {
-
+	    Model model,
+	    @RequestParam(name = "sort", required = false) String sortBy,
+	    @RequestParam(required = false) String nameParam,
+	    @RequestParam(defaultValue = "true") boolean ascending,
+	    Pageable pageable,
+	    HttpServletRequest request
+	) {
 	    model.addAttribute("student", new Student());
 
 	    List<Student> students;
 
-
 	    if (nameParam != null && !nameParam.isEmpty()) {
 	        students = studentService.findByName(nameParam);
-	        Page<Student> fakePage = new PageImpl<>(
-	            students,
-	            PageRequest.of(0, students.size() == 0 ? 1 : students.size()),
-	            students.size()
-	        );
+	        Page<Student> fakePage = new PageImpl<>(students,
+	                PageRequest.of(0, students.size() == 0 ? 1 : students.size()), students.size());
 	        model.addAttribute("page", fakePage);
 	    } else {
 	        Page<Student> page = studentService.filterActiveStudents(pageable, sortBy, ascending);
@@ -79,16 +78,21 @@ public class StudentController {
 	    model.addAttribute("courses", courses);
 	    model.addAttribute("fees", fees);
 	    model.addAttribute("fee", new Fee());
-	    
-	    model.addAttribute("sortBy", sortBy); 
+
+	    model.addAttribute("sortBy", sortBy);
 	    model.addAttribute("ascending", ascending);
 	    model.addAttribute("nameParam", nameParam);
-	    model.addAttribute("size", pageable.getPageSize()); 
+	    model.addAttribute("size", pageable.getPageSize());
 	    model.addAttribute("currentPage", pageable.getPageNumber());
 
-	    return "students";
-	}
+	    boolean isHtmx = "true".equals(request.getHeader("HX-Request"));
 
+	    if (isHtmx) {
+	        return "fragments/tableofStudentsFromStudents :: tableofStudents";
+	    } else {
+	        return "students";
+	    }
+	}
 
 	@PostMapping("/savestudent")
 	public String saveStudent(@ModelAttribute("student") Student student, @RequestParam(required = false) Long courseId,
@@ -233,6 +237,5 @@ public class StudentController {
 		return "redirect:/students";
 
 	}
-	
 
 }

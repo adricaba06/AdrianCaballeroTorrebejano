@@ -27,18 +27,21 @@
             Añadir Alumno
           </button>
 
-          <form th:action="@{/students}" method="get" class="input-group mb-3">
+          <div class="input-group mb-3 ms-3">
             <input
+              id="searchInput"
               type="text"
-              id="search"
+              class="form-control"
               name="nameParam"
-              class="form-control border-start-0"
               placeholder="Buscar alumno..."
+              autocomplete="off"
+              hx-get="/students"
+              hx-trigger="keyup changed delay:300ms"
+              hx-target="#resultadosBusqueda"
+              hx-swap="innerHTML"
+              hx-params="*"
             />
-            <button type="submit" class="input-group-text">
-              <i class="bi bi-search ms-2"></i>
-            </button>
-          </form>
+          </div>
         </aside>
 
         <!-- Contenedor de l tabla -->
@@ -122,7 +125,7 @@
                     >
                   </div>
 
-                  <!-- Botones de orden ascendente / descendente -->
+                  <!-- Botones de orden asc des -->
                   <div class="d-flex align-items-center gap-2 mb-3 ms-2">
                     <a
                       th:href="@{/students(page=${page.number}, size=${page.size}, sort=${sortBy ?: 'name'}, ascending=true, nameParam=${nameParam})}"
@@ -143,81 +146,10 @@
                 </div>
               </div>
 
-              <div class="table-responsive">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Nombre</th>
-                      <th>Apellidos</th>
-                      <th>Email</th>
-                      <th>Curso</th>
-                      <th>Fecha de registro</th>
-                      <th>Nota media</th>
-                      <th>Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr th:each="student : ${students}">
-                      <td th:text="${student.name}">John</td>
-                      <td th:text="${student.surname}">Doe</td>
-                      <td th:text="${student.email}">john@example.com</td>
-
-                      <td
-                        th:text="${student.course != null ? student.course.name : 'Sin Asignar'}"
-                      >
-                        Curso no asignado
-                      </td>
-
-                      <td
-                        th:text="${#temporals.format(student.registrationDate, 'dd/MM/yyyy')}"
-                      ></td>
-
-                      <td
-                        th:text="${#numbers.formatDecimal(student.average, 1, 'COMMA', 2, 'POINT')}"
-                      >
-                        5
-                      </td>
-                      <td class="d-flex justify-content-center gap-2">
-                        <div class="d-flex gap-2">
-                          <a
-                            th:href="@{/student/{id}(id = ${student.id})}"
-                            class="btn btn-secondary btn-sm"
-                            ><i class="bi bi-pencil-fill"></i>
-                          </a>
-                        </div>
-
-                        <form
-                          th:action="@{/student/deleteDirectWay/{id}(id=${student.id})}"
-                          method="post"
-                          onsubmit="return confirm('¿Estás seguro de que deseas eliminar este estudiante?');"
-                        >
-                          <button
-                            type="submit"
-                            class="btn btn-secondary btn-sm"
-                            title="Eliminar"
-                          >
-                            <i class="bi bi-trash3-fill"></i>
-                          </button>
-                        </form>
-
-                        <form
-                          th:action="@{/student/deactivate/{id}(id=${student.id})}"
-                          method="post"
-                          onsubmit="return confirm('¿Estás seguro de que deseas desactivar este estudiante?');"
-                        >
-                          <button
-                            type="submit"
-                            class="btn btn-secondary btn-sm"
-                            title="archivar"
-                          >
-                            <i class="bi bi-archive-fill"></i>
-                          </button>
-                        </form>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <div
+                id="resultadosBusqueda"
+                th:include="fragments/tableofStudentsFromStudents :: tableofStudents"
+              ></div>
 
               <div th:if="${page != null && page.totalPages > 1}">
                 <div class="mb-2">
