@@ -150,7 +150,7 @@ public class StudentService extends BaseServiceImpl<Student, Long, StudentReposi
 	}
 
 	public List<Student> findByName(String name) {
-		return sr.findByNameAndActiveTrue(name);
+		return sr.findByStudentsNameAndSurname(name);
 
 	}
 

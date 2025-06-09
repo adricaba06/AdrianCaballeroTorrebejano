@@ -14,7 +14,7 @@ import com.salesianostriana.dam.AdrianCaballeroTorrebejano.model.Student;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-	@Query("SELECT s FROM Student s WHERE s.name = :name AND s.active = true")
+	@Query("SELECT s FROM Student s WHERE (LOWER(s.name) LIKE LOWER(CONCAT('%', :name, '%')) OR LOWER(s.surname) LIKE LOWER(CONCAT('%', :name, '%'))) AND s.active = true")
 	List<Student> findByStudentsNameAndSurname(@Param("name") String name);
 	
 	List<Student> findByNameAndActiveTrue(String name);
