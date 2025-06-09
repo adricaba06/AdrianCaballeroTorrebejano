@@ -1,0 +1,30 @@
+<div th:fragment="reportTable">
+    <table class="table table-hover table-light">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Cantidad/mes</th>
+                <th>Descuento por hermano</th>
+                <th>Descuento por Antelación</th>
+                <th>Curso</th>
+                <th>Precio Total a Pagar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.name}">John</td>
+                <td th:text="${student.surname}">Doe</td>
+                <td th:text="${student.fee != null ? student.fee.basePrice + ' €' : 'Sin cuota'}"></td>
+                <td
+                    th:text="${student.hasASibling and student.fee != null ? student.fee.siblingDiscount + ' %' : 'No tiene hermano/a'}">
+                </td>
+                <td th:text="${student.fee != null ? student.fee.earlyRegistrationDiscount + ' %' : '0 %'}"></td>
+                <td th:text="${student.course.name}">Curso 1</td>
+                <td
+                    th:text="${student.fee.calculateFinalPrice != null ? student.fee.calculateFinalPrice + ' €' : '---'}">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
